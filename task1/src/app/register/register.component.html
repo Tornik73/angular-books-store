@@ -1,0 +1,46 @@
+
+  <form [formGroup]="authForm" (ngSubmit)="onSubmit(authForm.value)">
+    <div id="register">
+      <div class='form-row'>
+        <label for='form_fname'>First Name: </label>
+          <input type='text' id='form_fname' name='first_name'>
+        </div>
+
+        <div class='form-row'>
+          <label for='form_sname'>Second Name: </label>
+          <input type='text' id='form_sname' name='second_name'>
+      </div>
+
+      <div class='form-row'>
+        <!-- <div style="color:red">{{authForm.controls.email.status}}</div> -->
+        
+        <label for='form_email'>Email: </label>
+        <input type='email' formControlName="email">
+        <div *ngIf="isValid" class="error-email-req">incorrect</div>
+      </div>
+      <div class='form-row'>
+          <!-- <div style="color:red">{{authForm.controls.password.status}}</div> -->
+        <label for='form_email'>Password: </label>
+        <input type='password' formControlName="password">
+        <div *ngIf="isValid" class="error-email-req">incorrect</div>
+        <div *ngIf="isReq" class="error-email-req">required</div>
+      </div>
+
+      <div class='form-row'>
+         <!-- <div style="color:red">{{authForm.controls.phone.status}}</div> -->
+        <label for='form_phone'>Phone: </label>
+        <input type='text' id='form_phone' name='phone'>
+      </div>
+
+      <div class='form-row'>
+        <label for='form_age'>Age: </label>
+        <input type='text' id='form_age' name='age'>
+      </div>
+
+      <div class="form-row">
+        <input type="submit" value='Submit' >
+      </div>
+    </div>
+  </form>
+  
+

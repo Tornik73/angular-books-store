@@ -1,0 +1,15 @@
+#register{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row{
+    margin-bottom: 20px;
+    display: flex;
+
+}
+.error-email-req{
+    margin-left: 10px;
+    color: red;
+}
