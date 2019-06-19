@@ -1,46 +1,80 @@
+<!-- <div class="example-container">
+    <mat-form-field>
+      <input matInput placeholder="Input">
+    </mat-form-field>
+  
+    <mat-form-field>
+      <textarea matInput placeholder="Textarea"></textarea>
+    </mat-form-field>
+  
+    <mat-form-field>
+      <mat-select placeholder="Select">
+        <mat-option value="option">Option</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div> -->
 
-  <form [formGroup]="authForm" (ngSubmit)="onSubmit(authForm.value)">
-    <div id="register">
-      <div class='form-row'>
-        <label for='form_fname'>First Name: </label>
-          <input type='text' id='form_fname' name='first_name'>
-        </div>
 
-        <div class='form-row'>
-          <label for='form_sname'>Second Name: </label>
-          <input type='text' id='form_sname' name='second_name'>
-      </div>
-
-      <div class='form-row'>
-        <!-- <div style="color:red">{{authForm.controls.email.status}}</div> -->
-        
-        <label for='form_email'>Email: </label>
-        <input type='email' formControlName="email">
-        <div *ngIf="isValid" class="error-email-req">incorrect</div>
-      </div>
-      <div class='form-row'>
-          <!-- <div style="color:red">{{authForm.controls.password.status}}</div> -->
-        <label for='form_email'>Password: </label>
-        <input type='password' formControlName="password">
-        <div *ngIf="isValid" class="error-email-req">incorrect</div>
-        <div *ngIf="isReq" class="error-email-req">required</div>
-      </div>
-
-      <div class='form-row'>
-         <!-- <div style="color:red">{{authForm.controls.phone.status}}</div> -->
-        <label for='form_phone'>Phone: </label>
-        <input type='text' id='form_phone' name='phone'>
-      </div>
-
-      <div class='form-row'>
-        <label for='form_age'>Age: </label>
-        <input type='text' id='form_age' name='age'>
-      </div>
-
-      <div class="form-row">
-        <input type="submit" value='Submit' >
+<div class="form-container">
+  <h1>
+    Please register in our store "{{title}}" !
+  </h1>
+  <form [formGroup]="angForm" novalidate class="form-container">
+    <mat-form-field>
+      <input matInput placeholder="Email" formControlName="email">
+    </mat-form-field>
+    <div
+      *ngIf="angForm.controls['email'].invalid && (angForm.controls['email'].dirty || angForm.controls['email'].touched)"
+      class="alert alert-danger">
+      <div *ngIf="angForm.controls['email'].errors.required">
+        email is required.
       </div>
     </div>
-  </form>
-  
 
+
+    <mat-form-field>
+      <input matInput placeholder="Password" formControlName="password">
+    </mat-form-field>
+    <div
+      *ngIf="angForm.controls['password'].invalid && (angForm.controls['password'].dirty || angForm.controls['password'].touched)"
+      class="alert alert-danger">
+      <div *ngIf="angForm.controls['password'].errors.required">
+        password is required.
+      </div>
+      <div *ngIf="angForm.controls['password'].errors.minLength">
+        password must be at least 8 characters long.
+      </div>
+    </div>
+
+    <mat-form-field>
+      <input matInput placeholder="Age" formControlName="age">
+    </mat-form-field>
+    <div *ngIf="angForm.controls['age'].invalid && (angForm.controls['age'].dirty || angForm.controls['age'].touched)"
+      class="alert alert-danger">
+      <div *ngIf="angForm.controls['age'].errors.required">
+        age is required.
+      </div>
+      <div *ngIf="angForm.controls['age'].errors.min">
+          your age may be more than 18 :)
+        </div>
+    </div>
+    <mat-form-field>
+      <input matInput placeholder="Telephone" formControlName="telephone">
+    </mat-form-field>
+    <div
+      *ngIf="angForm.controls['telephone'].invalid && (angForm.controls['telephone'].dirty || angForm.controls['telephone'].touched)"
+      class="alert alert-danger">
+      <div *ngIf="angForm.controls['telephone'].errors.required">
+        telephone is required.
+      </div>
+    </div>
+
+    <button (click)="onSubmit()" type="submit" [disabled]="angForm.pristine || angForm.invalid">
+      Submit
+    </button>
+
+  </form>
+  <br />
+  <p>Form value: {{ angForm.value | json }}</p>
+  <p>Form status: {{ angForm.status | json }}</p>
+</div>

@@ -1,0 +1,32 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "email": "test_email",
+      "password": "test_password",
+      "age": "test_age",
+      "telephone": "test_telephone"
+    },
+    {
+      "email": "mail@inbox.ua",
+      "password": "qwerty123",
+      "age": "18",
+      "telephone": "+38043743673",
+      "id": 2
+    },
+    {
+      "email": "Jhon@gmail.com",
+      "password": "2123213113",
+      "age": "20",
+      "telephone": "+38343743673",
+      "id": 3
+    },
+    {
+      "email": "robNick@ukr.net",
+      "password": "333431323",
+      "age": "29",
+      "telephone": "+38043742173",
+      "id": 4
+    }
+  ]
+}
