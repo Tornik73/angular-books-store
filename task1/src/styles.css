@@ -1,10 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "../node_modules/ngx-toastr/toastr.css";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.form-container-fields {
+  display: flex;
+  flex-direction: column;
+}
+
 .form-container {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .form-container > * {
-    width: 50%;
-  }
+  width: 30%;
+  padding: 15px;
+  text-align: center;
+  margin: 0 auto;
+}

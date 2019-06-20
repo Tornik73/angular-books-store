@@ -1,7 +1,23 @@
-
 <ul class="nav__menu">
+  <div class="nav__meni-left">
     <li><a [routerLink]="['/']">Main Page</a></li>
-    <li><a [routerLink]="['/login']">Log in</a></li>
-    <li><a [routerLink]="['/register']">Register</a></li>
+  </div>
+  <li>
+    <ul class="nav__menu-right">
+      <li *ngIf="this.service.AuthStatus"><a [routerLink]="['/login']">Log in</a></li>
+      <li *ngIf="this.service.AuthStatus"><a [routerLink]="['/register']">Register</a></li>
+      <li *ngIf="!this.service.AuthStatus">
+        <a [routerLink]="['/profile']">Hi {{currentUser}} !</a>
+      </li>
+      <li *ngIf="!this.service.AuthStatus && userRights === 'admin'">
+        <a [routerLink]="['/admin-panel']">Admin panel</a>
+      </li>
+      <li *ngIf="!this.service.AuthStatus"><a [routerLink]="['/']" (click)="logOut()">Logout</a></li>
+      <li class="image-center" ><a><img src="https://zabavnik.club/wp-content/uploads/Milye_kartinki_dlya_ld_1_06122128.jpg" alt="" width="35"></a></li>
+      <li><div class="ava" mat-card-avatar></div></li>
+    </ul>
+  </li>
+  
 </ul>
+
 <router-outlet></router-outlet>

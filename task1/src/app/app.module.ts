@@ -12,13 +12,21 @@ import {MatInputModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { AuthService } from './auth.service';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
+import { ToastrModule } from 'ngx-toastr';
+import { MatCardModule } from '@angular/material';
+import {MatButtonModule} from '@angular/material/button';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainPageComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    AdminPanelComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -26,12 +34,16 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     NoopAnimationsModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    MatButtonModule,
     MatIconModule,
+    ToastrModule.forRoot(),
     MatCheckboxModule,
+    MatCardModule,
     MatFormFieldModule,
     MatInputModule
+
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

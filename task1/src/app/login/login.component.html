@@ -1,34 +1,39 @@
-<div class="form-container">
-    <form [formGroup]="authForm" novalidate class="form-container">
-      <h1>
-          Please log in our store "{{title}}"
-      </h1>
-      <mat-form-field>
-          <input matInput placeholder="Email" formControlName="email">
-        </mat-form-field>
-        <div
-          *ngIf="authForm.controls['email'].invalid && (authForm.controls['email'].dirty || authForm.controls['email'].touched)"
-          class="alert alert-danger">
-          <div *ngIf="authForm.controls['email'].errors.required">
-            email is required.
-          </div>
-        </div>
-    
-      <mat-form-field>
-          <input matInput placeholder="Password" formControlName="password" [type]="showPassword.checked ? 'text' : 'password'">
-          
-      </mat-form-field>
-      <mat-checkbox #showPassword>Show password</mat-checkbox>
-      <div
-        *ngIf="authForm.controls['password'].invalid && (authForm.controls['password'].dirty || authForm.controls['password'].touched)"
-        class="alert alert-danger">
-        <div *ngIf="authForm.controls['password'].errors.required">
-          password is required.
-        </div>
-      </div>
+<mat-card class="form-container">
+  <form [formGroup]="authForm" novalidate class="form-container-fields">
+    <mat-card-title>
+      Please log in our store "{{title}}"
+    </mat-card-title>
+    <mat-form-field>
+      <input matInput placeholder="Email" formControlName="email">
 
-      <button (click)="onSubmit()" type="submit" [disabled]="authForm.pristine || authForm.invalid">
-          Log in
-      </button>
-    </form>
-</div>
+      <mat-error
+        *ngIf="authForm.controls['email'].invalid && (authForm.controls['email'].dirty || authForm.controls['email'].touched)"
+        class="alert alert-danger">
+        <mat-error *ngIf="authForm.controls['email'].errors.required">
+          email is required.
+        </mat-error>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Password" formControlName="password"
+        [type]="showPassword.checked ? 'text' : 'password'">
+    
+
+    <mat-error
+      *ngIf="authForm.controls['password'].invalid && (authForm.controls['password'].dirty || authForm.controls['password'].touched)"
+      class="alert alert-danger">
+      <mat-error *ngIf="authForm.controls['password'].errors.required">
+        password is required.
+      </mat-error>
+    </mat-error>
+  </mat-form-field>
+    <mat-checkbox #showPassword>Show password</mat-checkbox>
+    <button (click)="onSubmit()" type="submit" [disabled]="authForm.pristine || authForm.invalid" mat-raised-button
+      color="primary">
+      Log in
+    </button>
+    <mat-error *ngIf="incorectPassword" class="danger-error">
+      Password or email is incorrect!
+    </mat-error>
+  </form>
+</mat-card>

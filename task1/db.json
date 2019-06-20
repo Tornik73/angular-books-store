@@ -27,6 +27,48 @@
       "age": "29",
       "telephone": "+38043742173",
       "id": 4
+    },
+    {
+      "email": "1234@1234",
+      "password": "123213213",
+      "age": "18",
+      "telephone": "2132132131",
+      "id": 5
+    },
+    {
+      "email": "1234@1234",
+      "password": "123213213",
+      "age": "18",
+      "telephone": "2132132131",
+      "id": 6
+    },
+    {
+      "email": "mail@inbox.ua123",
+      "password": "12321123",
+      "age": "18",
+      "telephone": "123231432",
+      "id": 7
+    },
+    {
+      "email": "admin@gmail.com",
+      "password": "admin123",
+      "age": "20",
+      "telephone": "380664064085",
+      "id": 8
+    },
+    {
+      "email": "egor@gmail.com",
+      "password": "123123123",
+      "age": "18",
+      "telephone": "38912382139",
+      "id": 9
+    },
+    {
+      "email": "123@df",
+      "password": "323pofefwkp",
+      "age": "213",
+      "telephone": "3240324023",
+      "id": 10
     }
   ]
 }

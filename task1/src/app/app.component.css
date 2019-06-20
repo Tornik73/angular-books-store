@@ -1,11 +1,13 @@
-
-
 .nav__menu{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     background-color: black;
     padding: 20px 0;
     padding-left: 10px;
     list-style-type: none ;
     display: flex;
+    margin-bottom: 50px;
 }
 .nav__menu li{
     margin-right: 20px;
@@ -13,4 +15,14 @@
 .nav__menu a{
     color: white;
     text-decoration: none;
+}
+.nav__menu-right{
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+}
+
+.ava{
+    background-image: url('https://zabavnik.club/wp-content/uploads/Milye_kartinki_dlya_ld_1_06122128.jpg');
+    background-size: cover;
 }
