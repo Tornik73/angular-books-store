@@ -48,15 +48,15 @@ export class ProfileComponent implements OnInit {
       this.currentUserImg = reader.result;
     }
   }
-  editModeOn(){
+  editModeOn(){ //управление модом редактирования
       return (this.editMode === true) ? this.editMode = false : this.editMode = true;
   }
-  onUpload(){
-    console.log(this.angForm.value.telephone);
-    
+  onUpload(){ 
     localStorage.currentUserImg = this.currentUserImg;
+
     this.currentUserTel = this.angForm.value.telephone;
     this.currentUserAge = this.angForm.value.age;
+
     fetch(`http://localhost:3000/users/${this.currentUserId}`, {
       method: "PUT",
       headers: {

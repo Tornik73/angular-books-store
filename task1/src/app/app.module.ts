@@ -18,7 +18,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { MatCardModule } from '@angular/material';
 import {MatButtonModule} from '@angular/material/button';
 import { ProfileComponent } from './profile/profile.component';
-
+import { MatTableModule } from '@angular/material/table';
 @NgModule({
   declarations: [
     AppComponent,
@@ -32,6 +32,7 @@ import { ProfileComponent } from './profile/profile.component';
     BrowserModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
+    MatTableModule,
     AppRoutingModule,
     ReactiveFormsModule,
     MatButtonModule,

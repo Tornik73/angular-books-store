@@ -19,3 +19,16 @@
   text-align: center;
   margin: 150px auto 0 auto  ;
 }
+.table-container{
+  display: flex;
+  justify-content: center;
+  margin-right: 50px;
+  margin-left: 50px;
+}
+.table-1{
+  flex-grow: 1;
+  margin-right: 10px;
+}
+.table-2 {
+  flex-grow: 1;
+}
