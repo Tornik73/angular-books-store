@@ -8,24 +8,31 @@ import { AuthService } from './auth.service';
 export class AppComponent implements OnInit{ //для работы с LocalStorage
   currentUser: string;
   userRights: string;
+  currentUserImg: string;
   constructor(private service : AuthService) {
-    if(localStorage.currentUser != null){
-      if(localStorage.currentUser === "admin@gmail.com"){
+    
+  }
+
+  hiUser(){
+    if (localStorage.currentUser != null) {
+      if (localStorage.currentUser === "admin@gmail.com") {
         this.userRights = "admin";
-      }else{
+      } else {
         this.userRights = "user";
       }
       this.currentUser = localStorage.currentUser;
+      this.currentUserImg = localStorage.currentUserImg;
+      localStorage.userRights = this.userRights;
       this.service.AuthStatus = false;
     }
   }
+
   ngOnInit() {
-    // console.log(this.service.AuthStatus);
+    this.hiUser();
     
   }
   logOut(){
     localStorage.clear()
     return this.service.AuthStatus = true;
-
   }
 }

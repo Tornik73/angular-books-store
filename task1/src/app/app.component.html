@@ -7,14 +7,15 @@
       <li *ngIf="this.service.AuthStatus"><a [routerLink]="['/login']">Log in</a></li>
       <li *ngIf="this.service.AuthStatus"><a [routerLink]="['/register']">Register</a></li>
       <li *ngIf="!this.service.AuthStatus">
-        <a [routerLink]="['/profile']">Hi {{currentUser}} !</a>
+        <a [routerLink]="['/profile']">Hi {{ currentUser }} !</a>
       </li>
       <li *ngIf="!this.service.AuthStatus && userRights === 'admin'">
         <a [routerLink]="['/admin-panel']">Admin panel</a>
       </li>
       <li *ngIf="!this.service.AuthStatus"><a [routerLink]="['/']" (click)="logOut()">Logout</a></li>
-      <li class="image-center" ><a><img src="https://zabavnik.club/wp-content/uploads/Milye_kartinki_dlya_ld_1_06122128.jpg" alt="" width="35"></a></li>
-      <li><div class="ava" mat-card-avatar></div></li>
+      <li *ngIf="!this.service.AuthStatus"><a [routerLink]="['/profile']">
+          <div class="ava"><img [src]="currentUserImg" alt=""></div>
+        </a></li>
     </ul>
   </li>
   

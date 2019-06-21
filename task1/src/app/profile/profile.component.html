@@ -1,3 +1,28 @@
-<p>
-  Hi {{currentUser}}
-</p>
+<mat-card class="form-container">
+  <div class="profile-container">
+    <div class="avatar"><img [src]="currentUserImg" alt=""></div>
+    <div class="change-avatar">
+      <input type="file" (change)="onFileSelected($event)">
+      
+      
+    </div>
+    <mat-card-title>{{ currentUser }}</mat-card-title>
+    <mat-card-subtitle>{{ currentUserRights }}</mat-card-subtitle>
+    
+    <mat-card-content class="information">
+      <mat-card-title>Information: </mat-card-title>
+      <p>
+        Telephone: {{currentUserTel}}
+      </p>
+      <p>
+        Age: {{currentUserAge}}
+      </p>
+    </mat-card-content>
+    <div class="button-group">
+      <button mat-raised-button color="primary">Edit</button>
+      <button type="button" (click)="onUpload()"  mat-raised-button color="primary">Save</button>
+      <button mat-raised-button color="warn">Delete profile</button>
+    </div>
+    
+  </div>
+</mat-card>

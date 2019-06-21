@@ -22,7 +22,10 @@
     list-style-type: none;
 }
 
-.ava{
-    background-image: url('https://zabavnik.club/wp-content/uploads/Milye_kartinki_dlya_ld_1_06122128.jpg');
+.ava img{
+    /* background-image: url('C:/Users/Anuitex-20/Desktop/Edinorog-7.jpg'); */
     background-size: cover;
+    width: 35px;
+    height: 35px;
+    border-radius: 25px;
 }

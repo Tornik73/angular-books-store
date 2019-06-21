@@ -1,0 +1,21 @@
+.avatar img{
+  /* background-image: url('C:/Users/Anuitex-20/Desktop/Edinorog-7.jpg'); */
+  background-size: cover;
+  width: 135px;
+  height: 135px;
+  margin: 0 auto 25px auto ;
+  border-radius: 75px;
+}
+.information{
+    text-align: left;
+}
+.change-avatar{
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 70px; 
+}
+.button-group button{
+  margin-left: 5px;
+}

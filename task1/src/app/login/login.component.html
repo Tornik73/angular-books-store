@@ -18,7 +18,6 @@
       <input matInput placeholder="Password" formControlName="password"
         [type]="showPassword.checked ? 'text' : 'password'">
     
-
     <mat-error
       *ngIf="authForm.controls['password'].invalid && (authForm.controls['password'].dirty || authForm.controls['password'].touched)"
       class="alert alert-danger">
