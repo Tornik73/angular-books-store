@@ -9,6 +9,9 @@
 .information{
     text-align: left;
 }
+.information-field {
+  margin-bottom: 10px;
+}
 .change-avatar{
     margin-bottom: 20px;
     display: flex;
@@ -18,4 +21,24 @@
 }
 .button-group button{
   margin-left: 5px;
+}
+.title-settings{
+  margin-bottom: 40px;
+}
+.form-container{
+  margin-top: 20px;
+}
+.delete-button{
+  margin-left: 420px;
+}
+
+.editAble{
+  border: 2px solid silver;
+  border-radius: 10px;
+  padding: 2px 5px;
+}
+.editAble-active{
+  border: 2px solid #e47b7b;
+  border-radius: 10px;
+  padding: 2px 5px;
 }

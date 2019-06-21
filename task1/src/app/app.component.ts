@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
+import { HeaderObserveService } from './header-observe.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -9,7 +10,7 @@ export class AppComponent implements OnInit{ //для работы с LocalStora
   currentUser: string;
   userRights: string;
   currentUserImg: string;
-  constructor(private service : AuthService) {
+  constructor(private service: AuthService, private headServ: HeaderObserveService) {
     
   }
 
@@ -28,6 +29,11 @@ export class AppComponent implements OnInit{ //для работы с LocalStora
   }
 
   ngOnInit() {
+    this.headServ.anounceHeader$.subscribe(
+      (user:any) =>{
+        this.currentUserImg = user;
+      }
+    )
     this.hiUser();
     
   }

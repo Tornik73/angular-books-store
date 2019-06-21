@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
     for(let i in data){
       if(db.email === data[i].email && db.password === data[i].password){
         //можно сделать функцией
+        localStorage.currentUserId = data[i].id;
         localStorage.currentUser = data[i].email;
         localStorage.currentUserPassword = data[i].password;
         localStorage.currentUserAge = data[i].age; 
