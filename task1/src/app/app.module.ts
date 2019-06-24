@@ -19,6 +19,7 @@ import { MatCardModule } from '@angular/material';
 import {MatButtonModule} from '@angular/material/button';
 import { ProfileComponent } from './profile/profile.component';
 import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material';
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,6 +32,8 @@ import { MatTableModule } from '@angular/material/table';
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    MatTableModule,
+    MatPaginatorModule,
     NoopAnimationsModule,
     MatTableModule,
     AppRoutingModule,
