@@ -1,0 +1,64 @@
+<mat-card>
+  <mat-card-title>
+    Please fill in all fields:
+  </mat-card-title>
+
+  <form [formGroup]="angForm" novalidate class="form-container-fields">
+    <mat-form-field>
+      <input matInput placeholder="Email" formControlName="email">
+      <mat-error
+        *ngIf="angForm.controls['email'].invalid && (angForm.controls['email'].dirty || angForm.controls['email'].touched)"
+        class="alert alert-danger">
+        <mat-error *ngIf="angForm.controls['email'].errors.required">
+          email is required.
+        </mat-error>
+        <mat-error *ngIf="angForm.controls['email'].errors.email">
+          incorrect email
+        </mat-error>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Password" formControlName="password">
+      <mat-error
+        *ngIf="angForm.controls['password'].invalid && (angForm.controls['password'].dirty || angForm.controls['password'].touched)">
+        <mat-error *ngIf="angForm.controls['password'].errors.required">
+          password is required.
+        </mat-error>
+
+        <mat-error *ngIf="angForm.controls['password'].errors.minLength">
+          password must be at least 8 characters long.
+        </mat-error>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Age" formControlName="age">
+      <mat-error
+        *ngIf="angForm.controls['age'].invalid && (angForm.controls['age'].dirty || angForm.controls['age'].touched)">
+        <mat-error *ngIf="angForm.controls['age'].errors.required">
+          age is required.
+        </mat-error>
+        <mat-error *ngIf="angForm.controls['age'].errors.min">
+          your age may be more than 18 :)
+        </mat-error>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Telephone" formControlName="telephone">
+
+      <mat-error
+        *ngIf="angForm.controls['telephone'].invalid && (angForm.controls['telephone'].dirty || angForm.controls['telephone'].touched)"
+        class="alert alert-danger">
+        <mat-error *ngIf="angForm.controls['telephone'].errors.required">
+          telephone is required.
+        </mat-error>
+      </mat-error>
+    </mat-form-field>
+    <!-- [disabled]="angForm.pristine || angForm.invalid" -->
+    <button (click)="onSubmit()" type="submit" [disabled]="angForm.pristine || angForm.invalid" mat-raised-button
+      color="primary">
+      Submit
+    </button>
+
+  </form>
+
+</mat-card>

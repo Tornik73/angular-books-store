@@ -47,8 +47,5 @@ export class RegisterComponent implements OnInit {
     .then(data=>{
       this.successRegistration();
     });
-    // fetch('http://localhost:3000/users')
-    // .then(a => a.json())
-    // .then(a => console.log)
   }
 }

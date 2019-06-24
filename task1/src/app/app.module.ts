@@ -21,7 +21,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material';
 import { MatTabsModule } from '@angular/material';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DialogDataExampleDialog} from '../app/admin-panel/admin-panel.component'
+import { DialogDataDelete, DialogDataEdit, DialogDataAdd} from '../app/admin-panel/admin-panel.component'
 
 @NgModule({
   declarations: [
@@ -31,7 +31,9 @@ import { DialogDataExampleDialog} from '../app/admin-panel/admin-panel.component
     RegisterComponent,
     AdminPanelComponent,
     ProfileComponent,
-    DialogDataExampleDialog
+    DialogDataDelete,
+    DialogDataAdd,
+    DialogDataEdit
   ],
   imports: [
     BrowserModule,
@@ -41,12 +43,12 @@ import { DialogDataExampleDialog} from '../app/admin-panel/admin-panel.component
     MatTableModule,
     AppRoutingModule,
     ReactiveFormsModule,
-   
     MatTabsModule,
     MatButtonModule,
     MatIconModule,
     ToastrModule.forRoot(),
     MatCheckboxModule,
+
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
@@ -54,7 +56,9 @@ import { DialogDataExampleDialog} from '../app/admin-panel/admin-panel.component
 
   ],
   entryComponents: [
-    DialogDataExampleDialog
+    DialogDataDelete,
+    DialogDataAdd,
+    DialogDataEdit
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-
-  AuthStatus: boolean = true;
+export class AdminToolsService {
+  dataResponse: any;
   constructor() { }
 
-  AuthUser() {
-    return this.AuthStatus = false;
+  Upload(data){
+    this.dataResponse = data;
   }
+  
 }
