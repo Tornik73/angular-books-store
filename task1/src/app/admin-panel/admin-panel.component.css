@@ -1,3 +1,6 @@
 table {
   width: 100%;
 }
+.button__group-delete{
+    margin-left: 10px;
+}

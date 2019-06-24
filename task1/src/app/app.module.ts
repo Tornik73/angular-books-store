@@ -10,7 +10,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { AuthService } from './auth.service';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
@@ -20,6 +19,10 @@ import {MatButtonModule} from '@angular/material/button';
 import { ProfileComponent } from './profile/profile.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material';
+import { MatTabsModule } from '@angular/material';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogDataExampleDialog} from '../app/admin-panel/admin-panel.component'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,25 +30,31 @@ import { MatPaginatorModule } from '@angular/material';
     LoginComponent,
     RegisterComponent,
     AdminPanelComponent,
-    ProfileComponent
+    ProfileComponent,
+    DialogDataExampleDialog
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     MatTableModule,
     MatPaginatorModule,
-    NoopAnimationsModule,
     MatTableModule,
     AppRoutingModule,
     ReactiveFormsModule,
+   
+    MatTabsModule,
     MatButtonModule,
     MatIconModule,
     ToastrModule.forRoot(),
     MatCheckboxModule,
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatDialogModule
 
+  ],
+  entryComponents: [
+    DialogDataExampleDialog
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
