@@ -1,16 +1,16 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { AdminToolsService } from '../admin-tools.service';
-import { DialogDataAdd } from '../add-user-data/add-user-data.component';
+
 
 
 export interface DialogData {
   id: number;
   email: string;
+  password: string;
+  age: number;
+  telephone: string;
+  img: any;
 }
 
 @Component({
@@ -20,24 +20,62 @@ export interface DialogData {
 })
 export class EditUserDataComponent implements OnInit {
   angForm: FormGroup;
-  public email: string;
-  public password: string;
-  public age: number;
-  public telephone: string;
+  id:number;
+  email: string;
+  password: string;
+  age: number;
+  telephone: string;
+  img: any;
+  message: string;
+  imagePath;
+
   constructor(
     public dialogRef: MatDialogRef<EditUserDataComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+  
+  preview(files) {
+    if (files.length === 0)
+      return;
 
-  ngOnInit() {
-    fetch('http://localhost:3000/users', {
+    var mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.message = "Only images are supported.";
+      return;
+    }
+
+    var reader = new FileReader();
+    this.imagePath = files;
+    reader.readAsDataURL(files[0]);
+    reader.onload = (_event) => {
+      this.img = reader.result;
+    }
+  }
+
+
+  onSubmit(){
+      //Заполняем новыми данными с формы
+      for(let i in this.data)
+        if(this.angForm.value[i] != null)
+          this.data[i] = this.angForm.value[i];
+      
+
+    fetch(`http://localhost:3000/users/${this.data.id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(this.angForm.value)
-    })
-      .then(data => {
-        console.log(data);
+      body: JSON.stringify({ 
+        email: this.data.email, 
+        password: this.data.password, 
+        telephone: this.data.telephone, 
+        age: this.data.age, 
+        img: this.img 
       })
+    })
+      .then(response => response.json())
+  }
+  ngOnInit() {
+    this.img = this.data.img;
 
     this.angForm = new FormGroup({
       email: new FormControl(this.email, [Validators.required, Validators.email]),

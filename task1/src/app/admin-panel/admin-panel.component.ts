@@ -6,6 +6,7 @@ import { AdminToolsService } from '../admin-tools.service';
 import { DialogDataAdd} from '../add-user-data/add-user-data.component';
 import { EditUserDataComponent } from '../edit-user-data/edit-user-data.component';
 import { DeleteUserDataComponent } from '../delete-user-data/delete-user-data.component';
+import { HeaderObserveService } from '../header-observe.service';
 
 export interface UsersElements {
   //*поменять типы
@@ -34,13 +35,14 @@ export class AdminPanelComponent implements OnInit {
   displayedColumns: string[] = ['id', 'email', 'password', 'age', 'telephone', 'action'];
   dataSource = new MatTableDataSource<UsersElements>(ELEMENT_DATA);
   
-  constructor(public dialog: MatDialog, private adminService: AdminToolsService) { }
+  constructor(public dialog: MatDialog, private adminService: AdminToolsService, private infoService: HeaderObserveService) { }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
 
-    //Чтобы не добавлялись одни и те же юзеры
+    // Есть баг при переходе с MainPage
+    //Чтобы не добавлялись одни и те же юзеры 
     if(this.dataSource.filteredData.length === 0){
       fetch('http://localhost:3000/users').then(item => item.json()).then(elem => {
         //Заполняем массив полученными данными
@@ -48,15 +50,16 @@ export class AdminPanelComponent implements OnInit {
 
       }).then(() => this.dataSource = new MatTableDataSource<UsersElements>(ELEMENT_DATA))
         .then(() => this.dataSource.paginator = this.paginator)
+        
     }
-    
   }
-  AddUser(){
+  addUser(){
     const dialogRef = this.dialog.open(DialogDataAdd);
 
     dialogRef.afterClosed().subscribe(result => {
-      if (this.adminService.dataResponse != undefined){
+      if (this.adminService.dataResponse){
         let data = this.dataSource.data;
+
         //берем последний элемент и прибавляем + 1 его айди
         this.adminService.dataResponse.id = 
             this.dataSource.filteredData[this.dataSource.filteredData.length - 1].id + 1;
@@ -68,36 +71,68 @@ export class AdminPanelComponent implements OnInit {
     });
     
   }
-  openDialogDelete(user) {
+  async openDialogDelete(user) {
     let index = ELEMENT_DATA.indexOf(user)
     const dialogRef = this.dialog.open(DeleteUserDataComponent, { data: { id: user.id, email: user.email }});
 
-      dialogRef.afterClosed().subscribe(result => {
+      dialogRef.afterClosed().subscribe(async result => {
       if(result){
-        this.deleteUser(user);
-        let data = this.dataSource.data;
-        data.splice(index, 1);
-        this.dataSource = new MatTableDataSource<UsersElements>(data);
+        let response = await this.deleteUser(user);
+        if (response){
+          let data = this.dataSource.data;
+          data.splice(index, 1);
+          this.dataSource = new MatTableDataSource<UsersElements>(data);
+        }
       } 
     });
   }
 
   openDialogEdit(user){
+    debugger;
+
+    //БАГ при вызове индекса второй раз прилетит -1;
+    //Происходит из-за того что таблицы изменилась, а элемента_дата константа потому и не находит.
     let index = ELEMENT_DATA.indexOf(user);
     
-    const dialogRef = this.dialog.open(EditUserDataComponent, { data: 
-      { 
-      id: user.id, 
-      email: user.email, 
-      password: user.password, 
-      age: user.age,
-      telephone: user.telephone
-      } 
-    });
+    const dialogRef = this.dialog.open(EditUserDataComponent, 
+      { data: 
+        { 
+          id: user.id, 
+          email: user.email, 
+          password: user.password, 
+          age: user.age,
+          telephone: user.telephone,
+          img: user.img
+        } 
+      }
+    );
+
+    dialogRef.afterClosed().subscribe(result => {
+      let data = [];
+      let dataImg;
+      //ИЗМЕНИТЬ
+      fetch('http://localhost:3000/users').then(item => item.json()).then(elem => {
+        //Заполняем массив полученными данными
+        return elem.map(item => data.push(item))
+
+      })
+      .then(() => this.dataSource = new MatTableDataSource<UsersElements>(data))
+        .then(() => this.dataSource.paginator = this.paginator)
+        .then(() => {
+          dataImg = this.dataSource.filteredData;
+          for(let i in dataImg){
+            console.log(dataImg[i].img);
+            
+          }
+          console.log(index);
+          
+        })
+      })
   }
   
-  deleteUser(user){
-    fetch(`http://localhost:3000/users/${user.id}`, {
+  async deleteUser(user){
+    //ИЗМЕНИТЬ
+    return fetch(`http://localhost:3000/users/${user.id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json"
