@@ -7,21 +7,23 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import {MatIconModule} from '@angular/material/icon';
-import {MatInputModule} from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule} from '@angular/material/checkbox';
 import { AuthService } from './auth.service';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { ToastrModule } from 'ngx-toastr';
 import { MatCardModule } from '@angular/material';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { ProfileComponent } from './profile/profile.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material';
 import { MatTabsModule } from '@angular/material';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DialogDataDelete, DialogDataEdit, DialogDataAdd} from '../app/admin-panel/admin-panel.component'
+import { DialogDataAdd } from './add-user-data/add-user-data.component'
+import { EditUserDataComponent } from './edit-user-data/edit-user-data.component';
+import { DeleteUserDataComponent } from './delete-user-data/delete-user-data.component';
 
 @NgModule({
   declarations: [
@@ -31,9 +33,9 @@ import { DialogDataDelete, DialogDataEdit, DialogDataAdd} from '../app/admin-pan
     RegisterComponent,
     AdminPanelComponent,
     ProfileComponent,
-    DialogDataDelete,
     DialogDataAdd,
-    DialogDataEdit
+    EditUserDataComponent,
+    DeleteUserDataComponent
   ],
   imports: [
     BrowserModule,
@@ -56,9 +58,9 @@ import { DialogDataDelete, DialogDataEdit, DialogDataAdd} from '../app/admin-pan
 
   ],
   entryComponents: [
-    DialogDataDelete,
+    DeleteUserDataComponent,
     DialogDataAdd,
-    DialogDataEdit
+    EditUserDataComponent
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

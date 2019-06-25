@@ -29,7 +29,9 @@
   margin-top: 20px;
 }
 .delete-button{
-  margin-left: 420px;
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }
 
 .editAble{
