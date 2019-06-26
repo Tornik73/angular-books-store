@@ -3,6 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { HeaderObserveService } from '../services/header-observe.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { ExtensionsService } from '../services/extensions.service';
+import { RequestsService } from '../services/requests.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -22,8 +23,10 @@ export class ProfileComponent implements OnInit {
   editMode: boolean = false;
 
 
-  constructor(private service: AuthService, private infoService: HeaderObserveService,
-    private previewPhotoService: ExtensionsService) {
+  constructor(private service: AuthService, 
+    private infoService: HeaderObserveService,
+    private previewPhotoService: ExtensionsService,
+    private requestServ: RequestsService) {
     this.currentUserId = localStorage.currentUserId;
     this.currentUser = localStorage.currentUser;
     this.currentUserPassword = localStorage.currentUserPassword;
@@ -50,17 +53,12 @@ export class ProfileComponent implements OnInit {
 
     this.currentUserTel = this.angForm.value.telephone;
     this.currentUserAge = this.angForm.value.age;
-
-    fetch(`http://localhost:3000/users/${this.currentUserId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email: this.currentUser, password: this.currentUserPassword, telephone: this.currentUserTel, age: this.currentUserAge, img: this.currentUserImg})
-    })
-      .then(response => response.json())
-      .then(response => console.log(response))
+    let userJSON: object = {id: this.currentUserId, email: this.currentUser, password: this.currentUserPassword,
+    telephone: this.currentUserTel, age: this.currentUserAge};
+    
+    this.requestServ.httpPUT(userJSON, this.currentUserImg)
     this.infoService.anounceHeaderImg(this.currentUserImg); //оповещаем о том что картинка изменилась
+    
     return this.editMode = false;
   }
 

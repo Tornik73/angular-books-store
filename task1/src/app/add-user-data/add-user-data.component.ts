@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { AdminToolsService } from '../services/admin-tools.service';
+import { RequestsService } from '../services/requests.service';
 
 export interface DialogData {
   id: number;
@@ -25,7 +26,8 @@ export class DialogDataAdd implements OnInit {
   constructor(public dialogRef: MatDialogRef<DialogDataAdd>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
     private toastrService: ToastrService,
-    private adminService: AdminToolsService) { }
+    private adminService: AdminToolsService,
+    private requestServ: RequestsService) { }
 
   ngOnInit() {
     this.angForm = new FormGroup({
@@ -42,19 +44,13 @@ export class DialogDataAdd implements OnInit {
 
   onSubmit() {
     this.angForm.value.img = this.img;
-
-    fetch('http://localhost:3000/users', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(this.angForm.value)
-    })
+    
+    this.requestServ.httpPOST(this.angForm.value, "users")
       .then(data => {
         this.successRegistration();
         this.adminService.upload(this.angForm.value)
       }).then(()=>{
-        // close modal window
+        // close modal window добавить
       })
   }
 }

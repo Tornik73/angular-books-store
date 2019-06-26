@@ -8,6 +8,7 @@ import { EditUserDataComponent } from '../edit-user-data/edit-user-data.componen
 import { DeleteUserDataComponent } from '../delete-user-data/delete-user-data.component';
 import { HeaderObserveService } from '../services/header-observe.service';
 import { SelectionModel } from '@angular/cdk/collections';
+import { RequestsService } from '../services/requests.service';
 
 export interface UsersElements {
   //*поменять типы
@@ -36,19 +37,22 @@ export class AdminPanelComponent implements OnInit {
   dataSource = new MatTableDataSource<UsersElements>(ELEMENT_DATA);
   selection = new SelectionModel<UsersElements>(true, []);
   
-  constructor(public dialog: MatDialog, private adminService: AdminToolsService, private infoService: HeaderObserveService) { }
+  constructor(public dialog: MatDialog, 
+    private adminService: AdminToolsService, 
+    private infoService: HeaderObserveService,
+    private requestServ: RequestsService) { }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
-
     // Есть баг при переходе с MainPage
-    //Чтобы не добавлялись одни и те же юзеры 
+    // Чтобы не добавлялись одни и те же юзеры 
     if(this.dataSource.filteredData.length === 0){
-      fetch('http://localhost:3000/users').then(item => item.json()).then(elem => {
+      this.requestServ.httpGET("users")
+      .then(item => item.json())
+      .then(elem => {
         //Заполняем массив полученными данными
         return elem.map(item => ELEMENT_DATA.push(item))
-
       }).then(() => this.dataSource = new MatTableDataSource<UsersElements>(ELEMENT_DATA))
         .then(() => this.dataSource.paginator = this.paginator)
         
@@ -72,6 +76,7 @@ export class AdminPanelComponent implements OnInit {
     });
     
   }
+
   async openDialogDelete(user) {
     let index = ELEMENT_DATA.indexOf(user)
     const dialogRef = this.dialog.open(DeleteUserDataComponent, { data: { id: user.id, email: user.email }});
@@ -111,7 +116,7 @@ export class AdminPanelComponent implements OnInit {
       let data = [];
       let dataImg;
       //ИЗМЕНИТЬ
-      fetch('http://localhost:3000/users').then(item => item.json()).then(elem => {
+      this.requestServ.httpGET("users").then(item => item.json()).then(elem => {
         //Заполняем массив полученными данными
         return elem.map(item => data.push(item))
       })
@@ -128,7 +133,7 @@ export class AdminPanelComponent implements OnInit {
       })
   }
 
-    deleteRows() {
+  deleteRows() {
       this.selection.selected.forEach((user, i) => {
       setTimeout(() => {
         let index = this.dataSource.data.indexOf(user);
@@ -140,17 +145,10 @@ export class AdminPanelComponent implements OnInit {
             this.selection = new SelectionModel<UsersElements>(true, []);
         }, 100 * (i + 1));
     })
-}
+  }
   async deleteUser(user){
-    //ИЗМЕНИТЬ
-    if(user.email != "admin@gmail.com"){
-      return fetch(`http://localhost:3000/users/${user.id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json"
-        }
-      })
-    }
+    if(user.email != "admin@gmail.com")
+      return this.requestServ.httpDELETE(user.id);
     else
       console.log("Удалить админа нельзя");
 
@@ -178,4 +176,5 @@ export class AdminPanelComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
+  
 }

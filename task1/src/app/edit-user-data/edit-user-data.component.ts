@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ExtensionsService } from '../services/extensions.service';
+import { RequestsService } from '../services/requests.service';
 
 
 export interface DialogData {
@@ -32,7 +33,8 @@ export class EditUserDataComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<EditUserDataComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private previewPhotoService: ExtensionsService ) {}
+    private previewPhotoService: ExtensionsService,
+    private requestServ: RequestsService ) {}
   
   preview(files) {
     this.previewPhotoService.preview(files)
@@ -46,21 +48,9 @@ export class EditUserDataComponent implements OnInit {
       for(let i in this.data)
         if(this.angForm.value[i] != null)
           this.data[i] = this.angForm.value[i];
-      
-
-    fetch(`http://localhost:3000/users/${this.data.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ 
-        email: this.data.email, 
-        password: this.data.password, 
-        telephone: this.data.telephone, 
-        age: this.data.age, 
-        img: this.img 
-      })
-    })
+          
+      //Разобраться с ИМГ
+    this.requestServ.httpPUT(this.data, this.img)
       .then(response => response.json())
   }
   ngOnInit() {

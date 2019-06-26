@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { AuthService } from '../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { RequestsService } from '../services/requests.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -19,7 +20,8 @@ export class RegisterComponent implements OnInit {
 
    constructor(private service : AuthService,
     private toastrService:ToastrService,
-    private _router : Router) {}
+    private _router : Router,
+    private requestServ: RequestsService) {}
 
   successRegistration(){
     this._router.navigate(['/']);
@@ -35,15 +37,8 @@ export class RegisterComponent implements OnInit {
   }
    onSubmit(){
      this.angForm.value.img = this.img;
-     console.log(this.angForm.value);
-     
-    fetch('http://localhost:3000/users', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(this.angForm.value)
-    })
+     console.log(this.angForm.value, "users");
+     this.requestServ.httpPOST(this.angForm.value, "users")
     .then(data=>{
       this.successRegistration();
     });
