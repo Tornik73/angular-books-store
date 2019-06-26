@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './auth.service';
-import { HeaderObserveService } from './header-observe.service';
+import { AuthService } from './services/auth.service';
+import { HeaderObserveService } from './services/header-observe.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',

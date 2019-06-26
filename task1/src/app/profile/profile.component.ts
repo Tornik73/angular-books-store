@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
-import { HeaderObserveService } from '../header-observe.service';
+import { AuthService } from '../services/auth.service';
+import { HeaderObserveService } from '../services/header-observe.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { ExtensionsService } from '../services/extensions.service';
 @Component({
@@ -32,15 +32,18 @@ export class ProfileComponent implements OnInit {
     this.currentUserTel = localStorage.currentUserTelephone;
     this.currentUserImg = localStorage.currentUserImg;
   }
+
   preview(files) {
     this.previewPhotoService.preview(files)
       .then(result => 
         this.currentUserImg = result
       );
   }
-  editModeOn(){ //управление модом редактирования
-    this.currentUserImg = localStorage.currentUserImg;
-      return (this.editMode === true) ? this.editMode = false : this.editMode = true;
+
+  //управление модом редактирования
+  editModeOn(){ 
+    this.currentUserImg = localStorage.currentUserImg; // сброс изменения картинки
+    return (this.editMode === true) ? this.editMode = false : this.editMode = true; // ИСПРАВИТЬ
   }
   onUpload(){ 
     localStorage.currentUserImg = this.currentUserImg;

@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule} from '@angular/material/checkbox';
-import { AuthService } from './auth.service';
+import { AuthService } from './services/auth.service';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { ToastrModule } from 'ngx-toastr';
 import { MatCardModule } from '@angular/material';

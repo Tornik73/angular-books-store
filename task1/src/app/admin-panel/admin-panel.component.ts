@@ -1,12 +1,12 @@
-import { Component, OnInit, ViewChild, Inject} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA  } from '@angular/material/dialog';
-import { AdminToolsService } from '../admin-tools.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AdminToolsService } from '../services/admin-tools.service';
 import { DialogDataAdd} from '../add-user-data/add-user-data.component';
 import { EditUserDataComponent } from '../edit-user-data/edit-user-data.component';
 import { DeleteUserDataComponent } from '../delete-user-data/delete-user-data.component';
-import { HeaderObserveService } from '../header-observe.service';
+import { HeaderObserveService } from '../services/header-observe.service';
 import { SelectionModel } from '@angular/cdk/collections';
 
 export interface UsersElements {
