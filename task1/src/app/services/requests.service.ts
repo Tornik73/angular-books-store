@@ -35,7 +35,7 @@ export class RequestsService {
   }
 
 
-  //!!!! DELETE USER
+  // DELETE USER сильно привязан к юзерам
   httpDELETE(userID){
     console.log("DELETE", userID);
     
@@ -46,7 +46,7 @@ export class RequestsService {
       }
     })
   }
-  //PUT USER
+  //PUT USER сильно привязан к юзерам
   httpPUT(user, img){
     console.log("PUT", user);
 
@@ -62,6 +62,34 @@ export class RequestsService {
         age: user.age,
         img: img
       })
+    })
+  }
+  httpPutBook(book, img) {
+    console.log("PUT", book);
+
+    return fetch(`${this.serverURL}` + "books/" + `${book.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title: book.title,
+        author: book.author,
+        description: book.description,
+        price: book.price,
+        img: img
+      })
+    })
+  }
+  // DELETE USER сильно привязан к юзерам
+  httpDeleteBook(bookID) {
+    console.log("DELETE", bookID);
+
+    return fetch(`${this.serverURL}` + "books/" + `${bookID}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      }
     })
   }
 }

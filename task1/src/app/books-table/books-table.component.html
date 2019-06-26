@@ -1,22 +1,14 @@
-
-<mat-tab-group>
-  <mat-tab label="Books">
-    <app-books-table></app-books-table>
-  </mat-tab>
-  <mat-tab label="Users">
-    <button mat-raised-button color="primary" (click)="addUser() ">Add new user</button>
+      <button mat-raised-button color="primary" (click)="addBook() ">Add new book</button>
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
         <!-- Checkbox Column -->
         <ng-container matColumnDef="select">
           <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="$event ? masterToggle() : null"
-              [checked]="selection.hasValue() && isAllSelected()"
+            <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
               [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
             </mat-checkbox>
           </th>
           <td mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation()"
-              (change)="$event ? selection.toggle(row) : null"
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
               [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
             </mat-checkbox>
           </td>
@@ -28,30 +20,38 @@
           <td mat-cell *matCellDef="let element;  let i = index"> {{element.id}} </td>
         </ng-container>
 
-        <!-- email Column -->
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef> Email </th>
-          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        <!-- title Column -->
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef> title </th>
+          <td mat-cell *matCellDef="let element" class="table-description"> {{element.title}} </td>
         </ng-container>
 
-        <!-- password Column -->
-        <ng-container matColumnDef="password">
-          <th mat-header-cell *matHeaderCellDef> Password </th>
-          <td mat-cell *matCellDef="let element"> {{element.password}} </td>
+        <!-- author column -->
+        <ng-container matColumnDef="author">
+          <th mat-header-cell *matHeaderCellDef > author </th>
+          <td mat-cell *matCellDef="let element" class="table-description"> {{element.author}} </td>
         </ng-container>
 
-        <!-- age Column -->
-        <ng-container matColumnDef="age">
-          <th mat-header-cell *matHeaderCellDef> Age </th>
-          <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+        <!-- price column -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef> price </th>
+          <td mat-cell *matCellDef="let element" class="table-description"> {{element.price}} </td>
         </ng-container>
 
-        <!-- telephone Column -->
-        <ng-container matColumnDef="telephone">
-          <th mat-header-cell *matHeaderCellDef> Telephone </th>
-          <td mat-cell *matCellDef="let element"> {{element.telephone}} </td>
+        <!-- description column  -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> description </th>
+          <td mat-cell *matCellDef="let element" class="table-description"> {{element.description}} </td>
         </ng-container>
-        
+
+
+        <!-- Image column -->
+        <ng-container matColumnDef="img">
+          <th mat-header-cell *matHeaderCellDef> image </th>
+          <td mat-cell *matCellDef="let element" class="table-description"><img src="{{element.img}}" width="100"
+              alt="books-img"></td>
+        </ng-container>
+
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef> Action </th>
           <td mat-cell *matCellDef="let element">
@@ -71,7 +71,3 @@
       <div class="button-group" *ngIf="selection.hasValue()">
         <button class="button__group-delete" mat-raised-button color="warn" (click)="deleteRows()">Delete</button>
       </div>
-      
-  </mat-tab>
-
-</mat-tab-group>

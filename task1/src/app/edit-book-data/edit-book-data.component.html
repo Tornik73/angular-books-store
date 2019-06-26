@@ -1,0 +1,65 @@
+<mat-dialog-content class="mat-typography">
+  <h2>Edit form for book with id: {{data.id}}</h2>
+</mat-dialog-content>
+<div class="profile-container">
+  <div class="avatar-container">
+    <mat-card-title>Label: </mat-card-title>
+    <div class="avatar"><img *ngIf="img" src="{{img}}" height="200"></div>
+    <div class="change-avatar">
+      <span style="color:red;" *ngIf="message">{{ message }}</span>
+      <input #file type="file" accept='image/*' (change)="preview(file.files)" />
+    </div>
+  </div>
+  <mat-card-content class="information">
+    <mat-card-title>Information: </mat-card-title>
+    <form form [formGroup]="angForm" novalidate class="information-field form-container-fields">
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="title" value="{{data.title}}" formControlName="title">
+        <mat-error
+          *ngIf="angForm.controls['title'].invalid && (angForm.controls['title'].dirty || angForm.controls['title'].touched)"
+          class="alert alert-danger">
+          <mat-error *ngIf="angForm.controls['title'].errors.required">
+            title is required.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="author" value="{{data.author}}" formControlName="author">
+        <mat-error
+          *ngIf="angForm.controls['author'].invalid && (angForm.controls['author'].dirty || angForm.controls['author'].touched)">
+          <mat-error *ngIf="angForm.controls['author'].errors.required">
+            author is required.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="price" formControlName="price" value="{{data.price}}">
+        <mat-error
+          *ngIf="angForm.controls['price'].invalid && (angForm.controls['price'].dirty || angForm.controls['price'].touched)">
+          <mat-error *ngIf="angForm.controls['price'].errors.required">
+            price is required.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <input matInput placeholder="description" formControlName="description" value="{{data.description}}">
+        <mat-error
+          *ngIf="angForm.controls['description'].invalid && (angForm.controls['description'].dirty || angForm.controls['description'].touched)"
+          class="alert alert-danger">
+          <mat-error *ngIf="angForm.controls['description'].errors.required">
+            telephone is required.
+          </mat-error>
+        </mat-error>
+      </mat-form-field>
+      <mat-dialog-actions align="end">
+
+        <button mat-button mat-dialog-close mat-raised-button color="warn">Cancel</button>
+        <button (click)="onSubmit()" type="submit" mat-button [mat-dialog-close]="true" cdkFocusInitial
+          mat-raised-button color="primary">Sumbit</button>
+
+      </mat-dialog-actions>
+    </form>
+  </mat-card-content>
+</div>

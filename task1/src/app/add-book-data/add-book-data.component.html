@@ -1,0 +1,55 @@
+<mat-card>
+  <mat-card-title>
+    Please fill in all fields:
+  </mat-card-title>
+
+  <form [formGroup]="angForm" novalidate class="form-container-fields">
+    <mat-form-field>
+      <input matInput placeholder="title" formControlName="title">
+      <mat-error
+        *ngIf="angForm.controls['title'].invalid && (angForm.controls['title'].dirty || angForm.controls['title'].touched)"
+        class="alert alert-danger">
+        <mat-error *ngIf="angForm.controls['title'].errors.required">
+          title is required.
+        </mat-error>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="author" formControlName="author">
+      <mat-error
+        *ngIf="angForm.controls['author'].invalid && (angForm.controls['author'].dirty || angForm.controls['author'].touched)">
+        <mat-error *ngIf="angForm.controls['author'].errors.required">
+          author is required.
+        </mat-error>
+
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="price" formControlName="price">
+      <mat-error
+        *ngIf="angForm.controls['price'].invalid && (angForm.controls['price'].dirty || angForm.controls['price'].touched)">
+        <mat-error *ngIf="angForm.controls['price'].errors.required">
+          price is required.
+        </mat-error>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="description" formControlName="description">
+
+      <mat-error
+        *ngIf="angForm.controls['description'].invalid && (angForm.controls['description'].dirty || angForm.controls['description'].touched)"
+        class="alert alert-danger">
+        <mat-error *ngIf="angForm.controls['description'].errors.required">
+          description is required.
+        </mat-error>
+      </mat-error>
+    </mat-form-field>
+    <!-- [disabled]="angForm.pristine || angForm.invalid" -->
+    <button (click)="onSubmit()" type="submit" [disabled]="angForm.pristine || angForm.invalid" mat-raised-button
+      color="primary">
+      Submit
+    </button>
+
+  </form>
+
+</mat-card>

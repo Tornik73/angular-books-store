@@ -25,6 +25,10 @@ import { DialogDataAdd } from './add-user-data/add-user-data.component'
 import { EditUserDataComponent } from './edit-user-data/edit-user-data.component';
 import { DeleteUserDataComponent } from './delete-user-data/delete-user-data.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { BooksTableComponent } from './books-table/books-table.component';
+import { AddBookDataComponent } from './add-book-data/add-book-data.component';
+import { EditBookDataComponent } from './edit-book-data/edit-book-data.component';
+import { DeleteBookDataComponent } from './delete-book-data/delete-book-data.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +41,11 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     DialogDataAdd,
     EditUserDataComponent,
     DeleteUserDataComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    BooksTableComponent,
+    AddBookDataComponent,
+    EditBookDataComponent,
+    DeleteBookDataComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +70,10 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
   entryComponents: [
     DeleteUserDataComponent,
     DialogDataAdd,
-    EditUserDataComponent
+    EditUserDataComponent,
+    AddBookDataComponent,
+    EditBookDataComponent,
+    DeleteBookDataComponent
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
