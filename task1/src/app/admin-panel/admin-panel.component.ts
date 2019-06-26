@@ -128,27 +128,18 @@ export class AdminPanelComponent implements OnInit {
       })
   }
 
-   deleteRows() {
-     
-    this.selection.selected.forEach((user, i) => {
+    deleteRows() {
+      this.selection.selected.forEach((user, i) => {
+      setTimeout(() => {
+        let index = this.dataSource.data.indexOf(user);
 
-setTimeout(() => {
-  
-      let index = this.dataSource.data.indexOf(user);
-
-      this.deleteUser(user);
-       //duplication
-       
-          this.dataSource.data.splice(index, 1);
-          this.dataSource = new MatTableDataSource<UsersElements>(this.dataSource.data);
-          this.selection = new SelectionModel<UsersElements>(true, []);
-}, 100 * (i + 1));
-
-
-       
-     
-     
-  })
+        this.deleteUser(user);
+        //duplication
+            this.dataSource.data.splice(index, 1);
+            this.dataSource = new MatTableDataSource<UsersElements>(this.dataSource.data);
+            this.selection = new SelectionModel<UsersElements>(true, []);
+        }, 100 * (i + 1));
+    })
 }
   async deleteUser(user){
     //ИЗМЕНИТЬ
@@ -160,10 +151,9 @@ setTimeout(() => {
         }
       })
     }
-    else{
+    else
       console.log("Удалить админа нельзя");
-      
-    }
+
   }
 
 

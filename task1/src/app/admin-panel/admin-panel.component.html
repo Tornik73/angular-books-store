@@ -65,8 +65,10 @@
       </table>
 
       <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-      <button class="button__group-delete" mat-raised-button color="warn"
-        (click)="deleteRows()">Delete</button>
+      <div class="button-group" *ngIf="selection.hasValue()">
+        <button class="button__group-delete" mat-raised-button color="warn" (click)="deleteRows()">Delete</button>
+      </div>
+      
   </mat-tab>
   <mat-tab label="Books"> Content 2 </mat-tab>
 </mat-tab-group>

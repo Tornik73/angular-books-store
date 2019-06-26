@@ -24,6 +24,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { DialogDataAdd } from './add-user-data/add-user-data.component'
 import { EditUserDataComponent } from './edit-user-data/edit-user-data.component';
 import { DeleteUserDataComponent } from './delete-user-data/delete-user-data.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { DeleteUserDataComponent } from './delete-user-data/delete-user-data.com
     ProfileComponent,
     DialogDataAdd,
     EditUserDataComponent,
-    DeleteUserDataComponent
+    DeleteUserDataComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

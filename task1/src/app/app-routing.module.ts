@@ -6,6 +6,7 @@ import{RegisterComponent} from './register/register.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { AuthGuard } from './auth/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
 const routes: Routes = [
   { path: '', component: MainPageComponent },
   { 
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
   { path: 'admin-panel', component: AdminPanelComponent },
   { path: 'profile', component: ProfileComponent },
+  { path: '**', component: PageNotFoundComponent},
 ];
 
 @NgModule({
@@ -24,3 +26,4 @@ const routes: Routes = [
   
 })
 export class AppRoutingModule { }
+
