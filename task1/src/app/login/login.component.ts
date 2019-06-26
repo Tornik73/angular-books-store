@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
       .then(data => {
         if(this.checkUser(data, this.authForm.value)){
           console.log("hi " + this.authForm.value.email);
-          this.service.AuthUser(); // меняем AuthStatus теперь пользователь авторизирован
+          this.service.authUser(); // меняем AuthStatus теперь пользователь авторизирован
           this.navHi.hiUser();
           this._router.navigate(['/']);
         }

@@ -52,7 +52,7 @@ export class DialogDataAdd implements OnInit {
     })
       .then(data => {
         this.successRegistration();
-        this.adminService.Upload(this.angForm.value)
+        this.adminService.upload(this.angForm.value)
       }).then(()=>{
         // close modal window
       })

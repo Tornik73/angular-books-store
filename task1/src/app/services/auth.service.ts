@@ -8,7 +8,7 @@ export class AuthService {
   AuthStatus: boolean = true;
   constructor() { }
 
-  AuthUser() {
+  authUser() {
     return this.AuthStatus = false;
   }
 }
