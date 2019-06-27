@@ -28,6 +28,11 @@ export interface DialogData {
   title: string;
 }
 
+export interface Config {
+  heroesUrl: string;
+  textfile: string;
+}
+
 const ELEMENT_DATA: BooksElements[] = [];
 
 @Component({
@@ -41,6 +46,10 @@ export class BooksTableComponent implements OnInit {
   displayedColumns: string[] = ['select', 'id', 'title', 'author', 'img', 'description', 'price', 'action'];
   dataSource = new MatTableDataSource<BooksElements>(ELEMENT_DATA);
   selection = new SelectionModel<BooksElements>(true, []);
+  
+  ///////////////
+  config: Config;
+  ///////////////
 
   constructor(public dialog: MatDialog,
     private adminService: AdminToolsService,
@@ -52,14 +61,25 @@ export class BooksTableComponent implements OnInit {
   ngOnInit() {
     // Есть баг при переходе с MainPage
     // Чтобы не добавлялись одни и те же юзеры 
+
     if (this.dataSource.filteredData.length === 0) {
-      this.requestServ.httpGET("books")
-        .then(item => item.json())
-        .then(elem => {
-          //Заполняем массив полученными данными
-          return elem.map(item => ELEMENT_DATA.push(item))
-        }).then(() => this.dataSource = new MatTableDataSource<BooksElements>(ELEMENT_DATA))
-        .then(() => this.dataSource.paginator = this.paginator)
+      this.requestServ.httpClientGet("books")
+        .subscribe(data => {
+          for(let key in data){
+            ELEMENT_DATA.push(data[key]);
+            this.dataSource = new MatTableDataSource<BooksElements>(ELEMENT_DATA)
+            this.dataSource.paginator = this.paginator
+          }
+        });
+
+      // this.requestServ.httpGET("books")
+      //   .then(item => item.json())
+      //   .then(elem => {
+      //     console.log(elem);
+      //     //Заполняем массив полученными данными
+      //     return elem.map(item => ELEMENT_DATA.push(item))
+      //   }).then(() => this.dataSource = new MatTableDataSource<BooksElements>(ELEMENT_DATA))
+      //   .then(() => this.dataSource.paginator = this.paginator)
 
     }
   }
@@ -121,23 +141,28 @@ export class BooksTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       let data = [];
       let dataImg;
-      //ИЗМЕНИТЬ
-      this.requestServ.httpGET("books").then(item => item.json()).then(elem => {
-        //Заполняем массив полученными данными
-        return elem.map(item => data.push(item))
-      })
-        .then(() => this.dataSource = new MatTableDataSource<BooksElements>(data))
-        .then(() => this.dataSource.paginator = this.paginator)
-        .then(() => {
-          //ИСПРАВИТЬ баги со сменой автарки 
+      // this.requestServ.httpGET("books").then(item => item.json()).then(elem => {
+      //   //Заполняем массив полученными данными
+      //   return elem.map(item => data.push(item))
+      // })
+      //   .then(() => this.dataSource = new MatTableDataSource<BooksElements>(data))
+      //   .then(() => this.dataSource.paginator = this.paginator)
+      //   .then(() => {
+      this.requestServ.httpClientGet("books")
+        .subscribe(response => {
+          for (let key in response) {
+            data.push(response[key]);
+            this.dataSource = new MatTableDataSource<BooksElements>(data);
+            this.dataSource.paginator = this.paginator;
+          }
           if (book.title === "admin@gmail.com") {
-            let index = data.findIndex(i => i.title === book.title)
+            let index = data.findIndex(i => i.title === book.title);
             dataImg = this.dataSource.filteredData;
             this.infoService.anounceHeaderImg(dataImg[index].img);
           }
+        });
         })
-    })
-  }
+    }
 
   deleteRows() {
     this.selection.selected.forEach((user, i) => {

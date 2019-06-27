@@ -1,25 +1,30 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RequestsService {
 
-
   serverURL: string = "http://localhost:3000/";
-  constructor() { }
 
+  constructor(private http: HttpClient) { }
 
-  httpGET(data){
-    console.log("GET", data);
-    
-      return fetch(`${this.serverURL}` + `${data}`, {
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: null
-      })
+  httpClientGet(data){
+    console.log("new", data);
+    return this.http.get(this.serverURL + data);
   }
+  // httpGET(data){
+  //   // console.log("GET", data);
+  //   // console.log("GET: ", this.http.get(this.serverURL+data));
+  //     return fetch(`${this.serverURL}` + `${data}`, {
+  //       headers: {
+  //         "Content-Type": "application/json"
+  //       },
+  //       body: null
+  //     })
+  // }
 
   httpPOST(body: null, data){
     console.log("POST", body);

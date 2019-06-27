@@ -29,6 +29,9 @@ import { BooksTableComponent } from './books-table/books-table.component';
 import { AddBookDataComponent } from './add-book-data/add-book-data.component';
 import { EditBookDataComponent } from './edit-book-data/edit-book-data.component';
 import { DeleteBookDataComponent } from './delete-book-data/delete-book-data.component';
+import { HttpClientModule } from '@angular/common/http';
+
+
 
 @NgModule({
   declarations: [
@@ -60,6 +63,7 @@ import { DeleteBookDataComponent } from './delete-book-data/delete-book-data.com
     MatIconModule,
     ToastrModule.forRoot(),
     MatCheckboxModule,
+    HttpClientModule,
 
     MatCardModule,
     MatFormFieldModule,

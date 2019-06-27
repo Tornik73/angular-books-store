@@ -48,16 +48,16 @@ export class AdminPanelComponent implements OnInit {
     // Есть баг при переходе с MainPage
     // Чтобы не добавлялись одни и те же юзеры 
     if(this.dataSource.filteredData.length === 0){
-      this.requestServ.httpGET("users")
-      .then(item => item.json())
-      .then(elem => {
-        //Заполняем массив полученными данными
-        return elem.map(item => ELEMENT_DATA.push(item))
-      }).then(() => this.dataSource = new MatTableDataSource<UsersElements>(ELEMENT_DATA))
-        .then(() => this.dataSource.paginator = this.paginator)
-        
+      this.requestServ.httpClientGet("users")
+        .subscribe(data => {
+          for (let key in data) {
+            ELEMENT_DATA.push(data[key]);
+            this.dataSource = new MatTableDataSource<UsersElements>(ELEMENT_DATA);
+            this.dataSource.paginator = this.paginator;
+          }
+        });
     }
-  }
+}
   addUser(){
     const dialogRef = this.dialog.open(DialogDataAdd);
 
@@ -116,20 +116,19 @@ export class AdminPanelComponent implements OnInit {
       let data = [];
       let dataImg;
       //ИЗМЕНИТЬ
-      this.requestServ.httpGET("users").then(item => item.json()).then(elem => {
-        //Заполняем массив полученными данными
-        return elem.map(item => data.push(item))
-      })
-      .then(() => this.dataSource = new MatTableDataSource<UsersElements>(data))
-        .then(() => this.dataSource.paginator = this.paginator)
-        .then(() => {
-          //ИСПРАВИТЬ баги со сменой автарки 
-          if(user.email === "admin@gmail.com"){
-            let index = data.findIndex(i => i.email === user.email)
+      this.requestServ.httpClientGet("users")
+        .subscribe(response => {
+          for (let key in response) {
+            data.push(response[key]);
+            this.dataSource = new MatTableDataSource<UsersElements>(data);
+            this.dataSource.paginator = this.paginator;
+          }
+          if (user.email === "admin@gmail.com") {
+            let index = data.findIndex(i => i.email === user.email);
             dataImg = this.dataSource.filteredData;
             this.infoService.anounceHeaderImg(dataImg[index].img);
           }
-        })
+        });
       })
   }
 
