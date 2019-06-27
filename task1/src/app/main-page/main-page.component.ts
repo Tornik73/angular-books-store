@@ -1,6 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { RequestsService } from '../services/requests.service';
+import { Router } from '@angular/router';
+import { HeaderObserveService } from '../services/header-observe.service';
+
+
+export interface book {
+  //*поменять типы
+  id: number;
+  title: string;
+  author: string;
+  price: number;
+  description: string;
+  img: string;
+}
+
 
 @Component({
   selector: 'app-main-page',
@@ -9,19 +23,23 @@ import { RequestsService } from '../services/requests.service';
 })
 export class MainPageComponent implements OnInit {
 
-  goodsData: object;
+  goodsData: book;
 
-  constructor(private http: HttpClient, 
-    private requestServ: RequestsService) { }
+  constructor(
+    private requestServ: RequestsService,
+    private _router: Router,
+    private observeDetails: HeaderObserveService
+    ) { }
 
   ngOnInit() {
-    // console.log(1);
-    
     this.requestServ.httpClientGet("books")
-      .subscribe(data => {
+      .subscribe((data:book) => {
         this.goodsData = data; 
-      });
-      
+      });   
   }
 
+  bookDetails(book) {
+    this._router.navigate(["details/books", book.id]);
+    this.observeDetails.sendCurrentBook(book);
+  }
 }

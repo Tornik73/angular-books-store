@@ -30,6 +30,8 @@ import { AddBookDataComponent } from './add-book-data/add-book-data.component';
 import { EditBookDataComponent } from './edit-book-data/edit-book-data.component';
 import { DeleteBookDataComponent } from './delete-book-data/delete-book-data.component';
 import { HttpClientModule } from '@angular/common/http';
+import { DetailsComponent } from './details/details.component';
+import { CartComponent } from './cart/cart.component';
 
 
 
@@ -48,7 +50,9 @@ import { HttpClientModule } from '@angular/common/http';
     BooksTableComponent,
     AddBookDataComponent,
     EditBookDataComponent,
-    DeleteBookDataComponent
+    DeleteBookDataComponent,
+    DetailsComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,
@@ -64,11 +68,10 @@ import { HttpClientModule } from '@angular/common/http';
     ToastrModule.forRoot(),
     MatCheckboxModule,
     HttpClientModule,
-
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDialogModule
+    MatDialogModule,
 
   ],
   entryComponents: [
@@ -77,9 +80,12 @@ import { HttpClientModule } from '@angular/common/http';
     EditUserDataComponent,
     AddBookDataComponent,
     EditBookDataComponent,
-    DeleteBookDataComponent
+    DeleteBookDataComponent,
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    DetailsComponent
+  ], 
   bootstrap: [AppComponent]
 })
 export class AppModule { }

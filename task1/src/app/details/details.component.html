@@ -1,0 +1,29 @@
+<section class="section">
+  <div class="container">
+    <div>
+      <mat-card class="card__goods">
+        <mat-card-header class="card__goods-title">
+          <div class="title__img">
+            <img src="{{book.img}}" alt="book image">
+            <div class="title_name">
+              <h2>{{ book.title }}</h2>
+              <h4>{{ book.author }}</h4>
+            </div>
+          </div>
+        </mat-card-header>
+        <mat-card-content class="card__goods-content">
+          <h3>Description:</h3>
+          <p>
+            {{book.description}}
+          </p>
+        </mat-card-content>
+        <div class="card__goods-buttons">
+          <div class="card__goods-price">
+            <h3>Price: {{ book.price }} </h3>
+          </div>
+          <button mat-raised-button color="warn">Add to cart</button>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</section>

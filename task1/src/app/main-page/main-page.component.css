@@ -16,11 +16,9 @@ a{
   margin-left: 170px;
 }
 
-
 .container {
   display: flex;
   flex-wrap: wrap;
-
 }
 
 .card__goods {

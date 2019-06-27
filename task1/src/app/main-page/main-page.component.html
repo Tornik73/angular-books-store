@@ -27,8 +27,10 @@
               Price: {{book.price}}
             </p>
           </div>
-          <a href="#"><button mat-raised-button color="primary">Details</button></a>
+                    <button mat-raised-button color="primary" (click)="bookDetails(book)">Details</button>
           <button mat-raised-button color="warn">Add to cart</button>
+
+          
         </mat-card-actions>
       </mat-card>
     </div>
