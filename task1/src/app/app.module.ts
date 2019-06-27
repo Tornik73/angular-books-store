@@ -8,7 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material';
+import { MatInputModule, MatMenuModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule} from '@angular/material/checkbox';
 import { AuthService } from './services/auth.service';
@@ -72,6 +72,7 @@ import { CartComponent } from './cart/cart.component';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    MatMenuModule
 
   ],
   entryComponents: [

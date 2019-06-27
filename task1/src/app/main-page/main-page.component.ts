@@ -42,4 +42,10 @@ export class MainPageComponent implements OnInit {
     this._router.navigate(["details/books", book.id]);
     this.observeDetails.sendCurrentBook(book);
   }
+
+  addToCart(book){
+    console.log(book);
+    localStorage.order = book;
+    // this.observeDetails.addCurentBookToCart(book);
+  }
 }

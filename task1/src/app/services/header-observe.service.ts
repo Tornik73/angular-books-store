@@ -18,8 +18,11 @@ export interface book {
 export class HeaderObserveService {
   private anounceHeader = new Subject<string>();
   private sendBook = new Subject<book>();
+  private addBook = new Subject<book>();
   anounceHeader$ = this.anounceHeader;
-  observeDetailsBook = this.sendBook.asObservable()
+
+  observeDetailsBook = this.sendBook.asObservable();
+  observeAddBook = this.addBook.asObservable();
   constructor() { }
 
   sendCurrentBook(book: book){
@@ -28,5 +31,7 @@ export class HeaderObserveService {
   anounceHeaderImg(user:string){
     this.anounceHeader.next(user);
   }
-
+  addCurentBookToCart(book: book){
+    this.addBook.next(book);
+  }
 }

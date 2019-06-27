@@ -33,3 +33,7 @@
 .table-2 {
   flex-grow: 1;
 }
+
+.mat-menu-content {
+  width: 500px;
+}

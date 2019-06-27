@@ -16,9 +16,16 @@
       <li *ngIf="!this.service.AuthStatus"><a [routerLink]="['/profile']">
           <div class="ava"><img [src]="currentUserImg" alt=""></div>
         </a></li>
+      <li *ngIf="!this.service.AuthStatus">
+        <div class="cart">
+          <button mat-button (click)="openCart()">
+            <img src="https://cdn.pixabay.com/photo/2014/04/02/10/53/shopping-cart-304843__340.png" alt=""
+              width="30"></button>
+        </div>
+      </li>
     </ul>
   </li>
-  
+
 </ul>
 
 <router-outlet></router-outlet>

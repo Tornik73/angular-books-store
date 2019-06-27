@@ -1,6 +1,3 @@
-<div class="main-img">
-  <img src="http://www.pngall.com/wp-content/uploads/2018/05/Books-Transparent.png" alt="logo" >
-</div>
 <section class="section">
 <mat-card>
   <div class="container">
@@ -12,7 +9,7 @@
           </div>
           <div class="title_name">
             <h3>{{ book.title }}</h3>
-            <h5>{{book.author}}</h5>
+            <h5>{{ book.author }}</h5>
 
           </div>
         </mat-card-header>
@@ -28,9 +25,7 @@
             </p>
           </div>
                     <button mat-raised-button color="primary" (click)="bookDetails(book)">Details</button>
-          <button mat-raised-button color="warn">Add to cart</button>
-
-          
+          <button mat-raised-button color="warn" (click)="addToCart(book)">Add to cart</button>
         </mat-card-actions>
       </mat-card>
     </div>

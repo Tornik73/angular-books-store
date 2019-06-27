@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/auth.service';
 import { HeaderObserveService } from './services/header-observe.service';
+import { CartComponent } from './cart/cart.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,7 +12,7 @@ export class AppComponent implements OnInit{ //для работы с LocalStora
   currentUser: string;
   userRights: string;
   currentUserImg: string;
-  constructor(private service: AuthService, private headServ: HeaderObserveService) {
+  constructor(private service: AuthService, public dialog: MatDialog, private headServ: HeaderObserveService) {
     
   }
 
@@ -35,6 +37,12 @@ export class AppComponent implements OnInit{ //для работы с LocalStora
       }
     )
     this.hiUser();
+    
+  }
+
+  openCart(){
+    
+    const dialogRef = this.dialog.open(CartComponent, { data: { order: localStorage.order } });
     
   }
   logOut(){
