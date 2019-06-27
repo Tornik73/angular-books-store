@@ -1,4 +1,37 @@
-<p>
-  Welcome at the "Books|Lib"
-</p>
-<img src="https://chimesnewspaper.com/wp-content/uploads/2011/10/IMG_9359.jpg" alt="" width="50%">
+<div class="main-img">
+  <img src="http://www.pngall.com/wp-content/uploads/2018/05/Books-Transparent.png" alt="logo" >
+</div>
+<section class="section">
+<mat-card>
+  <div class="container">
+    <div *ngFor="let book of goodsData">
+      <mat-card class="card__goods">
+        <mat-card-header class="card__goods-title">
+          <div class="title__img">
+            <img src="{{ book.img }}" alt="book image">
+          </div>
+          <div class="title_name">
+            <h3>{{ book.title }}</h3>
+            <h5>{{book.author}}</h5>
+
+          </div>
+        </mat-card-header>
+        <mat-card-content class="card__goods-content">
+          <p>
+            {{book.description}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions class="card__goods-buttons">
+          <div class="card__goods-price">
+            <p>
+              Price: {{book.price}}
+            </p>
+          </div>
+          <a href="#"><button mat-raised-button color="primary">Details</button></a>
+          <button mat-raised-button color="warn">Add to cart</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</mat-card>
+</section>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { RequestsService } from '../services/requests.service';
 
 @Component({
   selector: 'app-main-page',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainPageComponent implements OnInit {
 
-  constructor() { }
+  goodsData: object;
+
+  constructor(private http: HttpClient, 
+    private requestServ: RequestsService) { }
 
   ngOnInit() {
+    // console.log(1);
+    
+    this.requestServ.httpClientGet("books")
+      .subscribe(data => {
+        this.goodsData = data; 
+      });
+      
   }
 
 }

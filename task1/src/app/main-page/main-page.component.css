@@ -1,0 +1,86 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a{
+  text-decoration: none;
+  color: white;
+}
+.section {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-left: 170px;
+}
+
+
+.container {
+  display: flex;
+  flex-wrap: wrap;
+
+}
+
+.card__goods {
+  display: flex;
+  flex-direction: column;
+  /* min-height: 300px;
+    max-height: 300px; */
+  height: 450px;
+  width: 300px;
+  max-width: 300px;
+  /* max-height: 300px; */
+  margin-right: 10px;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.card__goods:hover{
+    transition: 0.5s;
+  -webkit-transform: scale(1.03);
+  -ms-transform: scale(1.03);
+  transform: scale(1.03);
+}
+
+.card__goods-title {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.title__img img {
+  max-width: 120px;
+  height: 180px;
+  margin-bottom: 10px;
+}
+
+.card__goods-content {
+  height: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Добавляем многоточие */
+}
+.card__goods-price{
+    margin-bottom: 10px;
+}
+.card__goods-buttons {
+  left: 53px;
+  position: absolute;
+  bottom: 15px;
+}
+
+/* IMG */
+
+.main-img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.main-img img{
+  width: 600px;
+  height: 200px;
+}

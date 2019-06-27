@@ -12,7 +12,7 @@ export class RequestsService {
   constructor(private http: HttpClient) { }
 
   httpClientGet(data){
-    console.log("new", data);
+    console.log("httpClientGet: ", data);
     return this.http.get(this.serverURL + data);
   }
   // httpGET(data){

@@ -155,11 +155,11 @@ export class BooksTableComponent implements OnInit {
             this.dataSource = new MatTableDataSource<BooksElements>(data);
             this.dataSource.paginator = this.paginator;
           }
-          if (book.title === "admin@gmail.com") {
-            let index = data.findIndex(i => i.title === book.title);
-            dataImg = this.dataSource.filteredData;
-            this.infoService.anounceHeaderImg(dataImg[index].img);
-          }
+          // if (book.title === "admin@gmail.com") {
+          //   let index = data.findIndex(i => i.title === book.title);
+          //   dataImg = this.dataSource.filteredData;
+          //   this.infoService.anounceHeaderImg(dataImg[index].img);
+          // }
         });
         })
     }
