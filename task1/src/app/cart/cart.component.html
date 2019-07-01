@@ -1,36 +1,67 @@
- <div class="cart">
+<div class="cart">
+  <h2 mat-dialog-title>Shoping cart:</h2>
+  <mat-dialog-content class="mat-typography">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-      <!-- Position Column -->
+      <!-- ID Column -->
       <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element; let i = index"> {{element.id}} </td>
       </ng-container>
 
-      <!-- Name Column -->
+      <!-- Title Column -->
       <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <th mat-header-cell *matHeaderCellDef> Title </th>
         <td mat-cell *matCellDef="let element"> {{element.title}} </td>
       </ng-container>
 
-      <!-- Weight Column -->
+      <!-- Author Column -->
       <ng-container matColumnDef="author">
-        <th mat-header-cell *matHeaderCellDef> Weight </th>
+        <th mat-header-cell *matHeaderCellDef> Author </th>
         <td mat-cell *matCellDef="let element"> {{element.author}} </td>
       </ng-container>
 
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="image">
-        <th mat-header-cell *matHeaderCellDef> Symbol </th>
-        <td mat-cell *matCellDef="let element"> {{element.image}} </td>
+      <!-- Image Column -->
+      <ng-container matColumnDef="img">
+        <th mat-header-cell *matHeaderCellDef> Image </th>
+        <td mat-cell *matCellDef="let element">
+          <img class="cart-img" src="{{element.img}}" width="100" alt="books-img">
+        </td>
       </ng-container>
- <!-- Symbol Column -->
- <ng-container matColumnDef="price">
-   <th mat-header-cell *matHeaderCellDef> Symbol </th>
-   <td mat-cell *matCellDef="let element"> {{element.price}} </td>
- </ng-container>
 
+      <!-- Price Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef> Price </th>
+        <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+      </ng-container>
+
+      <!-- Order amount Column -->
+      <ng-container matColumnDef="order amount">
+        <th mat-header-cell *matHeaderCellDef> Order amount </th>
+        <td mat-cell *matCellDef="let element"> {{element.countCartItem}} </td>
+      </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <!-- Action Column -->
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="button__group">
+            <button class="button__group-delete" mat-raised-button color="warn" (click)="deleteItemCart(element)">
+              Delete
+            </button>
+          </div>
+        </td>
+      </ng-container>
     </table>
- </div>
- 
+    <div class="submit-order">
+      <div class="ourder-sum">
+        <h2 mat-dialog-title>Sum of order: {{ orderSum }}
+        </h2>
+      </div>
+      <button class="button__group-delete" mat-raised-button color="warn" (click)="buy()">
+        Buy
+      </button>
+    </div>
+  </mat-dialog-content>
+</div>

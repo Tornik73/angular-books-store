@@ -24,7 +24,7 @@ export interface book {
 export class MainPageComponent implements OnInit {
 
   goodsData: book;
-
+  CurrentUserOrder = [];
   constructor(
     private requestServ: RequestsService,
     private _router: Router,
@@ -44,8 +44,8 @@ export class MainPageComponent implements OnInit {
   }
 
   addToCart(book){
-    console.log(book);
-    localStorage.order = book;
-    // this.observeDetails.addCurentBookToCart(book);
+    let bookArray = JSON.parse(localStorage.getItem("order"));
+    bookArray.push(book);
+    localStorage.setItem("order", JSON.stringify(bookArray));
   }
 }

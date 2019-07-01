@@ -1,3 +1,11 @@
-.cart table{
-    width: 100%;
+.cart table {
+  width: 100%;
+}
+
+.cart table th {
+  width: 100px;
+}
+
+.cart-img {
+  padding: 10px 0;
 }

@@ -83,3 +83,8 @@ a{
   width: 600px;
   height: 200px;
 }
+
+.addButton{
+  padding-left: 6px;
+  padding-right: 6px; 
+}

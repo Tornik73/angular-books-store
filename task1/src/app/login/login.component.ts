@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit {
           this.service.authUser(); // меняем AuthStatus теперь пользователь авторизирован
           this.navHi.hiUser();
           this._router.navigate(['/']);
+          localStorage.setItem("order", JSON.stringify([]));
         }
         else
           this.incorectPassword = true; 

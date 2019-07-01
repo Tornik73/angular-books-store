@@ -3,12 +3,14 @@ import { AuthService } from './services/auth.service';
 import { HeaderObserveService } from './services/header-observe.service';
 import { CartComponent } from './cart/cart.component';
 import { MatDialog } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit{ //для работы с LocalStorage
+
   currentUser: string;
   userRights: string;
   currentUserImg: string;
@@ -40,11 +42,10 @@ export class AppComponent implements OnInit{ //для работы с LocalStora
     
   }
 
-  openCart(){
-    
-    const dialogRef = this.dialog.open(CartComponent, { data: { order: localStorage.order } });
-    
+  openCart(book){
+    const dialogRef = this.dialog.open(CartComponent);
   }
+
   logOut(){
     localStorage.clear()
     return this.service.AuthStatus = true;

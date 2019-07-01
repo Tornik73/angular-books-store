@@ -4,7 +4,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HeaderObserveService } from '../services/header-observe.service';
 
 export interface book {
-  //*поменять типы
   id: number;
   title: string;
   author: string;
@@ -19,7 +18,7 @@ export interface book {
   styleUrls: ['./details.component.css']
 })
 export class DetailsComponent implements OnInit {
-  book: book;
+  book: book = {author:'', title: '', price: 0, description: '', img:'', id: 0 };
   id : number;
   constructor(private requestServ: RequestsService, private _router: Router, 
     private observeDetails: HeaderObserveService, private activate : ActivatedRoute,) { }
