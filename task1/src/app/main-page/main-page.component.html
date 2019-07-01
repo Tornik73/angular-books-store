@@ -1,34 +1,37 @@
 <section class="section">
-<mat-card>
-  <div class="container">
-    <div *ngFor="let book of goodsData">
-      <mat-card class="card__goods">
-        <mat-card-header class="card__goods-title">
-          <div class="title__img">
-            <img src="{{ book.img }}" alt="book image">
-          </div>
-          <div class="title_name">
-            <h3>{{ book.title }}</h3>
-            <h5>{{ book.author }}</h5>
+  <app-search></app-search>
+  <mat-card>
 
-          </div>
-        </mat-card-header>
-        <mat-card-content class="card__goods-content">
-          <p>
-            {{book.description}}
-          </p>
-        </mat-card-content>
-        <mat-card-actions class="card__goods-buttons">
-          <div class="card__goods-price">
+    <div class="container">
+
+      <div *ngFor="let book of goodsData">
+        <mat-card class="card__goods">
+          <mat-card-header class="card__goods-title">
+            <div class="title__img">
+              <img src="{{ book.img }}" alt="book image">
+            </div>
+            <div class="title_name">
+              <h3>{{ book.title }}</h3>
+              <h5>{{ book.author }}</h5>
+
+            </div>
+          </mat-card-header>
+          <mat-card-content class="card__goods-content">
             <p>
-              Price: {{book.price}}
+              {{book.description}}
             </p>
-          </div>
-                    <button mat-raised-button color="primary" (click)="bookDetails(book)">Details</button>
-          <button class="addButton" mat-raised-button color="warn" (click)="addToCart(book)">Add to cart</button>
-        </mat-card-actions>
-      </mat-card>
+          </mat-card-content>
+          <mat-card-actions class="card__goods-buttons">
+            <div class="card__goods-price">
+              <p>
+                Price: {{book.price}}
+              </p>
+            </div>
+            <button mat-raised-button color="primary" (click)="bookDetails(book)">Details</button>
+            <button class="addButton" mat-raised-button color="warn" (click)="addToCart(book)">Add to cart</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
     </div>
-  </div>
-</mat-card>
+  </mat-card>
 </section>

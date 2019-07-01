@@ -46,7 +46,8 @@ export class MainPageComponent implements OnInit {
   addToCart(book){
     let bookArray = JSON.parse(localStorage.getItem("order"));
     bookArray.push(book);
+    bookArray[bookArray.length-1].countCartItem = 1;
     localStorage.setItem("order", JSON.stringify(bookArray));
-    bookArray.countCartItem = 0;
+
   }
 }

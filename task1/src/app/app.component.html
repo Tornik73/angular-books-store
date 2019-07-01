@@ -12,6 +12,7 @@
       <li *ngIf="!this.service.AuthStatus && userRights === 'admin'">
         <a [routerLink]="['/admin-panel']">Admin panel</a>
       </li>
+
       <li *ngIf="!this.service.AuthStatus"><a [routerLink]="['/']" (click)="logOut()">Logout</a></li>
       <li *ngIf="!this.service.AuthStatus"><a [routerLink]="['/profile']">
           <div class="ava"><img [src]="currentUserImg" alt=""></div>

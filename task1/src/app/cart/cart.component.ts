@@ -45,23 +45,15 @@ export class CartComponent implements OnInit {
 
   countGoods(goods) {
     let sortedGoods = [];
-    if (goods[0].countCartItem === undefined){
-      //Инициализация
-      for (let i in goods)
-        goods[i].countCartItem = 0;
-
-      //Считаем совпадения
       for (let i in goods)
         for (let j in goods)
-          if (goods[i].id === goods[j].id) //Возможен БАГ с сравнением
+          if (goods[i].id === goods[j].id && i!=j) //Возможен БАГ с сравнением
             goods[i].countCartItem++;
-    }
       //Создаем новый массив с уникальными элементами
       sortedGoods = Array.from(new Set(goods.map(a => a.id)))
         .map(id => {
           return goods.find(a => a.id === id)
         })
-
       
     return sortedGoods;
   }
@@ -99,7 +91,6 @@ export class CartComponent implements OnInit {
 
   plusItem(element){
     let index = this.currentCartData.indexOf(element);
-
     this.currentCartData[index].countCartItem++;
     this.dataSource = new MatTableDataSource<BooksElements>(this.currentCartData);
     this.countSumOfOrder(this.currentCartData);
