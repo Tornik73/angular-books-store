@@ -37,7 +37,14 @@
       <!-- Order amount Column -->
       <ng-container matColumnDef="order amount">
         <th mat-header-cell *matHeaderCellDef> Order amount </th>
-        <td mat-cell *matCellDef="let element"> {{element.countCartItem}} </td>
+        <td mat-cell *matCellDef="let element">
+          <div class="buttons-plus-minus">
+            <button (click)="minusItem(element)">-</button>
+            {{element.countCartItem}}
+            <button (click)="plusItem(element)">+</button>
+          </div>
+            
+        </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -56,8 +63,7 @@
     </table>
     <div class="submit-order">
       <div class="ourder-sum">
-        <h2 mat-dialog-title>Sum of order: {{ orderSum }}
-        </h2>
+        <h2 mat-dialog-title>Sum of order: {{ orderSum }} </h2>
       </div>
       <button class="button__group-delete" mat-raised-button color="warn" (click)="buy()">
         Buy

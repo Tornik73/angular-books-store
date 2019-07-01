@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule, MatMenuModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -72,8 +72,8 @@ import { CartComponent } from './cart/cart.component';
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
-    MatMenuModule
-
+    MatMenuModule,
+    FormsModule
   ],
   entryComponents: [
     DeleteUserDataComponent,

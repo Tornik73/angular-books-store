@@ -9,3 +9,13 @@
 .cart-img {
   padding: 10px 0;
 }
+
+.buttons-plus-minus button {
+  width: 30px;
+  height: 30px;
+  border-radius: 50px;
+  background-color: #673ab7;
+  border-color: #fff;
+  color: #fff;
+  box-shadow: #fff;
+}

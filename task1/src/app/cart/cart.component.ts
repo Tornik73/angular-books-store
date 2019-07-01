@@ -8,7 +8,6 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface BooksElement {
-  //*поменять типы
   id: number;
   title: string;
   author: string;
@@ -38,6 +37,7 @@ export class CartComponent implements OnInit {
   displayedColumns: string[] = ['id', 'title', 'author', 'img', 'price', 'order amount', 'action'];
   dataSource = new MatTableDataSource<BooksElements>(CartData);
   selection = new SelectionModel<BooksElements>(true, []);
+
   constructor(private requestServ: RequestsService, private _router: Router,
     private observeAddBook: HeaderObserveService, 
     private activate: ActivatedRoute,
@@ -45,39 +45,65 @@ export class CartComponent implements OnInit {
 
   countGoods(goods) {
     let sortedGoods = [];
-    for (let i in goods)
-      goods[i].countCartItem = 0;
+    if (goods[0].countCartItem === undefined){
+      //Инициализация
+      for (let i in goods)
+        goods[i].countCartItem = 0;
 
-    for (let i in goods) {
-      for (let j in goods) {
-        //возможен БАГ с сравнением
-        if (goods[i].id === goods[j].id) {
-          goods[i].countCartItem++;
-        }
-      }
+      //Считаем совпадения
+      for (let i in goods)
+        for (let j in goods)
+          if (goods[i].id === goods[j].id) //Возможен БАГ с сравнением
+            goods[i].countCartItem++;
     }
+      //Создаем новый массив с уникальными элементами
+      sortedGoods = Array.from(new Set(goods.map(a => a.id)))
+        .map(id => {
+          return goods.find(a => a.id === id)
+        })
 
-    sortedGoods = Array.from(new Set(goods.map(a => a.id)))
-      .map(id => {
-        return goods.find(a => a.id === id)
-      })
-
+      
     return sortedGoods;
   }
+
   ngOnInit() {
     let CurrentOrderJSON = this.countGoods(JSON.parse(localStorage.order));
+    
     this.currentCartData = CurrentOrderJSON;
     this.dataSource = new MatTableDataSource<BooksElements>(CurrentOrderJSON);
+    // localStorage.setItem("order", JSON.stringify(CurrentOrderJSON));
     this.countSumOfOrder(this.currentCartData);
   }
 
   countSumOfOrder(order){
     this.orderSum = 0;
-    for(let i in order){
+
+    for(let i in order)
       this.orderSum += parseInt(order[i].price) * order[i].countCartItem;
+  }
+
+  minusItem(element){
+    let index = this.currentCartData.indexOf(element);
+
+    if (this.currentCartData[index].countCartItem > 1){
+      this.currentCartData[index].countCartItem--;
+      this.dataSource = new MatTableDataSource<BooksElements>(this.currentCartData);
+      this.countSumOfOrder(this.currentCartData);
+      localStorage.setItem("order", JSON.stringify(this.currentCartData));
     }
-    
-    // this.orderSum = order.
+    else{
+      this.deleteItemCart(element);
+      localStorage.setItem("order", JSON.stringify(this.currentCartData)); 
+    }
+  }
+
+  plusItem(element){
+    let index = this.currentCartData.indexOf(element);
+
+    this.currentCartData[index].countCartItem++;
+    this.dataSource = new MatTableDataSource<BooksElements>(this.currentCartData);
+    this.countSumOfOrder(this.currentCartData);
+    localStorage.setItem("order", JSON.stringify(this.currentCartData));
   }
 
   deleteItemCart(book){
