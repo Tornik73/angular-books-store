@@ -9,22 +9,14 @@ import { DeleteUserDataComponent } from '../delete-user-data/delete-user-data.co
 import { HeaderObserveService } from '../services/header-observe.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { RequestsService } from '../services/requests.service';
-
-export interface UsersElements {
-  //*поменять типы
-  id: number;
-  email: string;
-  password: string;
-  age: string;
-  telephone: string;
-}
+import {User} from '../models/user';
 
 export interface DialogData {
   id: number;
   email: string;
 }
 
-const ELEMENT_DATA: UsersElements[] = [];
+const ELEMENT_DATA: User[] = [];
 @Component({
   selector: 'app-admin-panel',
   templateUrl: './admin-panel.component.html',
@@ -34,8 +26,8 @@ export class AdminPanelComponent implements OnInit {
   id : number;
   email: number;
   displayedColumns: string[] = ['select', 'id', 'email', 'password', 'age', 'telephone', 'action'];
-  dataSource = new MatTableDataSource<UsersElements>(ELEMENT_DATA);
-  selection = new SelectionModel<UsersElements>(true, []);
+  dataSource = new MatTableDataSource<User>(ELEMENT_DATA);
+  selection = new SelectionModel<User>(true, []);
   
   constructor(public dialog: MatDialog, 
     private adminService: AdminToolsService, 
@@ -52,7 +44,7 @@ export class AdminPanelComponent implements OnInit {
         .subscribe(data => {
           for (let key in data) {
             ELEMENT_DATA.push(data[key]);
-            this.dataSource = new MatTableDataSource<UsersElements>(ELEMENT_DATA);
+            this.dataSource = new MatTableDataSource<User>(ELEMENT_DATA);
             this.dataSource.paginator = this.paginator;
           }
         });
@@ -70,7 +62,7 @@ export class AdminPanelComponent implements OnInit {
             this.dataSource.filteredData[this.dataSource.filteredData.length - 1].id + 1;
 
         data.push(this.adminService.dataResponse);
-        this.dataSource = new MatTableDataSource<UsersElements>(data);
+        this.dataSource = new MatTableDataSource<User>(data);
         this.adminService.dataResponse = null;
       }
     });
@@ -88,7 +80,7 @@ export class AdminPanelComponent implements OnInit {
         if (response){
           let data = this.dataSource.data;
           data.splice(index, 1);
-          this.dataSource = new MatTableDataSource<UsersElements>(data);
+          this.dataSource = new MatTableDataSource<User>(data);
         }
       } 
     });
@@ -120,7 +112,7 @@ export class AdminPanelComponent implements OnInit {
         .subscribe(response => {
           for (let key in response) {
             data.push(response[key]);
-            this.dataSource = new MatTableDataSource<UsersElements>(data);
+            this.dataSource = new MatTableDataSource<User>(data);
             this.dataSource.paginator = this.paginator;
           }
           if (user.email === "admin@gmail.com") {
@@ -140,8 +132,8 @@ export class AdminPanelComponent implements OnInit {
         this.deleteUser(user);
         //duplication
             this.dataSource.data.splice(index, 1);
-            this.dataSource = new MatTableDataSource<UsersElements>(this.dataSource.data);
-            this.selection = new SelectionModel<UsersElements>(true, []);
+        this.dataSource = new MatTableDataSource<User>(this.dataSource.data);
+        this.selection = new SelectionModel<User>(true, []);
         }, 100 * (i + 1));
     })
   }
@@ -169,7 +161,7 @@ export class AdminPanelComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: UsersElements): string {
+  checkboxLabel(row?: User): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }

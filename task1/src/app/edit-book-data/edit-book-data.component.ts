@@ -3,17 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ExtensionsService } from '../services/extensions.service';
 import { RequestsService } from '../services/requests.service';
-
-
-
-export interface DialogData {
-  id: number;
-  title: string;
-  author: string;
-  price: number;
-  description: string;
-  img: string;
-}
+import { Book } from '../models/book';
 
 @Component({
   selector: 'app-edit-book-data',
@@ -31,7 +21,7 @@ export class EditBookDataComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<EditBookDataComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data: Book,
     private previewPhotoService: ExtensionsService,
     private requestServ: RequestsService) { }
 

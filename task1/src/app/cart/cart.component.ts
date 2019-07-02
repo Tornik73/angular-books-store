@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { IBookCartElement } from '../models/book';
+import { BookCartElement } from '../models/book';
 
 
 export interface DialogData{
@@ -12,7 +12,7 @@ export interface DialogData{
   price: number;
 }
 
-let currentCartData: IBookCartElement[] = [];
+let currentCartData: BookCartElement[] = [];
 
 @Component({
   selector: 'app-cart',
@@ -23,26 +23,26 @@ export class CartComponent implements OnInit {
 
   orderSum: number = 0;
   displayedColumns: string[] = ['id', 'title', 'author', 'img', 'price', 'order amount', 'action'];
-  dataSource = new MatTableDataSource<IBookCartElement>(currentCartData);
-  selection = new SelectionModel<IBookCartElement>(true, []);
+  dataSource = new MatTableDataSource<BookCartElement>(currentCartData);
+  selection = new SelectionModel<BookCartElement>(true, []);
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
   ngOnInit() {
     
     currentCartData = JSON.parse(localStorage.order);
-    this.dataSource = new MatTableDataSource<IBookCartElement>(currentCartData);
+    this.dataSource = new MatTableDataSource<BookCartElement>(currentCartData);
     this.countSumOfOrder(currentCartData);
   }
 
-  countSumOfOrder(order: IBookCartElement[]){
+  countSumOfOrder(order: BookCartElement[]){
     this.orderSum = 0;
     
     for(let i in order)
       this.orderSum += order[i].price * order[i].countCartItem;
   }
 
-  minusItem(book: IBookCartElement){
+  minusItem(book: BookCartElement){
     let index: number = currentCartData.indexOf(book);
 
     if (currentCartData[index].countCartItem > 1){
@@ -55,20 +55,20 @@ export class CartComponent implements OnInit {
     }
   }
 
-  plusItem(book: IBookCartElement){
+  plusItem(book: BookCartElement){
     let index: number = currentCartData.indexOf(book);
     currentCartData[index].countCartItem++;
     this.updateDataView();
   }
 
-  deleteItemCart(book: IBookCartElement){
+  deleteItemCart(book: BookCartElement){
     let index: number = currentCartData.indexOf(book);
     currentCartData.splice(index, 1);
     this.updateDataView();
   }
 
   updateDataView(){
-    this.dataSource = new MatTableDataSource<IBookCartElement>(currentCartData);
+    this.dataSource = new MatTableDataSource<BookCartElement>(currentCartData);
     localStorage.setItem("order", JSON.stringify(currentCartData));
     this.countSumOfOrder(currentCartData);
   }

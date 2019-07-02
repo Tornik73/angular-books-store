@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { IBookCartElement } from '../models/book';
+import { BookCartElement } from '../models/book';
 
 @Injectable({
   providedIn: 'root'
@@ -9,14 +9,14 @@ export class CartService {
 
   constructor(private toastrService: ToastrService) { }
 
-  addToCart(book: IBookCartElement) {  
-    let bookArray: IBookCartElement[] = JSON.parse(localStorage.getItem("order"));
+  addToCart(book: BookCartElement) {  
+    let bookArray: BookCartElement[] = JSON.parse(localStorage.getItem("order"));
 
     /*
       Функция преобразовывает массив в уникальные значения
       и добавляет новое поле с количеством элементов в корзине
     */
-    function countCartItems(items: IBookCartElement[]){
+    function countCartItems(items: BookCartElement[]){
       let searchBookFlag: boolean = false;
       for (let i in items)
         if (items[i].id === book.id) {

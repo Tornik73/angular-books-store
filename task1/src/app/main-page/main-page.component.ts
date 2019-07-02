@@ -10,7 +10,7 @@ import {
 } from "rxjs/operators";
 import { fromEvent } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { IBook } from '../models/book'
+import { Book } from '../models/book'
 import { CartService } from '../services/cart.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class MainPageComponent implements OnInit {
   @ViewChild('bookSearchInput', { static: true }) bookSearchInput: ElementRef;
   isSearching: boolean;
   flagSearched: boolean = true;
-  goodsData: IBook[] = [];
+  goodsData: Book[] = [];
 
   constructor(
     private requestServ: RequestsService,
@@ -35,7 +35,7 @@ export class MainPageComponent implements OnInit {
   // Выводит товары все товары
   clearSearch() {
     this.requestServ.httpClientGet("books")
-      .subscribe((data: IBook) => {
+      .subscribe((data: Book) => {
           this.goodsData = [];
           for (let i in data) {
             this.goodsData.push(data[i]);
@@ -59,7 +59,7 @@ export class MainPageComponent implements OnInit {
       , distinctUntilChanged()
     ).subscribe((text: string) => {
       this.goodsData = [];
-      console.log(this.requestServ.httpClientGet('books').subscribe((data: IBook) => {
+      console.log(this.requestServ.httpClientGet('books').subscribe((data: Book) => {
         this.isSearching = true;
         
         if(text.length === 0)

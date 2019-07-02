@@ -1,4 +1,4 @@
-export interface IBook {
+export interface Book {
     id: number;
     title: string;
     author: string;
@@ -7,7 +7,7 @@ export interface IBook {
     img: string;
 }
 
-export interface IBookCartElement {
+export interface BookCartElement {
     id: number;
     title: string;
     author: string;

@@ -3,16 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ExtensionsService } from '../services/extensions.service';
 import { RequestsService } from '../services/requests.service';
-
-
-export interface DialogData {
-  id: number;
-  email: string;
-  password: string;
-  age: number;
-  telephone: string;
-  img: any;
-}
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-edit-user-data',
@@ -32,7 +23,7 @@ export class EditUserDataComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<EditUserDataComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    @Inject(MAT_DIALOG_DATA) public data: User,
     private previewPhotoService: ExtensionsService,
     private requestServ: RequestsService ) {}
   

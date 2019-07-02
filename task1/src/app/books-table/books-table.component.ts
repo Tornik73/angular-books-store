@@ -4,36 +4,20 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { AdminToolsService } from '../services/admin-tools.service';
-import { DeleteUserDataComponent } from '../delete-user-data/delete-user-data.component';
 import { HeaderObserveService } from '../services/header-observe.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { RequestsService } from '../services/requests.service';
 import { AddBookDataComponent } from '../add-book-data/add-book-data.component';
 import { EditBookDataComponent } from '../edit-book-data/edit-book-data.component';
 import { DeleteBookDataComponent } from '../delete-book-data/delete-book-data.component';
-
-
-export interface BooksElements {
-  //*поменять типы
-  id: number;
-  title: string;
-  author: string;
-  price: number;
-  description: string;
-  img: string;
-}
+import { Book } from '../models/book';
 
 export interface DialogData {
   id: number;
   title: string;
 }
 
-export interface Config {
-  heroesUrl: string;
-  textfile: string;
-}
-
-const ELEMENT_DATA: BooksElements[] = [];
+const ELEMENT_DATA: Book[] = [];
 
 @Component({
   selector: 'app-books-table',
@@ -44,12 +28,8 @@ export class BooksTableComponent implements OnInit {
   id: number;
   title: number;
   displayedColumns: string[] = ['select', 'id', 'title', 'author', 'img', 'description', 'price', 'action'];
-  dataSource = new MatTableDataSource<BooksElements>(ELEMENT_DATA);
-  selection = new SelectionModel<BooksElements>(true, []);
-  
-  ///////////////
-  config: Config;
-  ///////////////
+  dataSource = new MatTableDataSource<Book>(ELEMENT_DATA);
+  selection = new SelectionModel<Book>(true, []);
 
   constructor(public dialog: MatDialog,
     private adminService: AdminToolsService,
@@ -67,7 +47,7 @@ export class BooksTableComponent implements OnInit {
         .subscribe(data => {
           for(let key in data){
             ELEMENT_DATA.push(data[key]);
-            this.dataSource = new MatTableDataSource<BooksElements>(ELEMENT_DATA)
+            this.dataSource = new MatTableDataSource<Book>(ELEMENT_DATA)
             this.dataSource.paginator = this.paginator
           }
         });
@@ -78,7 +58,7 @@ export class BooksTableComponent implements OnInit {
       //     console.log(elem);
       //     //Заполняем массив полученными данными
       //     return elem.map(item => ELEMENT_DATA.push(item))
-      //   }).then(() => this.dataSource = new MatTableDataSource<BooksElements>(ELEMENT_DATA))
+      //   }).then(() => this.dataSource = new MatTableDataSource<Book>(ELEMENT_DATA))
       //   .then(() => this.dataSource.paginator = this.paginator)
 
     }
@@ -95,7 +75,7 @@ export class BooksTableComponent implements OnInit {
           this.dataSource.filteredData[this.dataSource.filteredData.length - 1].id + 1;
 
         data.push(this.adminService.dataResponse);
-        this.dataSource = new MatTableDataSource<BooksElements>(data);
+        this.dataSource = new MatTableDataSource<Book>(data);
         this.adminService.dataResponse = null;
       }
     });
@@ -113,7 +93,7 @@ export class BooksTableComponent implements OnInit {
         if (response) {
           let data = this.dataSource.data;
           data.splice(index, 1);
-          this.dataSource = new MatTableDataSource<BooksElements>(data);
+          this.dataSource = new MatTableDataSource<Book>(data);
         }
       }
     });
@@ -145,14 +125,14 @@ export class BooksTableComponent implements OnInit {
       //   //Заполняем массив полученными данными
       //   return elem.map(item => data.push(item))
       // })
-      //   .then(() => this.dataSource = new MatTableDataSource<BooksElements>(data))
+      //   .then(() => this.dataSource = new MatTableDataSource<Book>(data))
       //   .then(() => this.dataSource.paginator = this.paginator)
       //   .then(() => {
       this.requestServ.httpClientGet("books")
         .subscribe(response => {
           for (let key in response) {
             data.push(response[key]);
-            this.dataSource = new MatTableDataSource<BooksElements>(data);
+            this.dataSource = new MatTableDataSource<Book>(data);
             this.dataSource.paginator = this.paginator;
           }
           // if (book.title === "admin@gmail.com") {
@@ -172,8 +152,8 @@ export class BooksTableComponent implements OnInit {
         this.deleteUser(user);
         //duplication
         this.dataSource.data.splice(index, 1);
-        this.dataSource = new MatTableDataSource<BooksElements>(this.dataSource.data);
-        this.selection = new SelectionModel<BooksElements>(true, []);
+        this.dataSource = new MatTableDataSource<Book>(this.dataSource.data);
+        this.selection = new SelectionModel<Book>(true, []);
       }, 100 * (i + 1));
     })
   }
@@ -197,7 +177,7 @@ export class BooksTableComponent implements OnInit {
   }
 
   /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: BooksElements): string {
+  checkboxLabel(row?: Book): string {
     if (!row) {
       return `${this.isAllSelected() ? 'select' : 'deselect'} all`;
     }
