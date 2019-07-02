@@ -1,8 +1,10 @@
 import { Component, OnInit, OnChanges } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 import { AppComponent } from '../app.component';
+import { RequestsService } from '../services/requests.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -14,7 +16,12 @@ export class LoginComponent implements OnInit {
   email: string;
   password: string;
   incorectPassword: boolean = false;
-  constructor(private _router : Router, private service : AuthService, private navHi: AppComponent) {   
+  localURL: string;
+
+  constructor(private _router : Router, 
+    private service : AuthService, 
+    private navHi: AppComponent,
+    private requestServ: RequestsService) {   
   }
 
   checkUser(data, db):boolean{
@@ -26,7 +33,6 @@ export class LoginComponent implements OnInit {
         localStorage.currentUserPassword = data[i].password;
         localStorage.currentUserAge = data[i].age; 
         localStorage.currentUserTelephone = data[i].telephone;    
-        
         localStorage.currentUserImg = data[i].img;
         return true;
       }
@@ -35,28 +41,17 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(){
-    fetch('http://localhost:3000/users', {
-      headers:{
-        "Content-Type": "application/json"
-      },
-      body: null
-    })
-    .then(response => response.json(),
-      error => error)
-      .then(data => {
-        if(this.checkUser(data, this.authForm.value)){
-          console.log("hi " + this.authForm.value.email);
-          this.service.AuthUser(); // меняем AuthStatus теперь пользователь авторизирован
+    this.requestServ.httpClientGet("users")
+      .subscribe(response => {
+        if (this.checkUser(response, this.authForm.value)){
+          // console.log("hi " + this.authForm.value.email);
+          this.service.authUser(); // меняем AuthStatus теперь пользователь авторизирован
           this.navHi.hiUser();
           this._router.navigate(['/']);
+          localStorage.setItem("order", JSON.stringify([]));
         }
-        else{
-          // console.log("I dont know you!");
-          // console.log(this.incorectPassword);
-          this.incorectPassword = true;
-          // console.log(this.incorectPassword);
-          
-        }
+        else
+          this.incorectPassword = true; 
       });
       
   }

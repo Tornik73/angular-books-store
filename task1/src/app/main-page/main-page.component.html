@@ -1,4 +1,63 @@
-<p>
-  Welcome at the "Books|Lib"
-</p>
-<img src="https://chimesnewspaper.com/wp-content/uploads/2011/10/IMG_9359.jpg" alt="" width="50%">
+<div class="search" style="text-align:center">
+  <div class="row">
+    <div class="col-12 text-center">
+      <form action="/button-type">
+        <mat-form-field>
+          <input type="text" #bookSearchInput matInput placeholder="Search your book here^)" />
+        </mat-form-field>
+        <button class="button-reset" type="reset" mat-raised-button (click)="clearSearch()">clear search</button>
+        <div class="row" *ngIf="isSearching; else elseBlock">
+          <div class="spinner" *ngIf="flagSearched === true;else notFound">
+            <div class="rect1"></div>
+            <div class="rect2"></div>
+            <div class="rect3"></div>
+            <div class="rect4"></div>
+            <div class="rect5"></div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<ng-template #notFound>
+  <h2>
+    We could not find what you need :(</h2>
+  <img src="https://petcube.com/blog/content/images/2018/07/sad-cat-alone.jpg" alt="">
+</ng-template>
+<ng-template #elseBlock>
+  <section class="section">
+    <mat-card>
+      <div class="container">
+        <div *ngFor="let book of goodsData">
+          <mat-card class="card__goods">
+            <mat-card-header class="card__goods-title">
+              <div class="title__img">
+                <img src="{{ book.img }}" alt="book image">
+              </div>
+              <div class="title_name">
+                <h3>{{ book.title }}</h3>
+                <h5>{{ book.author }}</h5>
+
+              </div>
+            </mat-card-header>
+            <mat-card-content class="card__goods-content">
+              <p>
+                {{book.description}}
+              </p>
+            </mat-card-content>
+            <mat-card-actions class="card__goods-buttons">
+              <div class="card__goods-price">
+                <p>
+                  Price: {{book.price}}
+                </p>
+              </div>
+              <button mat-raised-button color="primary" (click)="bookDetails(book)">Details</button>
+              <button *ngIf="!this.service.AuthStatus" class="addButton" mat-raised-button color="warn"
+                (click)="this.cartService.addToCart(book)">Add to cart</button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </mat-card>
+  </section>
+</ng-template>

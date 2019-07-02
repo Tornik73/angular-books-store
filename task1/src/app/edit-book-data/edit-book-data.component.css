@@ -1,0 +1,28 @@
+.example-full-width {
+  margin-bottom: 10px;
+}
+
+.avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  text-align: center;
+
+}
+
+.avatar-container input {
+  margin: 0 auto;
+
+}
+
+.avatar img {
+  background-size: cover;
+  width: 135px;
+  max-height: 350px;
+  margin: 0 auto 25px auto;
+}
+
+.change-avatar {
+  margin-left: 70px;
+  margin-bottom: 20px;
+}

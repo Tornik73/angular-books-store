@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
-import { HeaderObserveService } from '../header-observe.service';
+import { AuthService } from '../services/auth.service';
+import { HeaderObserveService } from '../services/header-observe.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
-
+import { ExtensionsService } from '../services/extensions.service';
+import { RequestsService } from '../services/requests.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -22,7 +23,10 @@ export class ProfileComponent implements OnInit {
   editMode: boolean = false;
 
 
-  constructor(private service: AuthService, private infoService: HeaderObserveService) {
+  constructor(private service: AuthService, 
+    private infoService: HeaderObserveService,
+    private previewPhotoService: ExtensionsService,
+    private requestServ: RequestsService) {
     this.currentUserId = localStorage.currentUserId;
     this.currentUser = localStorage.currentUser;
     this.currentUserPassword = localStorage.currentUserPassword;
@@ -31,42 +35,30 @@ export class ProfileComponent implements OnInit {
     this.currentUserTel = localStorage.currentUserTelephone;
     this.currentUserImg = localStorage.currentUserImg;
   }
+
   preview(files) {
-    if (files.length === 0)
-      return;
-
-    var mimeType = files[0].type;
-    if (mimeType.match(/image\/*/) == null) {
-      this.message = "Only images are supported.";
-      return;
-    }
-
-    var reader = new FileReader();
-    this.imagePath = files;
-    reader.readAsDataURL(files[0]);
-    reader.onload = (_event) => {
-      this.currentUserImg = reader.result;
-    }
+    this.previewPhotoService.preview(files)
+      .then(result => 
+        this.currentUserImg = result
+      );
   }
-  editModeOn(){ //управление модом редактирования
-      return (this.editMode === true) ? this.editMode = false : this.editMode = true;
+
+  //управление модом редактирования
+  editModeOn(){ 
+    this.currentUserImg = localStorage.currentUserImg; // сброс изменения картинки
+    return (this.editMode === true) ? this.editMode = false : this.editMode = true; // ИСПРАВИТЬ
   }
   onUpload(){ 
     localStorage.currentUserImg = this.currentUserImg;
 
     this.currentUserTel = this.angForm.value.telephone;
     this.currentUserAge = this.angForm.value.age;
-
-    fetch(`http://localhost:3000/users/${this.currentUserId}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email: this.currentUser, password: this.currentUserPassword, telephone: this.currentUserTel, age: this.currentUserAge, img: this.currentUserImg})
-    })
-      .then(response => response.json())
-      .then(response => console.log(response))
+    let userJSON: any = {id: this.currentUserId, email: this.currentUser, password: this.currentUserPassword,
+    telephone: this.currentUserTel, age: this.currentUserAge};
+    
+    this.requestServ.httpPUT(userJSON, this.currentUserImg)
     this.infoService.anounceHeaderImg(this.currentUserImg); //оповещаем о том что картинка изменилась
+    
     return this.editMode = false;
   }
 
@@ -74,8 +66,6 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.angForm = new FormGroup({
-      // email: new FormControl(this.email, [Validators.required, Validators.email]),
-      // password: new FormControl(this.password, [Validators.required, Validators.minLength(8)]),
       age: new FormControl(this.currentUserAge, [Validators.required, Validators.min(18)]),
       telephone: new FormControl(this.currentUserTel, [Validators.required])
     });
