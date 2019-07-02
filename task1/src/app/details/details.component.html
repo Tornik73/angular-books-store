@@ -21,7 +21,9 @@
           <div class="card__goods-price">
             <h3>Price: {{ book.price }} </h3>
           </div>
-          <button mat-raised-button color="warn" >Add to cart</button>
+          <button *ngIf="!this.service.AuthStatus" class="addButton" mat-raised-button color="warn"
+            (click)="addToCart(book)">Add to cart</button>
+          <button mat-button style="margin-left: 5px" color="primary" mat-raised-button [routerLink]="['/']">Return to Home page</button>
         </div>
       </mat-card>
     </div>

@@ -1,7 +1,7 @@
 <div class="cart">
-  <h2 mat-dialog-title>Shoping cart:</h2>
+  <h2 mat-dialog-title >Shoping cart:</h2>
   <mat-dialog-content class="mat-typography">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="orderSum > 0">
       <!-- ID Column -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef> ID </th>
@@ -63,9 +63,17 @@
     </table>
     <div class="submit-order">
       <div class="ourder-sum">
-        <h2 mat-dialog-title>Sum of order: {{ orderSum }} </h2>
+        <h2 mat-dialog-title *ngIf="orderSum > 0">
+          Sum of order: {{ orderSum }} 
+        </h2>
+        <div class="empty-cart" *ngIf="orderSum === 0">
+          <img width="350" height="300" src="https://cdn.dribbble.com/users/1244867/screenshots/4346888/empty_cart_1x.jpg" alt="">
+        </div>
+        <h2 mat-dialog-title *ngIf="orderSum === 0">
+          Yours cart is empty!
+        </h2>
       </div>
-      <button class="button__group-delete" mat-raised-button color="warn" (click)="buy()">
+      <button *ngIf="orderSum > 0"  class="button__group-delete" mat-raised-button color="warn" (click)="buy()">
         Buy
       </button>
     </div>

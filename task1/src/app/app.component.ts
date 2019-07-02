@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class AppComponent implements OnInit{ //для работы с LocalStorage
 
   currentUser: string;
-  userRights: string;
+  userRights: string; //переделать
   currentUserImg: string;
   constructor(private service: AuthService, public dialog: MatDialog, private headServ: HeaderObserveService) {
     
@@ -22,8 +22,10 @@ export class AppComponent implements OnInit{ //для работы с LocalStora
     if (localStorage.currentUser != null) {
       if (localStorage.currentUser === "admin@gmail.com") {
         this.userRights = "admin";
+        this.service.authUserRights = "admin";
       } else {
         this.userRights = "user";
+        this.service.authUserRights = "user";
       }
       this.currentUser = localStorage.currentUser;
       this.currentUserImg = localStorage.currentUserImg;
@@ -48,6 +50,7 @@ export class AppComponent implements OnInit{ //для работы с LocalStora
 
   logOut(){
     localStorage.clear()
+    this.service.authUserRights = "";
     return this.service.AuthStatus = true;
   }
 }

@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef  } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { ToastrService } from 'ngx-toastr';
 import { RequestsService } from '../services/requests.service';
 import { Router } from '@angular/router';
 import { HeaderObserveService } from '../services/header-observe.service';
-import { of } from "rxjs";
 import {
   debounceTime,
   map,
@@ -11,6 +10,7 @@ import {
   filter
 } from "rxjs/operators";
 import { fromEvent } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 
 export interface book {
@@ -40,7 +40,9 @@ export class MainPageComponent implements OnInit {
   constructor(
     private requestServ: RequestsService,
     private _router: Router,
-    private observeDetails: HeaderObserveService
+    private observeDetails: HeaderObserveService,
+    private service: AuthService,
+    private toastrService: ToastrService,
     ) { }
   clearSearch() {
     this.requestServ.httpClientGet("books")
@@ -110,6 +112,6 @@ export class MainPageComponent implements OnInit {
     bookArray.push(book);
     bookArray[bookArray.length-1].countCartItem = 1;
     localStorage.setItem("order", JSON.stringify(bookArray));
-
+    this.toastrService.success('you added item to your cart', 'Success');
   }
 }
