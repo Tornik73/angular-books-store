@@ -104,3 +104,7 @@
     -webkit-transform: scaleY(1.0);
   }
 }
+
+.toast-top-right{
+  top: 85px;
+}

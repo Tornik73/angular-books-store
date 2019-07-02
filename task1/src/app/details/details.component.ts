@@ -3,6 +3,7 @@ import { RequestsService } from '../services/requests.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HeaderObserveService } from '../services/header-observe.service';
 import { AuthService } from '../services/auth.service';
+import { CartService } from '../services/cart.service';
 export interface book {
   id: number;
   title: string;
@@ -24,7 +25,9 @@ export class DetailsComponent implements OnInit {
     private _router: Router, 
     private observeDetails: HeaderObserveService, 
     private activate : ActivatedRoute, 
-    private service: AuthService) { }
+    private service: AuthService,
+    private cartService: CartService
+    ) { }
 
   ngOnInit() {
     this.activate.params.subscribe(data => {
@@ -34,15 +37,5 @@ export class DetailsComponent implements OnInit {
         this.book = data;
       })
     })
-  }
-
-  //Duplication with main-page-component
-  addToCart(book){
-    console.log(book);
-    
-    let bookArray = JSON.parse(localStorage.getItem("order"));
-    bookArray.push(book);
-    bookArray[bookArray.length - 1].countCartItem = 1;
-    localStorage.setItem("order", JSON.stringify(bookArray));
   }
 }

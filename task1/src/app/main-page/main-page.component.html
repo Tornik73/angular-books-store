@@ -3,7 +3,7 @@
     <div class="col-12 text-center">
       <form action="/button-type">
         <mat-form-field>
-          <input type="text" #movieSearchInput matInput placeholder="Search your book here^)" />
+          <input type="text" #bookSearchInput matInput placeholder="Search your book here^)" />
         </mat-form-field>
         <button class="button-reset" type="reset" mat-raised-button (click)="clearSearch()">clear search</button>
         <div class="row" *ngIf="isSearching; else elseBlock">
@@ -53,7 +53,7 @@
               </div>
               <button mat-raised-button color="primary" (click)="bookDetails(book)">Details</button>
               <button *ngIf="!this.service.AuthStatus" class="addButton" mat-raised-button color="warn"
-                (click)="addToCart(book)">Add to cart</button>
+                (click)="this.cartService.addToCart(book)">Add to cart</button>
             </mat-card-actions>
           </mat-card>
         </div>

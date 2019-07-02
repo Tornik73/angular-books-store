@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, ElementRef  } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
 import { RequestsService } from '../services/requests.service';
 import { Router } from '@angular/router';
 import { HeaderObserveService } from '../services/header-observe.service';
@@ -11,18 +10,8 @@ import {
 } from "rxjs/operators";
 import { fromEvent } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-
-
-export interface book {
-  //*поменять типы
-  id: number;
-  title: string;
-  author: string;
-  price: number;
-  description: string;
-  img: string;
-}
-
+import { IBook } from '../models/book'
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-main-page',
@@ -30,36 +19,38 @@ export interface book {
   styleUrls: ['./main-page.component.css']
 })
 export class MainPageComponent implements OnInit {
-  @ViewChild('movieSearchInput', { static: true }) movieSearchInput: ElementRef;
-  apiResponse: any;
+  @ViewChild('bookSearchInput', { static: true }) bookSearchInput: ElementRef;
   isSearching: boolean;
   flagSearched: boolean = true;
-  // goodsData: book;
-  goodsData: book[] = [];
-  CurrentUserOrder = [];
+  goodsData: IBook[] = [];
+
   constructor(
     private requestServ: RequestsService,
     private _router: Router,
     private observeDetails: HeaderObserveService,
     private service: AuthService,
-    private toastrService: ToastrService,
+    private cartService: CartService
     ) { }
+
+  // Выводит товары все товары
   clearSearch() {
     this.requestServ.httpClientGet("books")
-      .subscribe((data: book) => {
+      .subscribe((data: IBook) => {
           this.goodsData = [];
           for (let i in data) {
             this.goodsData.push(data[i]);
             this.isSearching = false;
           }
-
       }); 
   }
+
   ngOnInit() {
     this.isSearching = true;
+
     this.clearSearch();
 
-    fromEvent(this.movieSearchInput.nativeElement, 'keyup').pipe(
+    // Поиск нужной книги
+    fromEvent(this.bookSearchInput.nativeElement, 'keyup').pipe(
       map((event: any) => {
         return event.target.value;
       })
@@ -68,27 +59,28 @@ export class MainPageComponent implements OnInit {
       , distinctUntilChanged()
     ).subscribe((text: string) => {
       this.goodsData = [];
-      console.log(this.requestServ.httpClientGet('books').subscribe((data: book) => {
+      console.log(this.requestServ.httpClientGet('books').subscribe((data: IBook) => {
         this.isSearching = true;
-        console.log(text.length, text);
         
         if(text.length === 0)
           this.clearSearch();
+
         else{
             for (let i in data) {
-
+              // Для поиска вне зависимости от регистра
               let correctDataTitle = data[i].title.toString().toLowerCase();
               let correctDataAuthor = data[i].author.toString().toLowerCase();
               let correctDataText = text.toLowerCase();
-
-              console.log(correctDataTitle);
               
+              // Поиск по названию книги
               if (correctDataTitle.indexOf(correctDataText) >= 0) {
                 this.goodsData.push(data[i]);
                 this.isSearching = false;
                 this.flagSearched = true;
                 continue;
               }
+              
+              // Поиск по автору книги
               if (correctDataAuthor.indexOf(correctDataText) >= 0) {
                 this.goodsData.push(data[i]);
                 this.isSearching = false;
@@ -99,19 +91,10 @@ export class MainPageComponent implements OnInit {
         }
       }));
     });
-
   }
 
   bookDetails(book) {
     this._router.navigate(["details/books", book.id]);
     this.observeDetails.sendCurrentBook(book);
-  }
-
-  addToCart(book){
-    let bookArray = JSON.parse(localStorage.getItem("order"));
-    bookArray.push(book);
-    bookArray[bookArray.length-1].countCartItem = 1;
-    localStorage.setItem("order", JSON.stringify(bookArray));
-    this.toastrService.success('you added item to your cart', 'Success');
   }
 }
