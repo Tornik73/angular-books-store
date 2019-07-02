@@ -1,20 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { RequestsService } from '../services/requests.service';
-import { Router, ActivatedRoute } from '@angular/router';
-import { HeaderObserveService, book } from '../services/header-observe.service';
 import { MatTableDataSource } from '@angular/material';
-import { BooksElements } from '../books-table/books-table.component';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { IBookCartElement } from '../models/book';
 
-export interface BooksElement {
-  id: number;
-  title: string;
-  author: string;
-  price: number;
-  description: string;
-  img: string;
-}
 
 export interface DialogData{
   id: number;
@@ -23,85 +12,64 @@ export interface DialogData{
   price: number;
 }
 
-let CartData: BooksElement[] = [];
+let currentCartData: IBookCartElement[] = [];
+
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.css']
 })
 export class CartComponent implements OnInit {
-  currentCartData;
+
   orderSum: number = 0;
-  book: book;
-  id: number;
   displayedColumns: string[] = ['id', 'title', 'author', 'img', 'price', 'order amount', 'action'];
-  dataSource = new MatTableDataSource<BooksElements>(CartData);
-  selection = new SelectionModel<BooksElements>(true, []);
+  dataSource = new MatTableDataSource<IBookCartElement>(currentCartData);
+  selection = new SelectionModel<IBookCartElement>(true, []);
 
-  constructor(private requestServ: RequestsService, private _router: Router,
-    private observeAddBook: HeaderObserveService, 
-    private activate: ActivatedRoute,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,) { }
-
-  countGoods(goods) {
-    let sortedGoods = [];
-      for (let i in goods)
-        for (let j in goods)
-          if (goods[i].id === goods[j].id && i!=j) //Возможен БАГ с сравнением
-            goods[i].countCartItem++;
-      //Создаем новый массив с уникальными элементами
-      sortedGoods = Array.from(new Set(goods.map(a => a.id)))
-        .map(id => {
-          return goods.find(a => a.id === id)
-        })
-      
-    return sortedGoods;
-  }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) { }
 
   ngOnInit() {
-    let CurrentOrderJSON = this.countGoods(JSON.parse(localStorage.order));
     
-    this.currentCartData = CurrentOrderJSON;
-    this.dataSource = new MatTableDataSource<BooksElements>(CurrentOrderJSON);
-    // localStorage.setItem("order", JSON.stringify(CurrentOrderJSON));
-    this.countSumOfOrder(this.currentCartData);
+    currentCartData = JSON.parse(localStorage.order);
+    this.dataSource = new MatTableDataSource<IBookCartElement>(currentCartData);
+    this.countSumOfOrder(currentCartData);
   }
 
-  countSumOfOrder(order){
+  countSumOfOrder(order: IBookCartElement[]){
     this.orderSum = 0;
-
+    
     for(let i in order)
-      this.orderSum += parseInt(order[i].price) * order[i].countCartItem;
+      this.orderSum += order[i].price * order[i].countCartItem;
   }
 
-  minusItem(element){
-    let index = this.currentCartData.indexOf(element);
+  minusItem(book: IBookCartElement){
+    let index: number = currentCartData.indexOf(book);
 
-    if (this.currentCartData[index].countCartItem > 1){
-      this.currentCartData[index].countCartItem--;
-      this.dataSource = new MatTableDataSource<BooksElements>(this.currentCartData);
-      this.countSumOfOrder(this.currentCartData);
-      localStorage.setItem("order", JSON.stringify(this.currentCartData));
+    if (currentCartData[index].countCartItem > 1){
+      currentCartData[index].countCartItem--;
+      this.updateDataView();
     }
     else{
-      this.deleteItemCart(element);
-      localStorage.setItem("order", JSON.stringify(this.currentCartData)); 
+      this.deleteItemCart(book);
+      localStorage.setItem("order", JSON.stringify(currentCartData)); 
     }
   }
 
-  plusItem(element){
-    let index = this.currentCartData.indexOf(element);
-    this.currentCartData[index].countCartItem++;
-    this.dataSource = new MatTableDataSource<BooksElements>(this.currentCartData);
-    this.countSumOfOrder(this.currentCartData);
-    localStorage.setItem("order", JSON.stringify(this.currentCartData));
+  plusItem(book: IBookCartElement){
+    let index: number = currentCartData.indexOf(book);
+    currentCartData[index].countCartItem++;
+    this.updateDataView();
   }
 
-  deleteItemCart(book){
-    let index = this.currentCartData.indexOf(book)
-    this.currentCartData.splice(index, 1);
-    this.dataSource = new MatTableDataSource<BooksElements>(this.currentCartData);
-    localStorage.setItem("order", JSON.stringify(this.currentCartData));
-    this.countSumOfOrder(this.currentCartData);
+  deleteItemCart(book: IBookCartElement){
+    let index: number = currentCartData.indexOf(book);
+    currentCartData.splice(index, 1);
+    this.updateDataView();
+  }
+
+  updateDataView(){
+    this.dataSource = new MatTableDataSource<IBookCartElement>(currentCartData);
+    localStorage.setItem("order", JSON.stringify(currentCartData));
+    this.countSumOfOrder(currentCartData);
   }
 }

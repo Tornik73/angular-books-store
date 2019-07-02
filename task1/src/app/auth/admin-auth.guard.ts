@@ -15,12 +15,10 @@ export class AdminAuthGuard implements CanActivate  {
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     console.log(this.service.authUserRights);
       
-    if (this.service.authUserRights === "admin")
-      return true;
-    else {
+    if (this.service.authUserRights !== "admin"){
       this._router.navigate(['/']);
       return false;
     }
-
+    return true;
   }
 }

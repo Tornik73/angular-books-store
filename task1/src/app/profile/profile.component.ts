@@ -53,7 +53,7 @@ export class ProfileComponent implements OnInit {
 
     this.currentUserTel = this.angForm.value.telephone;
     this.currentUserAge = this.angForm.value.age;
-    let userJSON: object = {id: this.currentUserId, email: this.currentUser, password: this.currentUserPassword,
+    let userJSON: any = {id: this.currentUserId, email: this.currentUser, password: this.currentUserPassword,
     telephone: this.currentUserTel, age: this.currentUserAge};
     
     this.requestServ.httpPUT(userJSON, this.currentUserImg)
