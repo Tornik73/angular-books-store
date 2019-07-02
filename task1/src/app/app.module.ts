@@ -32,8 +32,6 @@ import { DeleteBookDataComponent } from './delete-book-data/delete-book-data.com
 import { HttpClientModule } from '@angular/common/http';
 import { DetailsComponent } from './details/details.component';
 import { CartComponent } from './cart/cart.component';
-import { SearchComponent } from './search/search.component';
-
 
 
 @NgModule({
@@ -54,7 +52,6 @@ import { SearchComponent } from './search/search.component';
     DeleteBookDataComponent,
     DetailsComponent,
     CartComponent,
-    SearchComponent
   ],
   imports: [
     BrowserModule,

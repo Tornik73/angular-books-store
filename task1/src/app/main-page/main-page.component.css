@@ -88,3 +88,14 @@ a{
   padding-left: 6px;
   padding-right: 6px; 
 }
+.button-reset{
+  margin-left: 10px;
+  padding: 3px;
+}
+.spinner{
+  margin: 0 auto;
+  margin-top: 200px;
+}
+.spinner>div {
+  margin-left: 2px;
+}
