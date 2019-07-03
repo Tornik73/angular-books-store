@@ -12,14 +12,14 @@ import { User } from '../models/user';
 })
 export class EditUserDataComponent implements OnInit {
   angForm: FormGroup;
-  id:number;
+  id: number;
   email: string;
   password: string;
   age: number;
   telephone: string;
-  img: any;
-  message: string;
-  imagePath;
+  img: any; // ?
+  // message: string;
+  // imagePath;
 
 
   @Output() update = new EventEmitter();
@@ -38,7 +38,7 @@ export class EditUserDataComponent implements OnInit {
   }
 
   onSubmit(){
-    //Заполняем новыми данными с формы
+    // Insirting new data from form
     for(let i in this.data)
       if(this.angForm.value[i] != null)
         this.data[i] = this.angForm.value[i];

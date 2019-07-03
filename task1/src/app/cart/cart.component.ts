@@ -38,7 +38,6 @@ export class CartComponent implements OnInit {
     currentCartData = JSON.parse(localStorage.order);
     this.dataSource = new MatTableDataSource<BookCartElement>(currentCartData);
     this.orderSum = this.cartServ.countSumOfOrder(currentCartData);
-    // this.headerServ.anounceCartSum(this.orderSum);
   }
 
   minusItem(book: BookCartElement){
@@ -70,6 +69,5 @@ export class CartComponent implements OnInit {
     this.dataSource = new MatTableDataSource<BookCartElement>(currentCartData);
     localStorage.setItem("order", JSON.stringify(currentCartData));
     this.orderSum = this.cartServ.countSumOfOrder(currentCartData);
-    // this.headerServ.anounceCartSum(this.orderSum);
   }
 }

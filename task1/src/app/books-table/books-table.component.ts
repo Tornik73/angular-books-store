@@ -73,10 +73,8 @@ export class BooksTableComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteBookDataComponent, { data: { id: book.id, title: book.title }});
 
     dialogRef.afterClosed().subscribe( result => {
-      //duplication
       if (result) {
         this.deleteBook(book)
-        //багало при удалении
         .subscribe(response =>{
           if (response) {
             let data = this.dataSource.data;
@@ -89,7 +87,6 @@ export class BooksTableComponent implements OnInit {
   }
 
   openDialogEdit(book) {
-    
     const dialogRef = this.dialog.open(EditBookDataComponent,
       {
         data:

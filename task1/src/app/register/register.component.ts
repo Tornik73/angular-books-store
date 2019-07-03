@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { RequestsService } from '../services/requests.service';
 import { ExtensionsService } from '../services/extensions.service';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -29,6 +30,7 @@ export class RegisterComponent implements OnInit {
     this._router.navigate(['/']);
     this.toastrService.success('for registration', 'Thank you');
   }
+
   ngOnInit() {
     this.angForm = new FormGroup({
       email: new FormControl(this.email, [Validators.required, Validators.email]),
@@ -37,6 +39,7 @@ export class RegisterComponent implements OnInit {
       telephone: new FormControl(this.telephone, [Validators.required])
     });
   }
+
   onSubmit(){
     this.angForm.value.img = this.img;
     this.requestServ.httpClientPost("users", this.angForm.value,)

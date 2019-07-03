@@ -18,14 +18,14 @@ export interface DialogData {
 })
 export class DialogDataAdd implements OnInit {
   angForm: FormGroup;
-  public email: string;
-  public password: string;
-  public age: number;
-  public telephone: string;
+  email: string;
+  password: string;
+  age: number;
+  telephone: string;
   img: string = this.extensionServ.defaultUserImg;
 
-  constructor(public dialogRef: MatDialogRef<DialogDataAdd>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+  constructor(dialogRef: MatDialogRef<DialogDataAdd>,
+    @Inject(MAT_DIALOG_DATA) data: DialogData,
     private toastrService: ToastrService,
     private adminService: AdminToolsService,
     private requestServ: RequestsService,
@@ -40,11 +40,11 @@ export class DialogDataAdd implements OnInit {
     });
   }
 
-  successRegistration() {
+  successRegistration(): void {
     this.toastrService.success('added new user', 'Success');
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.angForm.value.img = this.img;
 
     this.requestServ.httpClientPost("users", this.angForm.value)

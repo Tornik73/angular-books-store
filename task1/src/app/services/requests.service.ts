@@ -15,16 +15,16 @@ export class RequestsService {
     return this.http.get(this.serverURL + item);
   }
 
-  httpClientPost(postIn: string, body = null){
-    return this.http.post(this.serverURL + postIn, body);
+  httpClientPost(items: string, body = null){
+    return this.http.post(this.serverURL + items, body);
   }
 
-  httpClientDelete(deleteIn: string, itemId: number){
-    return this.http.delete(this.serverURL + deleteIn + '/' + itemId);
+  httpClientDelete(items: string, itemId: number){
+    return this.http.delete(this.serverURL + items + '/' + itemId);
   }
 
-  httpClientPut(putIn: string, data){
-    return this.http.put(this.serverURL + putIn + '/' + data.id, data);
+  httpClientPut(items: string, data){
+    return this.http.put(this.serverURL + items + '/' + data.id, data);
   }
 
 }

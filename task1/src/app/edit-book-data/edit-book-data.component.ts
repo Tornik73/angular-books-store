@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { ExtensionsService } from '../services/extensions.service';
 import { RequestsService } from '../services/requests.service';
 import { Book } from '../models/book';
@@ -16,7 +16,7 @@ export class EditBookDataComponent implements OnInit {
   public author: string;
   public price: number;
   public description: string;
-  img: any;
+  img: any; // ?
   message: string;
 
   constructor(
@@ -33,19 +33,16 @@ export class EditBookDataComponent implements OnInit {
   }
 
   onSubmit() {
-    //Заполняем новыми данными с формы
+    // Insirting new data from form
     for (let i in this.data)
       if (this.angForm.value[i] != null)
         this.data[i] = this.angForm.value[i];
 
-    //Разобраться с ИМГ
-    this.data.img = this.img
+    this.data.img = this.img;
 
     this.requestServ.httpClientPut("books", this.data)
       .subscribe(response => {
         this.dialogRef.close();
-        console.log("PUT BOOKS");
-
       })
   }
   ngOnInit() {

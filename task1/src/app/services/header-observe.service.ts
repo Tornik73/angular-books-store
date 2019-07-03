@@ -31,9 +31,11 @@ export class HeaderObserveService {
   sendCurrentBook(book: book){
     this.sendBook.next(book);
   }
+  
   anounceHeaderImg(user:string){
     this.anounceHeader.next(user);
   }
+
   addCurentBookToCart(book: book){
     this.addBook.next(book);
   }

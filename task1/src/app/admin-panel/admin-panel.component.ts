@@ -9,7 +9,7 @@ import { DeleteUserDataComponent } from '../delete-user-data/delete-user-data.co
 import { HeaderObserveService } from '../services/header-observe.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { RequestsService } from '../services/requests.service';
-import {User} from '../models/user';
+import { User } from '../models/user';
 
 export interface DialogData {
   id: number;
@@ -37,8 +37,6 @@ export class AdminPanelComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
-    // Есть баг при переходе с MainPage
-    // Чтобы не добавлялись одни и те же юзеры 
     if(this.dataSource.filteredData.length === 0){
       this.requestServ.httpClientGet("users")
         .subscribe(data => {
@@ -74,10 +72,8 @@ export class AdminPanelComponent implements OnInit {
     const dialogRef = this.dialog.open(DeleteUserDataComponent, { data: { id: user.id, email: user.email }});
 
       dialogRef.afterClosed().subscribe( result => {
-        //duplication
         if (result) {
           this.deleteUser(user)
-            //багало при удалении
             .subscribe(response => {
               if (response) {
                 let data = this.dataSource.data;
@@ -90,10 +86,6 @@ export class AdminPanelComponent implements OnInit {
   }
 
   openDialogEdit(user){
-
-    //БАГ при вызове индекса второй раз прилетит -1;
-    //Происходит из-за того что таблицы изменилась, а элемента_дата константа потому и не находит.
-
     const dialogRef = this.dialog.open(EditUserDataComponent, 
       { data: 
         { 
@@ -134,7 +126,6 @@ export class AdminPanelComponent implements OnInit {
         let index = this.dataSource.data.indexOf(user);
 
         this.deleteUser(user).subscribe(response => {
-          //duplication
           this.dataSource.data.splice(index, 1);
           this.dataSource = new MatTableDataSource<User>(this.dataSource.data);
           this.selection = new SelectionModel<User>(true, []);
@@ -142,14 +133,13 @@ export class AdminPanelComponent implements OnInit {
         }, 100 * (i + 1));
     })
   }
+  
   deleteUser(user){
     if(user.email != "admin@gmail.com")
       return this.requestServ.httpClientDelete("users", user.id);
     else
       console.log("Удалить админа нельзя");
-    
   }
-
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -172,5 +162,4 @@ export class AdminPanelComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
-  
 }
