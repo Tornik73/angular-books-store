@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { BookCartElement } from '../models/book';
+import { retry } from 'rxjs/operators';
+import { HeaderObserveService } from './header-observe.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  constructor(private toastrService: ToastrService) { }
+  constructor(private toastrService: ToastrService,
+    private headerServ: HeaderObserveService) { }
 
   addToCart(book: BookCartElement) {  
     let bookArray: BookCartElement[] = JSON.parse(localStorage.getItem("order"));
@@ -32,9 +35,20 @@ export class CartService {
       }
       return items;
     }
-
+  
     bookArray = countCartItems(bookArray);
+    this.countSumOfOrder(bookArray);
     localStorage.setItem("order", JSON.stringify(bookArray)); // Отправляем данные в локальное хранилище
     this.toastrService.success('you added item to your cart', 'Success');
+  }
+
+  countSumOfOrder(order: BookCartElement[]) {
+    let orderSum: number = 0;
+
+    for (let i in order)
+      orderSum += order[i].price * order[i].countCartItem;
+    this.headerServ.anounceCartSum(orderSum);
+    localStorage.currentCartSum = orderSum;
+    return orderSum;
   }
 }

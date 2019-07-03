@@ -66,7 +66,6 @@ export class BooksTableComponent implements OnInit {
         this.adminService.dataResponse = null;
       }
     });
-
   }
 
   openDialogDelete(book) {

@@ -3,20 +3,23 @@ import { AuthService } from './services/auth.service';
 import { HeaderObserveService } from './services/header-observe.service';
 import { CartComponent } from './cart/cart.component';
 import { MatDialog } from '@angular/material/dialog';
+import { CartService } from './services/cart.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{ //для работы с LocalStorage
-
+export class AppComponent implements OnInit{
+  sumOfOrder: number = localStorage.currentCartSum;
   currentUser: string;
   userRights: string; //переделать
   currentUserImg: string;
-  constructor(private service: AuthService, public dialog: MatDialog, private headServ: HeaderObserveService) {
-    
-  }
+
+  constructor(private service: AuthService, 
+    public dialog: MatDialog, 
+    private headServ: HeaderObserveService,
+    private cartServ: CartService) {}
 
   hiUser(){
     if (localStorage.currentUser != null) {
@@ -41,7 +44,9 @@ export class AppComponent implements OnInit{ //для работы с LocalStora
       }
     )
     this.hiUser();
-    
+    this.headServ.observeSendSum.subscribe(valueSum=> {
+      this.sumOfOrder = valueSum;
+    })
   }
 
   openCart(book){

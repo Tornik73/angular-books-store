@@ -32,7 +32,8 @@ import { DeleteBookDataComponent } from './delete-book-data/delete-book-data.com
 import { HttpClientModule } from '@angular/common/http';
 import { DetailsComponent } from './details/details.component';
 import { CartComponent } from './cart/cart.component';
-
+import { MatBadgeModule } from '@angular/material/badge';
+import { TripleDotsPipe } from './pipes/tripledots.pipe';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { CartComponent } from './cart/cart.component';
     DeleteBookDataComponent,
     DetailsComponent,
     CartComponent,
+    TripleDotsPipe
   ],
   imports: [
     BrowserModule,
@@ -72,7 +74,8 @@ import { CartComponent } from './cart/cart.component';
     MatInputModule,
     MatDialogModule,
     MatMenuModule,
-    FormsModule
+    FormsModule,
+    MatBadgeModule
   ],
   entryComponents: [
     DeleteUserDataComponent,
