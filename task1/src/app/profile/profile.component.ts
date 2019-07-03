@@ -56,10 +56,15 @@ export class ProfileComponent implements OnInit {
     let userJSON: any = {id: this.currentUserId, email: this.currentUser, password: this.currentUserPassword,
     telephone: this.currentUserTel, age: this.currentUserAge};
     
-    this.requestServ.httpPUT(userJSON, this.currentUserImg)
-    this.infoService.anounceHeaderImg(this.currentUserImg); //оповещаем о том что картинка изменилась
-    
-    return this.editMode = false;
+    // this.requestServ.httpPUT(userJSON, this.currentUserImg);
+
+    userJSON.img = this.currentUserImg;
+
+    this.requestServ.httpClientPut("users", userJSON)
+    .subscribe(data=>{
+      this.infoService.anounceHeaderImg(this.currentUserImg); //оповещаем о том что картинка изменилась
+      return this.editMode = false;
+    })
   }
 
   angForm: FormGroup;

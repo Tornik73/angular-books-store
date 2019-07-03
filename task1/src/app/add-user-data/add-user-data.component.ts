@@ -46,13 +46,11 @@ export class DialogDataAdd implements OnInit {
 
   onSubmit() {
     this.angForm.value.img = this.img;
-    
-    this.requestServ.httpPOST(this.angForm.value, "users")
-      .then(data => {
+
+    this.requestServ.httpClientPost("users", this.angForm.value)
+      .subscribe(data => {
         this.successRegistration();
         this.adminService.upload(this.angForm.value)
-      }).then(()=>{
-        // close modal window добавить
       })
   }
 }

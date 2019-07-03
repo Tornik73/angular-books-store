@@ -39,8 +39,14 @@ export class EditBookDataComponent implements OnInit {
         this.data[i] = this.angForm.value[i];
 
     //Разобраться с ИМГ
-    this.requestServ.httpPutBook(this.data, this.img)
-      .then(response => response.json())
+    this.data.img = this.img
+
+    this.requestServ.httpClientPut("books", this.data)
+      .subscribe(response => {
+        this.dialogRef.close();
+        console.log("PUT BOOKS");
+
+      })
   }
   ngOnInit() {
     this.img = this.data.img;

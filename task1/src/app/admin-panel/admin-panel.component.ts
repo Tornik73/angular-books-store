@@ -69,19 +69,22 @@ export class AdminPanelComponent implements OnInit {
     
   }
 
-  async openDialogDelete(user) {
+  openDialogDelete(user) {
     let index = ELEMENT_DATA.indexOf(user)
     const dialogRef = this.dialog.open(DeleteUserDataComponent, { data: { id: user.id, email: user.email }});
 
-      dialogRef.afterClosed().subscribe(async result => {
+      dialogRef.afterClosed().subscribe( result => {
         //duplication
         if (result) {
-        let response = await this.deleteUser(user);
-        if (response){
-          let data = this.dataSource.data;
-          data.splice(index, 1);
-          this.dataSource = new MatTableDataSource<User>(data);
-        }
+          this.deleteUser(user)
+            //багало при удалении
+            .subscribe(response => {
+              if (response) {
+                let data = this.dataSource.data;
+                data.splice(index, 1);
+                this.dataSource = new MatTableDataSource<User>(data);
+              }
+            });
       } 
     });
   }
@@ -104,24 +107,25 @@ export class AdminPanelComponent implements OnInit {
       }
     );
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.componentInstance.update.subscribe(onChanged =>{
       let data = [];
       let dataImg;
-      //ИЗМЕНИТЬ
-      this.requestServ.httpClientGet("users")
-        .subscribe(response => {
-          for (let key in response) {
-            data.push(response[key]);
-            this.dataSource = new MatTableDataSource<User>(data);
-            this.dataSource.paginator = this.paginator;
-          }
-          if (user.email === "admin@gmail.com") {
-            let index = data.findIndex(i => i.email === user.email);
-            dataImg = this.dataSource.filteredData;
-            this.infoService.anounceHeaderImg(dataImg[index].img);
-          }
-        });
-      })
+
+      for(let i in this.dataSource.filteredData){
+        if(this.dataSource.filteredData[i].id === onChanged.id){
+          this.dataSource.filteredData[i] = onChanged;
+        }
+        data.push(this.dataSource.filteredData[i]);
+      }
+      this.dataSource = new MatTableDataSource<User>(data);
+      this.dataSource.paginator = this.paginator;
+      
+      if (user.email === "admin@gmail.com") {
+        let index = data.findIndex(i => i.email === user.email);
+        dataImg = this.dataSource.filteredData;
+        this.infoService.anounceHeaderImg(dataImg[index].img);
+      }
+    });
   }
 
   deleteRows() {
@@ -129,20 +133,21 @@ export class AdminPanelComponent implements OnInit {
       setTimeout(() => {
         let index = this.dataSource.data.indexOf(user);
 
-        this.deleteUser(user);
-        //duplication
-            this.dataSource.data.splice(index, 1);
-        this.dataSource = new MatTableDataSource<User>(this.dataSource.data);
-        this.selection = new SelectionModel<User>(true, []);
+        this.deleteUser(user).subscribe(response => {
+          //duplication
+          this.dataSource.data.splice(index, 1);
+          this.dataSource = new MatTableDataSource<User>(this.dataSource.data);
+          this.selection = new SelectionModel<User>(true, []);
+        });
         }, 100 * (i + 1));
     })
   }
-  async deleteUser(user){
+  deleteUser(user){
     if(user.email != "admin@gmail.com")
-      return this.requestServ.httpDELETE(user.id);
+      return this.requestServ.httpClientDelete("users", user.id);
     else
       console.log("Удалить админа нельзя");
-
+    
   }
 
 

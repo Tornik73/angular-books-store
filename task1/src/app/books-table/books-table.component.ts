@@ -39,9 +39,6 @@ export class BooksTableComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
-    // Есть баг при переходе с MainPage
-    // Чтобы не добавлялись одни и те же юзеры 
-
     if (this.dataSource.filteredData.length === 0) {
       this.requestServ.httpClientGet("books")
         .subscribe(data => {
@@ -51,16 +48,6 @@ export class BooksTableComponent implements OnInit {
             this.dataSource.paginator = this.paginator
           }
         });
-
-      // this.requestServ.httpGET("books")
-      //   .then(item => item.json())
-      //   .then(elem => {
-      //     console.log(elem);
-      //     //Заполняем массив полученными данными
-      //     return elem.map(item => ELEMENT_DATA.push(item))
-      //   }).then(() => this.dataSource = new MatTableDataSource<Book>(ELEMENT_DATA))
-      //   .then(() => this.dataSource.paginator = this.paginator)
-
     }
   }
   addBook() {
@@ -82,27 +69,27 @@ export class BooksTableComponent implements OnInit {
 
   }
 
-  async openDialogDelete(book) {
+  openDialogDelete(book) {
     let index = ELEMENT_DATA.indexOf(book)
     const dialogRef = this.dialog.open(DeleteBookDataComponent, { data: { id: book.id, title: book.title }});
 
-    dialogRef.afterClosed().subscribe(async result => {
+    dialogRef.afterClosed().subscribe( result => {
       //duplication
       if (result) {
-        let response = await this.deleteUser(book);
-        if (response) {
-          let data = this.dataSource.data;
-          data.splice(index, 1);
-          this.dataSource = new MatTableDataSource<Book>(data);
-        }
+        this.deleteBook(book)
+        //багало при удалении
+        .subscribe(response =>{
+          if (response) {
+            let data = this.dataSource.data;
+            data.splice(index, 1);
+            this.dataSource = new MatTableDataSource<Book>(data);
+          }
+        });
       }
     });
   }
 
   openDialogEdit(book) {
-
-    //БАГ при вызове индекса второй раз прилетит -1;
-    //Происходит из-за того что таблицы изменилась, а элемента_дата константа потому и не находит.
     
     const dialogRef = this.dialog.open(EditBookDataComponent,
       {
@@ -118,16 +105,10 @@ export class BooksTableComponent implements OnInit {
       }
     );
 
+    // ПЕРЕДЕЛАТЬ !
     dialogRef.afterClosed().subscribe(result => {
       let data = [];
       let dataImg;
-      // this.requestServ.httpGET("books").then(item => item.json()).then(elem => {
-      //   //Заполняем массив полученными данными
-      //   return elem.map(item => data.push(item))
-      // })
-      //   .then(() => this.dataSource = new MatTableDataSource<Book>(data))
-      //   .then(() => this.dataSource.paginator = this.paginator)
-      //   .then(() => {
       this.requestServ.httpClientGet("books")
         .subscribe(response => {
           for (let key in response) {
@@ -135,30 +116,25 @@ export class BooksTableComponent implements OnInit {
             this.dataSource = new MatTableDataSource<Book>(data);
             this.dataSource.paginator = this.paginator;
           }
-          // if (book.title === "admin@gmail.com") {
-          //   let index = data.findIndex(i => i.title === book.title);
-          //   dataImg = this.dataSource.filteredData;
-          //   this.infoService.anounceHeaderImg(dataImg[index].img);
-          // }
         });
         })
     }
 
   deleteRows() {
-    this.selection.selected.forEach((user, i) => {
+    this.selection.selected.forEach((book, i) => {
       setTimeout(() => {
-        let index = this.dataSource.data.indexOf(user);
+        let index = this.dataSource.data.indexOf(book);
 
-        this.deleteUser(user);
-        //duplication
-        this.dataSource.data.splice(index, 1);
-        this.dataSource = new MatTableDataSource<Book>(this.dataSource.data);
-        this.selection = new SelectionModel<Book>(true, []);
+        this.deleteBook(book).subscribe(response =>{
+          this.dataSource.data.splice(index, 1);
+          this.dataSource = new MatTableDataSource<Book>(this.dataSource.data);
+          this.selection = new SelectionModel<Book>(true, []);
+        });
       }, 100 * (i + 1));
     })
   }
-  async deleteUser(book) {
-    return this.requestServ.httpDeleteBook(book.id);
+  deleteBook(book) {
+    return this.requestServ.httpClientDelete("books", book.id);
   }
 
 

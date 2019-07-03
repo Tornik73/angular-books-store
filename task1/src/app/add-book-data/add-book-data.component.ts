@@ -44,13 +44,10 @@ export class AddBookDataComponent implements OnInit {
 
   onSubmit() {
     this.angForm.value.img = this.img;
-
-    this.requestServ.httpPOST(this.angForm.value, "books")
-      .then(data => {
+    this.requestServ.httpClientPost("books", this.angForm.value)
+      .subscribe(data => {
         this.successRegistration();
         this.adminService.upload(this.angForm.value)
-      }).then(() => {
-        // close modal window добавить
       })
   }
 }
