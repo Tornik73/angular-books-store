@@ -29,10 +29,13 @@ import { BooksTableComponent } from './books-table/books-table.component';
 import { AddBookDataComponent } from './add-book-data/add-book-data.component';
 import { EditBookDataComponent } from './edit-book-data/edit-book-data.component';
 import { DeleteBookDataComponent } from './delete-book-data/delete-book-data.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DetailsComponent } from './details/details.component';
 import { CartComponent } from './cart/cart.component';
-
+import { MatBadgeModule } from '@angular/material/badge';
+import { TripleDotsPipe } from './pipes/tripledots.pipe';
+import { ApiService } from './services/api.service';
+import { ParamInterceptor } from './interceptors/api.interceptor';
 
 @NgModule({
   declarations: [
@@ -52,6 +55,7 @@ import { CartComponent } from './cart/cart.component';
     DeleteBookDataComponent,
     DetailsComponent,
     CartComponent,
+    TripleDotsPipe
   ],
   imports: [
     BrowserModule,
@@ -72,7 +76,8 @@ import { CartComponent } from './cart/cart.component';
     MatInputModule,
     MatDialogModule,
     MatMenuModule,
-    FormsModule
+    FormsModule,
+    MatBadgeModule
   ],
   entryComponents: [
     DeleteUserDataComponent,
@@ -84,7 +89,12 @@ import { CartComponent } from './cart/cart.component';
   ],
   providers: [
     AuthService,
-    DetailsComponent
+    DetailsComponent,
+    ApiService, {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ParamInterceptor,
+      multi: true
+    }
   ], 
   bootstrap: [AppComponent]
 })

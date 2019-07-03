@@ -9,7 +9,7 @@ import { DeleteUserDataComponent } from '../delete-user-data/delete-user-data.co
 import { HeaderObserveService } from '../services/header-observe.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { RequestsService } from '../services/requests.service';
-import {User} from '../models/user';
+import { User } from '../models/user';
 
 export interface DialogData {
   id: number;
@@ -37,8 +37,6 @@ export class AdminPanelComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
-    // Есть баг при переходе с MainPage
-    // Чтобы не добавлялись одни и те же юзеры 
     if(this.dataSource.filteredData.length === 0){
       this.requestServ.httpClientGet("users")
         .subscribe(data => {
@@ -69,28 +67,25 @@ export class AdminPanelComponent implements OnInit {
     
   }
 
-  async openDialogDelete(user) {
+  openDialogDelete(user) {
     let index = ELEMENT_DATA.indexOf(user)
     const dialogRef = this.dialog.open(DeleteUserDataComponent, { data: { id: user.id, email: user.email }});
 
-      dialogRef.afterClosed().subscribe(async result => {
-        //duplication
+      dialogRef.afterClosed().subscribe( result => {
         if (result) {
-        let response = await this.deleteUser(user);
-        if (response){
-          let data = this.dataSource.data;
-          data.splice(index, 1);
-          this.dataSource = new MatTableDataSource<User>(data);
-        }
+          this.deleteUser(user)
+            .subscribe(response => {
+              if (response) {
+                let data = this.dataSource.data;
+                data.splice(index, 1);
+                this.dataSource = new MatTableDataSource<User>(data);
+              }
+            });
       } 
     });
   }
 
   openDialogEdit(user){
-
-    //БАГ при вызове индекса второй раз прилетит -1;
-    //Происходит из-за того что таблицы изменилась, а элемента_дата константа потому и не находит.
-
     const dialogRef = this.dialog.open(EditUserDataComponent, 
       { data: 
         { 
@@ -104,24 +99,25 @@ export class AdminPanelComponent implements OnInit {
       }
     );
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.componentInstance.update.subscribe(onChanged =>{
       let data = [];
       let dataImg;
-      //ИЗМЕНИТЬ
-      this.requestServ.httpClientGet("users")
-        .subscribe(response => {
-          for (let key in response) {
-            data.push(response[key]);
-            this.dataSource = new MatTableDataSource<User>(data);
-            this.dataSource.paginator = this.paginator;
-          }
-          if (user.email === "admin@gmail.com") {
-            let index = data.findIndex(i => i.email === user.email);
-            dataImg = this.dataSource.filteredData;
-            this.infoService.anounceHeaderImg(dataImg[index].img);
-          }
-        });
-      })
+
+      for(let i in this.dataSource.filteredData){
+        if(this.dataSource.filteredData[i].id === onChanged.id){
+          this.dataSource.filteredData[i] = onChanged;
+        }
+        data.push(this.dataSource.filteredData[i]);
+      }
+      this.dataSource = new MatTableDataSource<User>(data);
+      this.dataSource.paginator = this.paginator;
+      
+      if (user.email === "admin@gmail.com") {
+        let index = data.findIndex(i => i.email === user.email);
+        dataImg = this.dataSource.filteredData;
+        this.infoService.anounceHeaderImg(dataImg[index].img);
+      }
+    });
   }
 
   deleteRows() {
@@ -129,22 +125,21 @@ export class AdminPanelComponent implements OnInit {
       setTimeout(() => {
         let index = this.dataSource.data.indexOf(user);
 
-        this.deleteUser(user);
-        //duplication
-            this.dataSource.data.splice(index, 1);
-        this.dataSource = new MatTableDataSource<User>(this.dataSource.data);
-        this.selection = new SelectionModel<User>(true, []);
+        this.deleteUser(user).subscribe(response => {
+          this.dataSource.data.splice(index, 1);
+          this.dataSource = new MatTableDataSource<User>(this.dataSource.data);
+          this.selection = new SelectionModel<User>(true, []);
+        });
         }, 100 * (i + 1));
     })
   }
-  async deleteUser(user){
+  
+  deleteUser(user){
     if(user.email != "admin@gmail.com")
-      return this.requestServ.httpDELETE(user.id);
+      return this.requestServ.httpClientDelete("users", user.id);
     else
       console.log("Удалить админа нельзя");
-
   }
-
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
@@ -167,5 +162,4 @@ export class AdminPanelComponent implements OnInit {
     }
     return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.id + 1}`;
   }
-  
 }

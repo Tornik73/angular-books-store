@@ -1,20 +1,22 @@
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { BookCartElement } from '../models/book';
+import { HeaderObserveService } from './header-observe.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
 
-  constructor(private toastrService: ToastrService) { }
+  constructor(private toastrService: ToastrService,
+    private headerServ: HeaderObserveService) { }
 
   addToCart(book: BookCartElement) {  
     let bookArray: BookCartElement[] = JSON.parse(localStorage.getItem("order"));
 
     /*
-      Функция преобразовывает массив в уникальные значения
-      и добавляет новое поле с количеством элементов в корзине
+      Converts the array to unique values
+      and adds a new field with the number of items in the basket
     */
     function countCartItems(items: BookCartElement[]){
       let searchBookFlag: boolean = false;
@@ -24,17 +26,31 @@ export class CartService {
             items[i].countCartItem++;
           else
             items[i].countCartItem = 1;
-          searchBookFlag = true; // Книга найдена, в массив записывать не надо
+          searchBookFlag = true; // Book found, no need to write to array
+
         }
-      if (!searchBookFlag) {  // Книга не найдена, записываем в массив
+      if (!searchBookFlag) {  // Book not found, write to array
+
         items.push(book);
         items[items.length - 1].countCartItem = 1;
       }
       return items;
     }
-
+  
     bookArray = countCartItems(bookArray);
-    localStorage.setItem("order", JSON.stringify(bookArray)); // Отправляем данные в локальное хранилище
+    this.countSumOfOrder(bookArray);
+    localStorage.setItem("order", JSON.stringify(bookArray)); 
+
     this.toastrService.success('you added item to your cart', 'Success');
+  }
+
+  countSumOfOrder(order: BookCartElement[]) {
+    let orderSum: number = 0;
+
+    for (let i in order)
+      orderSum += order[i].price * order[i].countCartItem;
+    this.headerServ.anounceCartSum(orderSum);
+    localStorage.currentCartSum = orderSum;
+    return orderSum;
   }
 }

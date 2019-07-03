@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { ExtensionsService } from '../services/extensions.service';
@@ -12,14 +12,17 @@ import { User } from '../models/user';
 })
 export class EditUserDataComponent implements OnInit {
   angForm: FormGroup;
-  id:number;
+  id: number;
   email: string;
   password: string;
   age: number;
   telephone: string;
-  img: any;
-  message: string;
-  imagePath;
+  img: any; // ?
+  // message: string;
+  // imagePath;
+
+
+  @Output() update = new EventEmitter();
 
   constructor(
     public dialogRef: MatDialogRef<EditUserDataComponent>,
@@ -35,14 +38,18 @@ export class EditUserDataComponent implements OnInit {
   }
 
   onSubmit(){
-      //Заполняем новыми данными с формы
-      for(let i in this.data)
-        if(this.angForm.value[i] != null)
-          this.data[i] = this.angForm.value[i];
-          
-      //Разобраться с ИМГ
-    this.requestServ.httpPUT(this.data, this.img)
-      .then(response => response.json())
+    // Insirting new data from form
+    for(let i in this.data)
+      if(this.angForm.value[i] != null)
+        this.data[i] = this.angForm.value[i];
+    
+    this.data.img = this.img; 
+    
+    this.requestServ.httpClientPut("users", this.data)
+    .subscribe(response=>{
+      this.update.emit(this.data);
+      this.dialogRef.close();
+    });
   }
   ngOnInit() {
     this.img = this.data.img;

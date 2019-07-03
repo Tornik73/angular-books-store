@@ -1,8 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Output, EventEmitter } from '@angular/core';
 import { MatTableDataSource } from '@angular/material';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BookCartElement } from '../models/book';
+import { CartService } from '../services/cart.service';
+import { HeaderObserveService } from '../services/header-observe.service';
 
 
 export interface DialogData{
@@ -26,20 +28,16 @@ export class CartComponent implements OnInit {
   dataSource = new MatTableDataSource<BookCartElement>(currentCartData);
   selection = new SelectionModel<BookCartElement>(true, []);
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData) { }
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData,
+  private cartServ: CartService,
+  private headerServ: HeaderObserveService) { }
 
   ngOnInit() {
     
     currentCartData = JSON.parse(localStorage.order);
     this.dataSource = new MatTableDataSource<BookCartElement>(currentCartData);
-    this.countSumOfOrder(currentCartData);
-  }
-
-  countSumOfOrder(order: BookCartElement[]){
-    this.orderSum = 0;
-    
-    for(let i in order)
-      this.orderSum += order[i].price * order[i].countCartItem;
+    this.orderSum = this.cartServ.countSumOfOrder(currentCartData);
   }
 
   minusItem(book: BookCartElement){
@@ -70,6 +68,6 @@ export class CartComponent implements OnInit {
   updateDataView(){
     this.dataSource = new MatTableDataSource<BookCartElement>(currentCartData);
     localStorage.setItem("order", JSON.stringify(currentCartData));
-    this.countSumOfOrder(currentCartData);
+    this.orderSum = this.cartServ.countSumOfOrder(currentCartData);
   }
 }

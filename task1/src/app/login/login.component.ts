@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
     return false;
   }
 
-  onSubmit(){
+  onSubmit() : void{
     this.requestServ.httpClientGet("users")
       .subscribe(response => {
         if (this.checkUser(response, this.authForm.value)){

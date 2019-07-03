@@ -4,6 +4,8 @@ import { HeaderObserveService } from '../services/header-observe.service';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { ExtensionsService } from '../services/extensions.service';
 import { RequestsService } from '../services/requests.service';
+import {User} from '../models/user';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -14,14 +16,12 @@ export class ProfileComponent implements OnInit {
   currentUser: string;
   currentUserPassword: string;
   currentUserRights: string;
-  currentUserAge: any;
+  currentUserAge: number;
   currentUserTel: string;
-  currentUserImg: any;
-  selectedFile = null;
-  imagePath;
-  message: string;
+  currentUserImg: any; // ?
+  // message: string;
   editMode: boolean = false;
-
+  angForm: FormGroup;
 
   constructor(private service: AuthService, 
     private infoService: HeaderObserveService,
@@ -43,26 +43,34 @@ export class ProfileComponent implements OnInit {
       );
   }
 
-  //управление модом редактирования
+  // Managing of edit mode
   editModeOn(){ 
-    this.currentUserImg = localStorage.currentUserImg; // сброс изменения картинки
-    return (this.editMode === true) ? this.editMode = false : this.editMode = true; // ИСПРАВИТЬ
+    this.currentUserImg = localStorage.currentUserImg; // reset picture change
+    return this.editMode = !this.editMode;
   }
   onUpload(){ 
     localStorage.currentUserImg = this.currentUserImg;
 
     this.currentUserTel = this.angForm.value.telephone;
     this.currentUserAge = this.angForm.value.age;
-    let userJSON: any = {id: this.currentUserId, email: this.currentUser, password: this.currentUserPassword,
-    telephone: this.currentUserTel, age: this.currentUserAge};
-    
-    this.requestServ.httpPUT(userJSON, this.currentUserImg)
-    this.infoService.anounceHeaderImg(this.currentUserImg); //оповещаем о том что картинка изменилась
-    
-    return this.editMode = false;
+
+    let userJSON: User = {
+      id: this.currentUserId, 
+      email: this.currentUser, 
+      password: this.currentUserPassword,
+      telephone: this.currentUserTel, 
+      age: this.currentUserAge, 
+      img: this.currentUserImg
+    };
+
+    this.requestServ.httpClientPut("users", userJSON)
+    .subscribe(data=>{
+      this.infoService.anounceHeaderImg(this.currentUserImg); // Notify that the picture has changed
+      return this.editMode = false;
+    })
   }
 
-  angForm: FormGroup;
+
 
   ngOnInit() {
     this.angForm = new FormGroup({

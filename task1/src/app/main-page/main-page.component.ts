@@ -49,7 +49,7 @@ export class MainPageComponent implements OnInit {
 
     this.clearSearch();
 
-    // Поиск нужной книги
+    // Search books
     fromEvent(this.bookSearchInput.nativeElement, 'keyup').pipe(
       map((event: any) => {
         return event.target.value;
@@ -67,12 +67,12 @@ export class MainPageComponent implements OnInit {
 
         else{
             for (let i in data) {
-              // Для поиска вне зависимости от регистра
+              // Search any register
               let correctDataTitle = data[i].title.toString().toLowerCase();
               let correctDataAuthor = data[i].author.toString().toLowerCase();
               let correctDataText = text.toLowerCase();
               
-              // Поиск по названию книги
+              // Searching by book title
               if (correctDataTitle.indexOf(correctDataText) >= 0) {
                 this.goodsData.push(data[i]);
                 this.isSearching = false;
@@ -80,7 +80,7 @@ export class MainPageComponent implements OnInit {
                 continue;
               }
               
-              // Поиск по автору книги
+              // Searching by book author
               if (correctDataAuthor.indexOf(correctDataText) >= 0) {
                 this.goodsData.push(data[i]);
                 this.isSearching = false;
