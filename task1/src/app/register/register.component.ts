@@ -42,7 +42,7 @@ export class RegisterComponent implements OnInit {
 
   onSubmit(){
     this.angForm.value.img = this.img;
-    this.requestServ.httpClientPost("users", this.angForm.value,)
+    this.requestServ.httpUsersPost(this.angForm.value)
     .subscribe(data=>{
       this.successRegistration();
     });

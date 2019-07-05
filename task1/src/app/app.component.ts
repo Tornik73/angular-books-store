@@ -13,7 +13,7 @@ import { CartService } from './services/cart.service';
 export class AppComponent implements OnInit{
   sumOfOrder: number = localStorage.currentCartSum;
   currentUser: string;
-  userRights: string; //переделать
+  userRights: boolean; 
   currentUserImg: string;
 
   constructor(private service: AuthService, 
@@ -23,21 +23,25 @@ export class AppComponent implements OnInit{
 
   hiUser(){
     if (localStorage.currentUser != null) {
-      if (localStorage.currentUser === "admin@gmail.com") {
-        this.userRights = "admin";
-        this.service.authUserRights = "admin";
-      } else {
-        this.userRights = "user";
-        this.service.authUserRights = "user";
-      }
+      // this.userRights = this.service.authUserRights;
+      
+      // if (localStorage.currentUser === "admin@gmail.com") {
+      //   this.userRights = "admin";
+      //   this.service.authUserRights = "admin";
+      // } else {
+      //   this.userRights = "user";
+      //   this.service.authUserRights = "user";
+      // }
       this.currentUser = localStorage.currentUser;
       this.currentUserImg = localStorage.currentUserImg;
-      localStorage.userRights = this.userRights;
+      // localStorage.userRights = this.userRights;
       this.service.AuthStatus = false;
     }
   }
 
   ngOnInit() {
+    console.log(this.service.authUserRights, " right");
+    
     this.headServ.anounceHeader$.subscribe(
       (user:any) =>{
         this.currentUserImg = user;
@@ -55,7 +59,7 @@ export class AppComponent implements OnInit{
 
   logOut(){
     localStorage.clear()
-    this.service.authUserRights = "";
+    this.service.authUserRights = false;
     return this.service.AuthStatus = true;
   }
 }

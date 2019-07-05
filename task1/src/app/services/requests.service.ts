@@ -27,4 +27,22 @@ export class RequestsService {
     return this.http.put(this.serverURL + items + '/' + data.id, data);
   }
 
+
+  httpUserGet(id: number) {
+    return this.http.get(this.serverURL + "users/" + id);
+  }
+
+  httpUserPut(data){
+    console.log(data);
+    
+    return this.http.put(this.serverURL + "users/" + data.id, data);
+  }
+
+  httpUsersAuth(body){
+    return this.http.post<any>(this.serverURL + "authenticate", body);
+  }
+
+  httpUsersPost(body = null) {
+    return this.http.post(this.serverURL + "register", body);
+  }
 }

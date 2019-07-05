@@ -22,6 +22,9 @@ export class ProfileComponent implements OnInit {
   // message: string;
   editMode: boolean = false;
   angForm: FormGroup;
+  
+
+  isAdmin: boolean;
 
   constructor(private service: AuthService, 
     private infoService: HeaderObserveService,
@@ -30,7 +33,6 @@ export class ProfileComponent implements OnInit {
     this.currentUserId = localStorage.currentUserId;
     this.currentUser = localStorage.currentUser;
     this.currentUserPassword = localStorage.currentUserPassword;
-    this.currentUserRights = localStorage.userRights;
     this.currentUserAge = localStorage.currentUserAge;
     this.currentUserTel = localStorage.currentUserTelephone;
     this.currentUserImg = localStorage.currentUserImg;
@@ -49,8 +51,11 @@ export class ProfileComponent implements OnInit {
     return this.editMode = !this.editMode;
   }
   onUpload(){ 
-    localStorage.currentUserImg = this.currentUserImg;
 
+
+    localStorage.currentUserImg = this.currentUserImg;
+    console.log(this.service.authUserRights);
+    
     this.currentUserTel = this.angForm.value.telephone;
     this.currentUserAge = this.angForm.value.age;
 
@@ -60,10 +65,11 @@ export class ProfileComponent implements OnInit {
       password: this.currentUserPassword,
       telephone: this.currentUserTel, 
       age: this.currentUserAge, 
-      img: this.currentUserImg
+      img: this.currentUserImg,
+      isAdmin: this.service.authUserRights
     };
 
-    this.requestServ.httpClientPut("users", userJSON)
+    this.requestServ.httpUserPut(userJSON)
     .subscribe(data=>{
       this.infoService.anounceHeaderImg(this.currentUserImg); // Notify that the picture has changed
       return this.editMode = false;
@@ -73,6 +79,10 @@ export class ProfileComponent implements OnInit {
 
 
   ngOnInit() {
+    if (!this.service.authUserRights)
+      this.currentUserRights = "admin";
+    else
+      this.currentUserRights = "user";
     this.angForm = new FormGroup({
       age: new FormControl(this.currentUserAge, [Validators.required, Validators.min(18)]),
       telephone: new FormControl(this.currentUserTel, [Validators.required])

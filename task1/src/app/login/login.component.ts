@@ -41,14 +41,19 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() : void{
-    this.requestServ.httpClientGet("users")
+    this.requestServ.httpUsersAuth(this.authForm.value)
       .subscribe(response => {
-        if (this.checkUser(response, this.authForm.value)){
-          // console.log("hi " + this.authForm.value.email);
-          this.service.authUser(); // меняем AuthStatus теперь пользователь авторизирован
-          this.navHi.hiUser();
-          this._router.navigate(['/']);
-          localStorage.setItem("order", JSON.stringify([]));
+        // console.log(response);
+        
+        if (response.success){
+          this.requestServ.httpUserGet(response.userID)
+          .subscribe(response => { 
+            this.service.authUser(response); // меняем AuthStatus теперь пользователь авторизирован
+            this.navHi.hiUser();
+            this._router.navigate(['/']);
+            localStorage.setItem("order", JSON.stringify([]));
+          })
+
         }
         else
           this.incorectPassword = true; 
