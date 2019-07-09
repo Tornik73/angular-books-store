@@ -10,7 +10,7 @@
         <a [routerLink]="['/profile']">Hi {{ currentUser }} !</a>
       </li>
       <!-- && this.service.authUserRights === true -->
-      <li *ngIf="!this.service.AuthStatus ">
+      <li *ngIf="!this.service.AuthStatus && this.userRights === 'admin'">
         <a [routerLink]="['/admin-panel']">Admin panel</a>
       </li>
 

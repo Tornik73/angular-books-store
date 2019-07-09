@@ -19,12 +19,10 @@ export class ProfileComponent implements OnInit {
   currentUserAge: number;
   currentUserTel: string;
   currentUserImg: any; // ?
+  isAdmin: boolean;
   // message: string;
   editMode: boolean = false;
   angForm: FormGroup;
-  
-
-  isAdmin: boolean;
 
   constructor(private service: AuthService, 
     private infoService: HeaderObserveService,
@@ -36,6 +34,7 @@ export class ProfileComponent implements OnInit {
     this.currentUserAge = localStorage.currentUserAge;
     this.currentUserTel = localStorage.currentUserTelephone;
     this.currentUserImg = localStorage.currentUserImg;
+    this.isAdmin = localStorage.currentUserRights;
   }
 
   preview(files) {
@@ -54,7 +53,7 @@ export class ProfileComponent implements OnInit {
 
 
     localStorage.currentUserImg = this.currentUserImg;
-    console.log(this.service.authUserRights);
+    // console.log(this.service.authUserRights);
     
     this.currentUserTel = this.angForm.value.telephone;
     this.currentUserAge = this.angForm.value.age;

@@ -2,12 +2,15 @@ import * as bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import * as jwt from "jwt-then";
 import config from "../../config/config";
-import { User } from "../users/user.model";
+import { User, users } from "../users/user.model";
+import { Book, books } from "../books/book.model";
 import { AuthService } from "../../services/authService";
 
 export default class UserController {
   public authenticate = async (req: Request, res: Response): Promise<any> => {
     const { email, password } = req.body;
+
+    
     try {
       const user = await new AuthService().getUserByEmail(email);
       if (!user) {
@@ -24,7 +27,7 @@ export default class UserController {
         });
       }
       const token = await jwt.sign(
-        { email, isAdmin: user.isAdmin },
+        { id: user.id, email, isAdmin: user.isAdmin, telephone: user.telephone, age: user.age, img: user.img},
         config.JWT_ENCRYPTION,
         {
           expiresIn: config.JWT_EXPIRATION
@@ -57,12 +60,10 @@ export default class UserController {
     };
     try {
       await new AuthService().register(user);
-      res.status(200).send({
-        success: false,
-        message: "User Successfully created",
-        data: user
-      });
-    } catch (err) {
+      let userDB = await new AuthService().getUserByEmail(user.email);
+        res.status(200).send(userDB);
+    }
+    catch (err) {
       res.status(500).send({
         success: false,
         message: err.errors[0].message

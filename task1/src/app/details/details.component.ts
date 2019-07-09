@@ -25,7 +25,7 @@ export class DetailsComponent implements OnInit {
   ngOnInit() {
     this.activate.params.subscribe(data => {
       this.id = data['id'];
-      this.requestServ.httpClientGet(`books/${this.id}`).subscribe((data: Book) => {
+      this.requestServ.httpBooksGet(this.id).subscribe((data: Book) => {
         this.book = data;
       })
     })

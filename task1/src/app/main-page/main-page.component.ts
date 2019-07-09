@@ -34,7 +34,7 @@ export class MainPageComponent implements OnInit {
 
   // Выводит товары все товары
   clearSearch() {
-    this.requestServ.httpClientGet("books")
+    this.requestServ.httpBooksGet()
       .subscribe((data: Book) => {
           this.goodsData = [];
           for (let i in data) {
@@ -59,7 +59,7 @@ export class MainPageComponent implements OnInit {
       , distinctUntilChanged()
     ).subscribe((text: string) => {
       this.goodsData = [];
-      console.log(this.requestServ.httpClientGet('books').subscribe((data: Book) => {
+      console.log(this.requestServ.httpBooksGet().subscribe((data: Book) => {
         this.isSearching = true;
         
         if(text.length === 0)

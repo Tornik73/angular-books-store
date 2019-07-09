@@ -38,7 +38,7 @@ export class AdminPanelComponent implements OnInit {
 
   ngOnInit() {
     if(this.dataSource.filteredData.length === 0){
-      this.requestServ.httpClientGet("users")
+      this.requestServ.httpUsersGet()
         .subscribe(data => {
           for (let key in data) {
             ELEMENT_DATA.push(data[key]);
@@ -54,17 +54,11 @@ export class AdminPanelComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (this.adminService.dataResponse){
         let data = this.dataSource.data;
-
-        //берем последний элемент и прибавляем + 1 его айди
-        this.adminService.dataResponse.id = 
-            this.dataSource.filteredData[this.dataSource.filteredData.length - 1].id + 1;
-
         data.push(this.adminService.dataResponse);
         this.dataSource = new MatTableDataSource<User>(data);
         this.adminService.dataResponse = null;
       }
-    });
-    
+    }); 
   }
 
   openDialogDelete(user) {
@@ -74,11 +68,11 @@ export class AdminPanelComponent implements OnInit {
       dialogRef.afterClosed().subscribe( result => {
         if (result) {
           this.deleteUser(user)
-            .subscribe(response => {
+            .subscribe(response => {         
               if (response) {
                 let data = this.dataSource.data;
                 data.splice(index, 1);
-                this.dataSource = new MatTableDataSource<User>(data);
+                this.dataSource = new MatTableDataSource<User>(data);               
               }
             });
       } 
@@ -136,7 +130,7 @@ export class AdminPanelComponent implements OnInit {
   
   deleteUser(user){
     if(user.email != "admin@gmail.com")
-      return this.requestServ.httpClientDelete("users", user.id);
+      return this.requestServ.httpUsersDelete(user.id);
     else
       console.log("Удалить админа нельзя");
   }

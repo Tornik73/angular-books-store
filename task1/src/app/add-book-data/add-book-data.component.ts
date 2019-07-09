@@ -46,10 +46,12 @@ export class AddBookDataComponent implements OnInit {
 
   onSubmit(): void  {
     this.angForm.value.img = this.img;
-    this.requestServ.httpClientPost("books", this.angForm.value)
+    this.requestServ.httpBooksPost(this.angForm.value)
       .subscribe(data => {
+        console.log(data);
+        
         this.successRegistration();
-        this.adminService.upload(this.angForm.value)
+        this.adminService.upload(data)
       })
   }
 }

@@ -45,7 +45,7 @@ export class EditUserDataComponent implements OnInit {
     
     this.data.img = this.img; 
     
-    this.requestServ.httpClientPut("users", this.data)
+    this.requestServ.httpBooksPut(this.data)
     .subscribe(response=>{
       this.update.emit(this.data);
       this.dialogRef.close();

@@ -40,7 +40,7 @@ export class EditBookDataComponent implements OnInit {
 
     this.data.img = this.img;
 
-    this.requestServ.httpClientPut("books", this.data)
+    this.requestServ.httpBooksPut(this.data)
       .subscribe(response => {
         this.dialogRef.close();
       })

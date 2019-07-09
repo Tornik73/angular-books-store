@@ -47,10 +47,12 @@ export class DialogDataAdd implements OnInit {
   onSubmit(): void {
     this.angForm.value.img = this.img;
 
-    this.requestServ.httpClientPost("users", this.angForm.value)
-      .subscribe(data => {
+    this.requestServ.httpUsersPost(this.angForm.value)
+      .subscribe(response => {
+        console.log(response);
+        
         this.successRegistration();
-        this.adminService.upload(this.angForm.value)
+        this.adminService.upload(response)
       })
   }
 }

@@ -20,11 +20,13 @@ export class HeaderObserveService {
   private sendBook = new Subject<book>();
   private addBook = new Subject<book>();
   private sendSum = new Subject<number>();
+  private sendAdmin = new Subject<boolean>();
   anounceHeader$ = this.anounceHeader;
 
   observeDetailsBook = this.sendBook.asObservable();
   observeAddBook = this.addBook.asObservable();
   observeSendSum = this.sendSum.asObservable();
+  observeSendAdmin = this.sendAdmin.asObservable();
 
   constructor() { }
 
@@ -42,5 +44,9 @@ export class HeaderObserveService {
 
   anounceCartSum(sum: number){
     this.sendSum.next(sum);
+  }
+
+  anounceHeaderAdmin(isAdmin: boolean){
+    this.sendAdmin.next(isAdmin);
   }
 }

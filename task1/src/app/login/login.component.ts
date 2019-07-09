@@ -5,6 +5,8 @@ import { AuthService } from '../services/auth.service';
 import { AppComponent } from '../app.component';
 import { RequestsService } from '../services/requests.service';
 
+import * as JWT from 'jwt-decode';
+import { HeaderObserveService } from '../services/header-observe.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -21,7 +23,8 @@ export class LoginComponent implements OnInit {
   constructor(private _router : Router, 
     private service : AuthService, 
     private navHi: AppComponent,
-    private requestServ: RequestsService) {   
+    private requestServ: RequestsService,
+    private headerServ: HeaderObserveService) {   
   }
 
   checkUser(data, db):boolean{
@@ -43,20 +46,25 @@ export class LoginComponent implements OnInit {
   onSubmit() : void{
     this.requestServ.httpUsersAuth(this.authForm.value)
       .subscribe(response => {
-        // console.log(response);
+        let userData = JWT(response.data);
         
-        if (response.success){
-          this.requestServ.httpUserGet(response.userID)
-          .subscribe(response => { 
-            this.service.authUser(response); // меняем AuthStatus теперь пользователь авторизирован
-            this.navHi.hiUser();
-            this._router.navigate(['/']);
-            localStorage.setItem("order", JSON.stringify([]));
-          })
+        this.service.authUser(userData, response.data); // меняем AuthStatus теперь пользователь авторизирован
+        this.navHi.hiUser();
+        this._router.navigate(['/']);
+        localStorage.setItem("order", JSON.stringify([]));
+        this.headerServ.anounceHeaderAdmin(userData.isAdmin);
+        // if (response.success){
+        //   this.requestServ.httpUserGet(response.userID)
+        //   .subscribe(response => { 
+        //     this.service.authUser(response); // меняем AuthStatus теперь пользователь авторизирован
+        //     this.navHi.hiUser();
+        //     this._router.navigate(['/']);
+        //     localStorage.setItem("order", JSON.stringify([]));
+        //   })
 
-        }
-        else
-          this.incorectPassword = true; 
+        // }
+        // else
+        //   this.incorectPassword = true; 
       });
       
   }

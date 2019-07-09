@@ -28,6 +28,7 @@
     "crypto": "^1.0.1",
     "image-to-base64": "^2.0.1",
     "json-server": "^0.15.0",
+    "jwt-decode": "^2.2.0",
     "net": "^1.0.2",
     "ngx-toastr": "^10.0.4",
     "os": "^0.1.1",
@@ -69,7 +70,5 @@
     "tls": false,
     "crypto": false,
     "fs": false
-
-
   }
 }

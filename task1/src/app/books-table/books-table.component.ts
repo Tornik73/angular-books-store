@@ -40,7 +40,7 @@ export class BooksTableComponent implements OnInit {
 
   ngOnInit() {
     if (this.dataSource.filteredData.length === 0) {
-      this.requestServ.httpClientGet("books")
+      this.requestServ.httpBooksGet()
         .subscribe(data => {
           for(let key in data){
             ELEMENT_DATA.push(data[key]);
@@ -56,11 +56,6 @@ export class BooksTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (this.adminService.dataResponse) {
         let data = this.dataSource.data;
-
-        //берем последний элемент и прибавляем + 1 его айди
-        this.adminService.dataResponse.id =
-          this.dataSource.filteredData[this.dataSource.filteredData.length - 1].id + 1;
-
         data.push(this.adminService.dataResponse);
         this.dataSource = new MatTableDataSource<Book>(data);
         this.adminService.dataResponse = null;
@@ -105,7 +100,7 @@ export class BooksTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       let data = [];
       let dataImg;
-      this.requestServ.httpClientGet("books")
+      this.requestServ.httpBooksGet()
         .subscribe(response => {
           for (let key in response) {
             data.push(response[key]);
@@ -130,7 +125,7 @@ export class BooksTableComponent implements OnInit {
     })
   }
   deleteBook(book) {
-    return this.requestServ.httpClientDelete("books", book.id);
+    return this.requestServ.httpBooksDelete(book.id);
   }
 
 

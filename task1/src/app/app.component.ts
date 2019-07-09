@@ -13,7 +13,7 @@ import { CartService } from './services/cart.service';
 export class AppComponent implements OnInit{
   sumOfOrder: number = localStorage.currentCartSum;
   currentUser: string;
-  userRights: boolean; 
+  userRights: string; 
   currentUserImg: string;
 
   constructor(private service: AuthService, 
@@ -32,6 +32,7 @@ export class AppComponent implements OnInit{
       //   this.userRights = "user";
       //   this.service.authUserRights = "user";
       // }
+
       this.currentUser = localStorage.currentUser;
       this.currentUserImg = localStorage.currentUserImg;
       // localStorage.userRights = this.userRights;
@@ -40,7 +41,12 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {
-    console.log(this.service.authUserRights, " right");
+    this.headServ.observeSendAdmin.subscribe(isAdmin =>{
+      localStorage.currentUserRights = isAdmin;
+      if (localStorage.currentUserRights === "true") this.userRights = "admin";
+      else this.userRights = "user";
+    })
+
     
     this.headServ.anounceHeader$.subscribe(
       (user:any) =>{

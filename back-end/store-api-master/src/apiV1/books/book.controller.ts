@@ -2,14 +2,16 @@ import * as bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import * as jwt from "jwt-then";
 import config from "../../config/config";
-import { User, users } from "./user.model";
+import { Book, books } from "./book.model";
+import { bookService } from "../../services/bookService";
 
-export default class UserController {
+export default class BookController {
   public findAll = async (req: Request, res: Response): Promise<any> => {
+    
     try {
-      const all = await users.findAll({attributes: ['id', 'email', 'password', 'age', 'telephone', 'isAdmin', 'img']});
+      const all = await books.findAll({ attributes: ['id', 'title', 'author', 'price', 'img', 'description']});
       res.send(all);
-      if (!users) {
+      if (!books) {
         return res.status(404).send({
           success: false,
           message: 'Users not found',
@@ -18,7 +20,7 @@ export default class UserController {
       }
       res.status(200).send({
         success: true,
-        data: users
+        data: books
       });
     } catch (err) {
       res.status(500).send({
@@ -29,21 +31,33 @@ export default class UserController {
     }
   };
 
+  public addBook = async (req: Request, res: Response): Promise<any> => {
+    try {
+      var book: Book = req.body;
+      await new bookService().addBook(book);
+      let bookDB = await new bookService().getBookByTitle(book.title);
+      res.status(200).send(bookDB);
+    } catch (err) {
+      res.status(500).send({
+        success: false, 
+        message: err.toString(),
+        data: null
+      });
+    }
+  };
+
   public findOne = async (req: Request, res: Response): Promise<any> => {
     try {
-      const user = await users.findOne({ where: { id: req.params.id }});
+      const book = await books.findOne({ where: { id: req.params.id }});
       
-      if (!user) {
+      if (!book) {
         return res.status(404).send({
           success: false,
-          message: 'User not found',
+          message: 'Book not found',
           data: null
         });
       }
-      res.status(200).send({
-        success: true,
-        data: user
-      });
+      res.status(200).send(book);
     } catch (err) {
       res.status(500).send({
         success: false,
@@ -54,27 +68,16 @@ export default class UserController {
   };
 
   public update = async (req: Request, res: Response): Promise<any> => {
-    const { email, password, isAdmin, telephone, age, img } = req.body;
+    const { title, author, price, description, img } = req.body;
     try {
-      // const userUpdated = await users.findByIdAndUpdate(
-      //   { where: { id: req.params.id } },
-      //   {
-      //     $set: {
-      //       email,
-      //       password,
-      //       isAdmin
-      //     }
-      //   },
-      //   { new: true }
-      // );
-      const userUpdated = await users.findOne({ where: { id: req.params.id } });
+      const userUpdated = await books.findOne({ where: { id: req.params.id } });
       userUpdated.update(
-        { email, 
-          password, 
-          telephone,
-          age,
-          img,
-          isAdmin 
+        {
+          title, 
+          author, 
+          price,
+          description,
+          img, 
         },
         { where: { 
           id: req.params.id  
@@ -102,7 +105,7 @@ export default class UserController {
 
   public remove = async (req: Request, res: Response): Promise<any> => {
     try {
-      const user = await users.findOne({ where: { id: req.params.id } });
+      const user = await books.findOne({ where: { id: req.params.id } });
       if (!user) {
         return res.status(404).send({
           success: false,
