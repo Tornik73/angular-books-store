@@ -7,17 +7,17 @@ const book: Router = Router();
 const controller = new Controller();
 
 // Retrieve all Users
-book.get('/', controller.findAll);
+book.get('/', verifyToken, controller.findAll);
 
 // Retrieve a Specific User
-book.get('/:id', controller.findOne);
+book.get('/:id', verifyToken, controller.findOne);
 
-book.post('/',  controller.addBook);
+book.post('/', verifyAdmin, controller.addBook);
 
 // Update a User with Id
-book.put('/:id', controller.update);
+book.put('/:id', verifyAdmin, controller.update);
 
 // Delete a User with Id
-book.delete('/:id',  controller.remove);
+book.delete('/:id', verifyAdmin, controller.remove);
 
 export default book;

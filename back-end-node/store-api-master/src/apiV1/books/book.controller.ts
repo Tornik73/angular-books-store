@@ -9,21 +9,22 @@ export default class BookController {
   public findAll = async (req: Request, res: Response): Promise<any> => {
     
     try {
-      const all = await books.findAll({ attributes: ['id', 'title', 'author', 'price', 'img', 'description']});
-      res.send(all);
-      if (!books) {
+      const allBooks = await books.findAll({ attributes: ['id', 'title', 'author', 'price', 'img', 'description']});
+      
+      if (!allBooks) {
         return res.status(404).send({
           success: false,
-          message: 'Users not found',
+          message: 'Books not found',
           data: null
         });
       }
-      res.status(200).send({
-        success: true,
-        data: books
-      });
+      res.status(200).send(allBooks);
+      // return res.status(200).send({
+      //   success: true,
+      //   data: books
+      // });
     } catch (err) {
-      res.status(500).send({
+      return res.status(500).send({
         success: false,
         message: err.toString(),
         data: null

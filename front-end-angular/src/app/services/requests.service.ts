@@ -30,6 +30,8 @@ export class RequestsService {
   }
 
   httpUserPut(data){ 
+    console.log(data);
+    
     return this.http.put(this.serverURL + "users/" + data.id, data);
   }
 

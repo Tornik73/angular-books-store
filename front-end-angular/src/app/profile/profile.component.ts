@@ -55,8 +55,8 @@ export class ProfileComponent implements OnInit {
     localStorage.currentUserImg = this.currentUserImg;
     // console.log(this.service.authUserRights);
     
-    this.currentUserTel = this.angForm.value.telephone;
-    this.currentUserAge = this.angForm.value.age;
+    this.currentUserTel = localStorage.currentUserTelephone = this.angForm.value.telephone;
+    this.currentUserAge = localStorage.currentUserAge = this.angForm.value.age;
 
     let userJSON: User = {
       id: this.currentUserId, 

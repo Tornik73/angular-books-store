@@ -9,19 +9,19 @@ export class AuthService {
   authUserRights: boolean;
   constructor() { }
 
-  authUser(response, token) {
+  authUser(response, token, img) {
     
-    // localStorage.currentUserId = response.data.id;
+    localStorage.currentUserId = response.id;
+
     localStorage.currentUserToken = token;
     localStorage.currentUser = response.email;
     localStorage.currentUserPassword = response.password;
     localStorage.currentUserAge = response.age;
     localStorage.currentUserTelephone = response.telephone;
-    localStorage.currentUserImg = response.img;
+    localStorage.currentUserImg = img;
     
     this.authUserRights = response.isAdmin; // response.data.isAdmin
     localStorage.currentUserRights = response.isAdmin;
-    console.log(response.isAdmin);
     return this.AuthStatus = false;
   }
   

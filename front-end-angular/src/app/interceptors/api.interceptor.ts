@@ -13,7 +13,6 @@ export class ParamInterceptor implements HttpInterceptor {
         // add authorization header with jwt token if available
         let currentUser = localStorage.currentUser;
         let currentToken = localStorage.currentUserToken;
-        console.log(currentUser, currentToken);
         
         if (currentUser && currentToken) {
             req = req.clone({

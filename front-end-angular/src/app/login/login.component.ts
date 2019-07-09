@@ -27,44 +27,15 @@ export class LoginComponent implements OnInit {
     private headerServ: HeaderObserveService) {   
   }
 
-  checkUser(data, db):boolean{
-    for(let i in data){
-      if(db.email === data[i].email && db.password === data[i].password){
-        //можно сделать функцией
-        localStorage.currentUserId = data[i].id;
-        localStorage.currentUser = data[i].email;
-        localStorage.currentUserPassword = data[i].password;
-        localStorage.currentUserAge = data[i].age; 
-        localStorage.currentUserTelephone = data[i].telephone;    
-        localStorage.currentUserImg = data[i].img;
-        return true;
-      }
-    }
-    return false;
-  }
-
   onSubmit() : void{
     this.requestServ.httpUsersAuth(this.authForm.value)
       .subscribe(response => {
         let userData = JWT(response.data);
-        
-        this.service.authUser(userData, response.data); // меняем AuthStatus теперь пользователь авторизирован
+        this.service.authUser(userData, response.data, response.dataImg); // меняем AuthStatus теперь пользователь авторизирован
         this.navHi.hiUser();
-        this._router.navigate(['/']);
         localStorage.setItem("order", JSON.stringify([]));
         this.headerServ.anounceHeaderAdmin(userData.isAdmin);
-        // if (response.success){
-        //   this.requestServ.httpUserGet(response.userID)
-        //   .subscribe(response => { 
-        //     this.service.authUser(response); // меняем AuthStatus теперь пользователь авторизирован
-        //     this.navHi.hiUser();
-        //     this._router.navigate(['/']);
-        //     localStorage.setItem("order", JSON.stringify([]));
-        //   })
-
-        // }
-        // else
-        //   this.incorectPassword = true; 
+        this._router.navigate(['/']);
       });
       
   }

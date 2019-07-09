@@ -47,8 +47,6 @@ export class HeaderObserveService {
   }
 
   anounceHeaderAdmin(isAdmin: boolean){
-    console.log(isAdmin);
-    
     this.sendAdmin.next(isAdmin);
   }
 }

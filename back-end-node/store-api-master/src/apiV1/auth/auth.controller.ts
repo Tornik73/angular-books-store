@@ -27,17 +27,19 @@ export default class UserController {
         });
       }
       const token = await jwt.sign(
-        { id: user.id, email, isAdmin: user.isAdmin, telephone: user.telephone, age: user.age, img: user.img},
+        { id: user.id, email: user.email, password: user.password, isAdmin: user.isAdmin, telephone: user.telephone, age: user.age},
         config.JWT_ENCRYPTION,
         {
           expiresIn: config.JWT_EXPIRATION
         }
-      );
+      )
+
       res.status(200).send({
         success: true,
         userID: user.id,
         message: "Token generated Successfully",
-        data: token
+        data: token,
+        dataImg: user.img
       });
     } catch (err) {
       res.status(500).send({
