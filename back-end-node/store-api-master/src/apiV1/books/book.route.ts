@@ -12,12 +12,12 @@ book.get('/', controller.findAll);
 // Retrieve a Specific User
 book.get('/:id', controller.findOne);
 
-book.post('/', verifyAdmin,  controller.addBook);
+book.post('/',  controller.addBook);
 
 // Update a User with Id
-book.put('/:id', verifyAdmin, controller.update);
+book.put('/:id', controller.update);
 
 // Delete a User with Id
-book.delete('/:id', verifyAdmin,  controller.remove);
+book.delete('/:id',  controller.remove);
 
 export default book;

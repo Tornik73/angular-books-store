@@ -41,13 +41,20 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit() {
+
+
+    ///////////////////////////////
+    if (localStorage.currentUserRights === "true") this.userRights = "admin";
+    else this.userRights = "user";
+
     this.headServ.observeSendAdmin.subscribe(isAdmin =>{
       localStorage.currentUserRights = isAdmin;
       if (localStorage.currentUserRights === "true") this.userRights = "admin";
       else this.userRights = "user";
     })
+    ///////////////////////////////
 
-    
+    console.log(this.userRights);
     this.headServ.anounceHeader$.subscribe(
       (user:any) =>{
         this.currentUserImg = user;
