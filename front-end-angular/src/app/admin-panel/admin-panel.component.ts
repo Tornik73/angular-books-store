@@ -23,21 +23,20 @@ const ELEMENT_DATA: User[] = [];
   styleUrls: ['./admin-panel.component.css']
 })
 export class AdminPanelComponent implements OnInit {
-  id : number;
+  id: number;
   email: number;
   displayedColumns: string[] = ['select', 'id', 'email', 'password', 'age', 'telephone', 'action'];
   dataSource = new MatTableDataSource<User>(ELEMENT_DATA);
   selection = new SelectionModel<User>(true, []);
-  
-  constructor(public dialog: MatDialog, 
-    private adminService: AdminToolsService, 
-    private infoService: HeaderObserveService,
-    private requestServ: RequestsService) { }
+  constructor(public dialog: MatDialog,
+              private adminService: AdminToolsService,
+              private infoService: HeaderObserveService,
+              private requestServ: RequestsService) { }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
-    if(this.dataSource.filteredData.length === 0){
+    if (this.dataSource.filteredData.length === 0) {
       this.requestServ.httpUsersGet()
         .subscribe(data => {
           for (let key in data) {
@@ -48,12 +47,12 @@ export class AdminPanelComponent implements OnInit {
         });
     }
 }
-  addUser(){
+  addUser() {
     const dialogRef = this.dialog.open(DialogDataAdd);
 
     dialogRef.afterClosed().subscribe(result => {
-      if (this.adminService.dataResponse){
-        let data = this.dataSource.data;
+      if (this.adminService.dataResponse) {
+        const data = this.dataSource.data;
         data.push(this.adminService.dataResponse);
         this.dataSource = new MatTableDataSource<User>(data);
         this.adminService.dataResponse = null;
@@ -65,12 +64,12 @@ export class AdminPanelComponent implements OnInit {
     let index = ELEMENT_DATA.indexOf(user)
     const dialogRef = this.dialog.open(DeleteUserDataComponent, { data: { id: user.id, email: user.email }});
 
-      dialogRef.afterClosed().subscribe( result => {
+    dialogRef.afterClosed().subscribe( result => {
         if (result) {
           this.deleteUser(user)
             .subscribe(response => {         
               if (response) {
-                let data = this.dataSource.data;
+                const data = this.dataSource.data;
                 data.splice(index, 1);
                 this.dataSource = new MatTableDataSource<User>(data);               
               }
@@ -117,7 +116,7 @@ export class AdminPanelComponent implements OnInit {
   deleteRows() {
       this.selection.selected.forEach((user, i) => {
       setTimeout(() => {
-        let index = this.dataSource.data.indexOf(user);
+        const index = this.dataSource.data.indexOf(user);
 
         this.deleteUser(user).subscribe(response => {
           this.dataSource.data.splice(index, 1);
@@ -129,16 +128,18 @@ export class AdminPanelComponent implements OnInit {
   }
   
   deleteUser(user){
-    if(user.email != "admin@gmail.com")
+    if(user.email !== "admin@gmail.com"){
       return this.requestServ.httpUsersDelete(user.id);
-    else
+    }
+    else {
       console.log("Удалить админа нельзя");
+    }
   }
 
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;   
+    const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 

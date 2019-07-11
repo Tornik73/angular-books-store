@@ -9,26 +9,28 @@ import { HeaderObserveService } from './header-observe.service';
 export class CartService {
 
   constructor(private toastrService: ToastrService,
-    private headerServ: HeaderObserveService) { }
+              private headerServ: HeaderObserveService) { }
 
-  addToCart(book: BookCartElement) {  
-    let bookArray: BookCartElement[] = JSON.parse(localStorage.getItem("order"));
+  addToCart(book: BookCartElement): void {
+    let bookArray: BookCartElement[] = JSON.parse(localStorage.getItem('order'));
 
     /*
       Converts the array to unique values
       and adds a new field with the number of items in the basket
     */
-    function countCartItems(items: BookCartElement[]){
-      let searchBookFlag: boolean = false;
-      for (let i in items)
+    function countCartItems(items: BookCartElement[]) {
+      let searchBookFlag = false;
+      // tslint:disable-next-line:prefer-const
+      for (let i in items) {
         if (items[i].id === book.id) {
-          if (items[i].countCartItem)
+          if (items[i].countCartItem) {
             items[i].countCartItem++;
-          else
+          } else {
             items[i].countCartItem = 1;
+          }
           searchBookFlag = true; // Book found, no need to write to array
-
         }
+      }
       if (!searchBookFlag) {  // Book not found, write to array
 
         items.push(book);
@@ -36,19 +38,19 @@ export class CartService {
       }
       return items;
     }
-  
     bookArray = countCartItems(bookArray);
     this.countSumOfOrder(bookArray);
-    localStorage.setItem("order", JSON.stringify(bookArray)); 
+    localStorage.setItem('order', JSON.stringify(bookArray));
 
     this.toastrService.success('you added item to your cart', 'Success');
   }
 
-  countSumOfOrder(order: BookCartElement[]) {
-    let orderSum: number = 0;
+  countSumOfOrder(order: BookCartElement[]): number {
+    let orderSum = 0;
 
-    for (let i in order)
+    for (let i in order) {
       orderSum += order[i].price * order[i].countCartItem;
+    }
     this.headerServ.anounceCartSum(orderSum);
     localStorage.currentCartSum = orderSum;
     return orderSum;

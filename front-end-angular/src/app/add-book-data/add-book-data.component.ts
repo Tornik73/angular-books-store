@@ -25,11 +25,11 @@ export class AddBookDataComponent implements OnInit {
   img: string = this.extensionServ.defaultBookImg;
 
   constructor(public dialogRef: MatDialogRef<AddBookDataComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private toastrService: ToastrService,
-    private adminService: AdminToolsService,
-    private requestServ: RequestsService,
-    private extensionServ: ExtensionsService) { }
+              @Inject(MAT_DIALOG_DATA) public data: DialogData,
+              private toastrService: ToastrService,
+              private adminService: AdminToolsService,
+              private requestServ: RequestsService,
+              private extensionServ: ExtensionsService) { }
 
   ngOnInit() {
     this.angForm = new FormGroup({
@@ -49,9 +49,8 @@ export class AddBookDataComponent implements OnInit {
     this.requestServ.httpBooksPost(this.angForm.value)
       .subscribe(data => {
         console.log(data);
-        
         this.successRegistration();
-        this.adminService.upload(data)
-      })
+        this.adminService.upload(data);
+      });
   }
 }

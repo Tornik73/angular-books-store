@@ -10,68 +10,57 @@ import { CartService } from './services/cart.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   sumOfOrder: number = localStorage.currentCartSum;
   currentUser: string;
-  userRights: string; 
+  userRights: boolean;
   currentUserImg: string;
 
-  constructor(private service: AuthService, 
-    public dialog: MatDialog, 
-    private headServ: HeaderObserveService,
-    private cartServ: CartService) {}
+  constructor(private service: AuthService,
+              public dialog: MatDialog,
+              private headServ: HeaderObserveService,
+              private cartServ: CartService) {}
 
-  hiUser(){
+  hiUser() {
     if (localStorage.currentUser != null) {
-      // this.userRights = this.service.authUserRights;
-      
-      // if (localStorage.currentUser === "admin@gmail.com") {
-      //   this.userRights = "admin";
-      //   this.service.authUserRights = "admin";
-      // } else {
-      //   this.userRights = "user";
-      //   this.service.authUserRights = "user";
-      // }
-
       this.currentUser = localStorage.currentUser;
       this.currentUserImg = localStorage.currentUserImg;
-      // localStorage.userRights = this.userRights;
       this.service.AuthStatus = false;
     }
   }
+  checkAdmin(isAdmin) {
+    let isAdm: boolean;
+    if (typeof isAdmin === 'string') {
+      isAdm = !!+isAdmin;
+    } else {
+      isAdm = !+isAdmin;
+    }
+    this.userRights = isAdm;
+    this.headServ.observeSendAdmin.subscribe(isAdminData => {
+      this.userRights = isAdminData;
+    });
 
+  }
   ngOnInit() {
+    this.checkAdmin(localStorage.currentUserRights);
 
-
-    ///////////////////////////////
-    if (localStorage.currentUserRights === "true") this.userRights = "admin";
-    else this.userRights = "user";
-
-    this.headServ.observeSendAdmin.subscribe(isAdmin =>{
-      localStorage.currentUserRights = isAdmin;
-      if (localStorage.currentUserRights === "true") this.userRights = "admin";
-      else this.userRights = "user";
-    })
-    ///////////////////////////////
-
-    console.log(this.userRights);
     this.headServ.anounceHeader$.subscribe(
-      (user:any) =>{
+      (user: any) => {
         this.currentUserImg = user;
       }
-    )
+    );
     this.hiUser();
-    this.headServ.observeSendSum.subscribe(valueSum=> {
+    this.headServ.observeSendSum.subscribe(valueSum => {
       this.sumOfOrder = valueSum;
-    })
+    });
   }
 
-  openCart(book){
+  openCart(book) {
     const dialogRef = this.dialog.open(CartComponent);
   }
 
-  logOut(){
-    localStorage.clear()
+  logOut() {
+    localStorage.clear();
     this.service.authUserRights = false;
     return this.service.AuthStatus = true;
   }

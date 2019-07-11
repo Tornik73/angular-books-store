@@ -25,11 +25,11 @@ export class DialogDataAdd implements OnInit {
   img: string = this.extensionServ.defaultUserImg;
 
   constructor(dialogRef: MatDialogRef<DialogDataAdd>,
-    @Inject(MAT_DIALOG_DATA) data: DialogData,
-    private toastrService: ToastrService,
-    private adminService: AdminToolsService,
-    private requestServ: RequestsService,
-    private extensionServ: ExtensionsService) { }
+              @Inject(MAT_DIALOG_DATA) data: DialogData,
+              private toastrService: ToastrService,
+              private adminService: AdminToolsService,
+              private requestServ: RequestsService,
+              private extensionServ: ExtensionsService) { }
 
   ngOnInit() {
     this.angForm = new FormGroup({
@@ -50,9 +50,8 @@ export class DialogDataAdd implements OnInit {
     this.requestServ.httpUsersPost(this.angForm.value)
       .subscribe(response => {
         console.log(response);
-        
         this.successRegistration();
-        this.adminService.upload(response)
-      })
+        this.adminService.upload(response);
+      });
   }
 }

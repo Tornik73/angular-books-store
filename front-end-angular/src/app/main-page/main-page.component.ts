@@ -7,10 +7,10 @@ import {
   map,
   distinctUntilChanged,
   filter
-} from "rxjs/operators";
+} from 'rxjs/operators';
 import { fromEvent } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { Book } from '../models/book'
+import { Book } from '../models/book';
 import { CartService } from '../services/cart.service';
 
 @Component({
@@ -21,12 +21,12 @@ import { CartService } from '../services/cart.service';
 export class MainPageComponent implements OnInit {
   @ViewChild('bookSearchInput', { static: true }) bookSearchInput: ElementRef;
   isSearching: boolean;
-  flagSearched: boolean = true;
+  flagSearched = true;
   goodsData: Book[] = [];
 
   constructor(
     private requestServ: RequestsService,
-    private _router: Router,
+    private router: Router,
     private observeDetails: HeaderObserveService,
     private service: AuthService,
     private cartService: CartService
@@ -41,7 +41,7 @@ export class MainPageComponent implements OnInit {
             this.goodsData.push(data[i]);
             this.isSearching = false;
           }
-      }); 
+      });
   }
 
   ngOnInit() {
@@ -61,17 +61,15 @@ export class MainPageComponent implements OnInit {
       this.goodsData = [];
       console.log(this.requestServ.httpBooksGet().subscribe((data: Book) => {
         this.isSearching = true;
-        
-        if(text.length === 0)
+        if (text.length === 0) {
           this.clearSearch();
-
-        else{
+        } else {
+            // tslint:disable-next-line:forin
             for (let i in data) {
               // Search any register
               let correctDataTitle = data[i].title.toString().toLowerCase();
               let correctDataAuthor = data[i].author.toString().toLowerCase();
               let correctDataText = text.toLowerCase();
-              
               // Searching by book title
               if (correctDataTitle.indexOf(correctDataText) >= 0) {
                 this.goodsData.push(data[i]);
@@ -79,7 +77,6 @@ export class MainPageComponent implements OnInit {
                 this.flagSearched = true;
                 continue;
               }
-              
               // Searching by book author
               if (correctDataAuthor.indexOf(correctDataText) >= 0) {
                 this.goodsData.push(data[i]);
@@ -87,14 +84,14 @@ export class MainPageComponent implements OnInit {
                 this.flagSearched = true;
               }
             }
-          this.flagSearched = false;
+            this.flagSearched = false;
         }
       }));
     });
   }
 
   bookDetails(book) {
-    this._router.navigate(["details/books", book.id]);
+    this.router.navigate(['details/books', book.id]);
     this.observeDetails.sendCurrentBook(book);
   }
 }

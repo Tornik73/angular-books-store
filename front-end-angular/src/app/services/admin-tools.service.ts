@@ -7,8 +7,7 @@ export class AdminToolsService {
   dataResponse: any;
   constructor() { }
 
-  upload(data){
+  upload(data) {
     this.dataResponse = data;
   }
-  
 }

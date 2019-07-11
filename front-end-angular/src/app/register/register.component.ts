@@ -20,11 +20,11 @@ export class RegisterComponent implements OnInit {
   img: string = this.extensionServ.defaultUserImg;
   angForm: FormGroup;
 
-  constructor(private service : AuthService,
-    private toastrService:ToastrService,
-    private _router : Router,
-    private requestServ: RequestsService,
-    private extensionServ: ExtensionsService) {}
+  constructor(private service: AuthService,
+              private toastrService: ToastrService,
+              private _router : Router,
+              private requestServ: RequestsService,
+              private extensionServ: ExtensionsService) {}
 
   successRegistration(){
     this._router.navigate(['/']);
@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit {
   onSubmit(){
     this.angForm.value.img = this.img;
     this.requestServ.httpUsersPost(this.angForm.value)
-    .subscribe(data=>{
+    .subscribe(data => {
       this.successRegistration();
     });
   }

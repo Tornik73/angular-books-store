@@ -9,11 +9,9 @@ export class ParamInterceptor implements HttpInterceptor {
 
     constructor(private toastrService: ToastrService) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        
         // add authorization header with jwt token if available
         let currentUser = localStorage.currentUser;
         let currentToken = localStorage.currentUserToken;
-        
         if (currentUser && currentToken) {
             req = req.clone({
                 setHeaders: {
@@ -23,14 +21,13 @@ export class ParamInterceptor implements HttpInterceptor {
         }
 
         return next.handle(req).pipe(
-            catchError((error: HttpErrorResponse)=>{
+            catchError((error: HttpErrorResponse) => {
                 let errorMessage = '';
-                if(error.error instanceof ErrorEvent){
+                if (error.error instanceof ErrorEvent) {
                     errorMessage = `Error: ${error.error.message}`;
-                }
-
-                else
+                } else {
                     errorMessage = `Error Code: ${error.status}`;
+                }
                 this.toastrService.error(errorMessage);
                 return throwError(errorMessage);
             })
