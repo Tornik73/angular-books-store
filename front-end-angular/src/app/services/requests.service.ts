@@ -23,7 +23,7 @@ export class RequestsService {
     return this.http.get(this.serverURL + 'users/' + id);
   }
 
-  httpUsersGet(){
+  httpUsersGet() {
     return this.http.get(this.serverURL + 'users/');
   }
 
@@ -36,7 +36,7 @@ export class RequestsService {
     return this.http.put(this.serverURL + 'users/' + data.id, data);
   }
 
-  httpUsersDelete(id: number){
+  httpUsersDelete(id: number) {
     return this.http.delete(this.serverURL + 'users/' + id);
   }
 

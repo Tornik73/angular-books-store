@@ -48,7 +48,9 @@ export class CartService {
   countSumOfOrder(order: BookCartElement[]): number {
     let orderSum = 0;
 
-    for (let i in order) {
+
+    // tslint:disable-next-line:forin
+    for (const i in order) {
       orderSum += order[i].price * order[i].countCartItem;
     }
     this.headerServ.anounceCartSum(orderSum);
