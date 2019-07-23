@@ -1,4 +1,3 @@
 # To start project
-npm init;
+npm i
 ng serve --open;
-npm start;
