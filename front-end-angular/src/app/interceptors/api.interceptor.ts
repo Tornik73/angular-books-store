@@ -10,8 +10,8 @@ export class ParamInterceptor implements HttpInterceptor {
     constructor(private toastrService: ToastrService) { }
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
-        let currentUser = localStorage.currentUser;
-        let currentToken = localStorage.currentUserToken;
+        const currentUser = localStorage.currentUser;
+        const currentToken = localStorage.currentUserToken;
         if (currentUser && currentToken) {
             req = req.clone({
                 setHeaders: {
