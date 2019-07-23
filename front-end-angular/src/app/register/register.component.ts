@@ -19,6 +19,7 @@ export class RegisterComponent implements OnInit {
   public telephone: string;
   img: string = this.extensionServ.defaultUserImg;
   angForm: FormGroup;
+  loadingDataSpinner = false;
 
   constructor(private toastrService: ToastrService,
               private router: Router,
@@ -39,11 +40,15 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  onSubmit(){
+  onSubmit() {
     this.angForm.value.img = this.img;
+    this.loadingDataSpinner = true;
     this.requestServ.httpUsersPost(this.angForm.value)
-    .subscribe(data => {
-      this.successRegistration();
+    .subscribe(() => {
+      setTimeout(() => {
+        this.loadingDataSpinner = false;
+        this.successRegistration();
+      }, 3000);
     });
   }
 }

@@ -17,7 +17,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 70px; 
+    margin-left: 70px;
 }
 .button-group button{
   margin-left: 5px;
@@ -43,4 +43,13 @@
   border: 2px solid #e47b7b;
   border-radius: 10px;
   padding: 2px 5px;
+}
+
+.spinner {
+  margin: 0 auto;
+  margin-top: 200px;
+}
+
+.spinner>div {
+  margin-left: 2px;
 }

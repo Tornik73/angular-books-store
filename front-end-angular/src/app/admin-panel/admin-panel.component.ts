@@ -10,6 +10,7 @@ import { HeaderObserveService } from '../services/header-observe.service';
 import { SelectionModel } from '@angular/cdk/collections';
 import { RequestsService } from '../services/requests.service';
 import { User } from '../models/user';
+import { ToastrService } from 'ngx-toastr';
 
 export interface DialogData {
   id: number;
@@ -29,6 +30,7 @@ export class AdminPanelComponent implements OnInit {
   dataSource = new MatTableDataSource<User>(ELEMENT_DATA);
   selection = new SelectionModel<User>(true, []);
   constructor(public dialog: MatDialog,
+              private toastrService: ToastrService,
               private adminService: AdminToolsService,
               private infoService: HeaderObserveService,
               private requestServ: RequestsService) { }
@@ -119,7 +121,7 @@ export class AdminPanelComponent implements OnInit {
       setTimeout(() => {
         const index = this.dataSource.data.indexOf(user);
 
-        this.deleteUser(user).subscribe(response => {
+        this.deleteUser(user).subscribe( () => {
           this.dataSource.data.splice(index, 1);
           this.dataSource = new MatTableDataSource<User>(this.dataSource.data);
           this.selection = new SelectionModel<User>(true, []);
@@ -128,11 +130,11 @@ export class AdminPanelComponent implements OnInit {
     });
   }
 
-  deleteUser(user) {
+  deleteUser(user: User) {
     if (user.email !== 'admin@gmail.com') {
       return this.requestServ.httpUsersDelete(user.id);
     } else {
-      console.log('Удалить админа нельзя');
+      this.toastrService.error('Deleting of admin is forbidden');
     }
   }
 

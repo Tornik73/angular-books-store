@@ -18,11 +18,11 @@ export class ProfileComponent implements OnInit {
   currentUserRights: string;
   currentUserAge: number;
   currentUserTel: string;
-  currentUserImg: any; // ?
+  currentUserImg: string;
   isAdmin: boolean;
-  // message: string;
   editMode = false;
   angForm: FormGroup;
+  loadingDataSpinner = false;
 
   constructor(private service: AuthService,
               private infoService: HeaderObserveService,
@@ -39,26 +39,25 @@ export class ProfileComponent implements OnInit {
 
   preview(files) {
     this.previewPhotoService.preview(files)
-      .then(result =>
+      .then( (result: string) =>
         this.currentUserImg = result
       );
   }
 
   // Managing of edit mode
-  editModeOn(){
+  editModeOn() {
     this.currentUserImg = localStorage.currentUserImg; // reset picture change
     return this.editMode = !this.editMode;
   }
-  onUpload(){
 
-
+  onUpload() {
+    this.loadingDataSpinner = true;
     localStorage.currentUserImg = this.currentUserImg;
-    // console.log(this.service.authUserRights);
 
     this.currentUserTel = localStorage.currentUserTelephone = this.angForm.value.telephone;
     this.currentUserAge = localStorage.currentUserAge = this.angForm.value.age;
 
-    let userJSON: User = {
+    const userJSON: User = {
       id: this.currentUserId,
       email: this.currentUser,
       password: this.currentUserPassword,
@@ -69,19 +68,21 @@ export class ProfileComponent implements OnInit {
     };
 
     this.requestServ.httpUserPut(userJSON)
-    .subscribe(data=>{
-      this.infoService.anounceHeaderImg(this.currentUserImg); // Notify that the picture has changed
+    .subscribe( () => {
+      setTimeout(() => {
+        this.loadingDataSpinner = false;
+        this.infoService.anounceHeaderImg(this.currentUserImg); // Notify that the picture has changed
+      }, 2000);
       return this.editMode = false;
     })
   }
 
-
-
   ngOnInit() {
-    if (!this.service.authUserRights)
-      this.currentUserRights = "admin";
-    else
-      this.currentUserRights = "user";
+    if (!this.service.authUserRights) {
+      this.currentUserRights = 'admin';
+    } else {
+      this.currentUserRights = 'user';
+    }
     this.angForm = new FormGroup({
       age: new FormControl(this.currentUserAge, [Validators.required, Validators.min(18)]),
       telephone: new FormControl(this.currentUserTel, [Validators.required])

@@ -49,7 +49,6 @@ export class DialogUserAddComponent implements OnInit {
 
     this.requestServ.httpUsersPost(this.angForm.value)
       .subscribe(response => {
-        console.log(response);
         this.successRegistration();
         this.adminService.upload(response);
       });

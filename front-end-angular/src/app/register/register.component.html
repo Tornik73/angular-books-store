@@ -1,4 +1,4 @@
-<mat-card class="form-container">
+<mat-card class="form-container" *ngIf="loadingDataSpinner === false">
     <mat-card-title>
       Please register in our store "{{ title }}" !
     </mat-card-title>
@@ -56,7 +56,7 @@
   </mat-form-field>
     <mat-form-field>
       <input matInput placeholder="Telephone" formControlName="telephone">
-    
+
     <mat-error
       *ngIf="angForm.controls['telephone'].invalid && (angForm.controls['telephone'].dirty || angForm.controls['telephone'].touched)"
       class="alert alert-danger">
@@ -73,6 +73,16 @@
 
   </form>
   <br />
-  <p>Form value: {{ angForm.value | json }}</p>
-  <p>Form status: {{ angForm.status | json }}</p>
+  <!-- <p>Form value: {{ angForm.value | json }}</p>
+  <p>Form status: {{ angForm.status | json }}</p> -->
 </mat-card>
+
+  <div class="row" *ngIf="loadingDataSpinner === true">
+    <div class="spinner">
+      <div class="rect1"></div>
+      <div class="rect2"></div>
+      <div class="rect3"></div>
+      <div class="rect4"></div>
+      <div class="rect5"></div>
+    </div>
+  </div>

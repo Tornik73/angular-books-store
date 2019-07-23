@@ -17,7 +17,7 @@ export class AuthService {
     localStorage.currentUserAge = decodedToken.age;
     localStorage.currentUserTelephone = decodedToken.telephone;
     localStorage.currentUserImg = token.img;
-    this.authUserRights = decodedToken.isAdmin; // response.data.isAdmin
+    this.authUserRights = decodedToken.isAdmin;
     localStorage.currentUserRights = decodedToken.isAdmin;
     return this.AuthStatus = false;
   }

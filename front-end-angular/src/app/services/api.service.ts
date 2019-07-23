@@ -13,7 +13,7 @@ export class ApiService {
 
   getData(): Observable<User> {
 
-    return this.http.get<User>(environment.serverURL + "users");
+    return this.http.get<User>(environment.serverURL + 'users');
   }
 
 }

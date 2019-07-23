@@ -28,7 +28,6 @@ export class RequestsService {
   }
 
   httpUsersPost(body) {
-    console.log(this.serverURL + 'register', body);
     return this.http.post(this.serverURL + 'register', body);
   }
 
