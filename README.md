@@ -1,3 +1,5 @@
-# To start project
-npm i
-ng serve --open;
+To start project:
+
+npm i;
+
+npm start;
