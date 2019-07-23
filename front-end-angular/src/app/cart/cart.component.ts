@@ -19,37 +19,35 @@ let currentCartData: BookCartElement[] = [];
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css']
+  styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
 
-  orderSum: number = 0;
+  orderSum = 0;
   displayedColumns: string[] = ['id', 'title', 'author', 'img', 'price', 'order amount', 'action'];
   dataSource = new MatTableDataSource<BookCartElement>(currentCartData);
   selection = new SelectionModel<BookCartElement>(true, []);
 
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData,
-  private cartServ: CartService,
-  private headerServ: HeaderObserveService) { }
+              private cartServ: CartService,
+              private headerServ: HeaderObserveService) { }
 
   ngOnInit() {
-    
     currentCartData = JSON.parse(localStorage.order);
     this.dataSource = new MatTableDataSource<BookCartElement>(currentCartData);
     this.orderSum = this.cartServ.countSumOfOrder(currentCartData);
   }
 
-  minusItem(book: BookCartElement){
+  minusItem(book: BookCartElement) {
     let index: number = currentCartData.indexOf(book);
 
     if (currentCartData[index].countCartItem > 1){
       currentCartData[index].countCartItem--;
       this.updateDataView();
-    }
-    else{
+    } else {
       this.deleteItemCart(book);
-      localStorage.setItem("order", JSON.stringify(currentCartData)); 
+      localStorage.setItem('order', JSON.stringify(currentCartData));
     }
   }
 
@@ -67,7 +65,7 @@ export class CartComponent implements OnInit {
 
   updateDataView(){
     this.dataSource = new MatTableDataSource<BookCartElement>(currentCartData);
-    localStorage.setItem("order", JSON.stringify(currentCartData));
+    localStorage.setItem('order', JSON.stringify(currentCartData));
     this.orderSum = this.cartServ.countSumOfOrder(currentCartData);
   }
 }

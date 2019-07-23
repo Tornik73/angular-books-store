@@ -10,7 +10,7 @@ export interface DialogData {
 @Component({
   selector: 'app-delete-user-data',
   templateUrl: './delete-user-data.component.html',
-  styleUrls: ['./delete-user-data.component.css']
+  styleUrls: ['./delete-user-data.component.scss']
 })
 export class DeleteUserDataComponent implements OnInit {
 

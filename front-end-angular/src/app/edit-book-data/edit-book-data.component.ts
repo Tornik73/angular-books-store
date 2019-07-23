@@ -8,7 +8,7 @@ import { Book } from '../models/book';
 @Component({
   selector: 'app-edit-book-data',
   templateUrl: './edit-book-data.component.html',
-  styleUrls: ['./edit-book-data.component.css']
+  styleUrls: ['./edit-book-data.component.scss']
 })
 export class EditBookDataComponent implements OnInit {
   angForm: FormGroup;
@@ -16,7 +16,7 @@ export class EditBookDataComponent implements OnInit {
   public author: string;
   public price: number;
   public description: string;
-  img: any; // ?
+  img: string;
   message: string;
 
   constructor(
@@ -27,16 +27,19 @@ export class EditBookDataComponent implements OnInit {
 
   preview(files) {
     this.previewPhotoService.preview(files)
-      .then(result =>
+      .then((result: string) =>
         this.img = result
       );
   }
 
   onSubmit() {
     // Insirting new data from form
-    for (let i in this.data)
-      if (this.angForm.value[i] != null)
+    for (let i in this.data){
+      if (this.angForm.value[i] != null){
         this.data[i] = this.angForm.value[i];
+      }
+    }
+
 
     this.data.img = this.img;
 

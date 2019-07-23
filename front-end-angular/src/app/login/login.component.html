@@ -1,5 +1,5 @@
-<mat-card class="form-container">
-  <form [formGroup]="authForm" novalidate class="form-container-fields">
+<mat-card class="form-container" *ngIf="loadingDataSpinner === false">
+  <form [formGroup]="authForm" novalidate class="form-container-fields" >
     <mat-card-title>
       Please log in our store "{{title}}"
     </mat-card-title>
@@ -17,7 +17,7 @@
     <mat-form-field>
       <input matInput placeholder="Password" formControlName="password"
         [type]="showPassword.checked ? 'text' : 'password'">
-    
+
     <mat-error
       *ngIf="authForm.controls['password'].invalid && (authForm.controls['password'].dirty || authForm.controls['password'].touched)"
       class="alert alert-danger">
@@ -36,3 +36,12 @@
     </mat-error>
   </form>
 </mat-card>
+  <div class="row" *ngIf="loadingDataSpinner === true">
+    <div class="spinner">
+      <div class="rect1"></div>
+      <div class="rect2"></div>
+      <div class="rect3"></div>
+      <div class="rect4"></div>
+      <div class="rect5"></div>
+    </div>
+  </div>

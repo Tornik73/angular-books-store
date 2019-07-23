@@ -9,7 +9,7 @@ import { ExtensionsService } from '../services/extensions.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
   title = 'Books||Lib';
@@ -20,14 +20,13 @@ export class RegisterComponent implements OnInit {
   img: string = this.extensionServ.defaultUserImg;
   angForm: FormGroup;
 
-  constructor(private service: AuthService,
-              private toastrService: ToastrService,
-              private _router : Router,
+  constructor(private toastrService: ToastrService,
+              private router: Router,
               private requestServ: RequestsService,
               private extensionServ: ExtensionsService) {}
 
-  successRegistration(){
-    this._router.navigate(['/']);
+  successRegistration() {
+    this.router.navigate(['/']);
     this.toastrService.success('for registration', 'Thank you');
   }
 

@@ -7,17 +7,16 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root'
 })
 export class NotAuthGuard implements CanActivate {
-  constructor(private service: AuthService, private _router: Router) {
+  constructor(private service: AuthService, private router: Router) {
 
   }
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.service.AuthStatus){
-      this._router.navigate(['/']);
+    if (this.service.AuthStatus) {
+      this.router.navigate(['/']);
       return false;
-    }
-    else {
+    } else {
       return true;
     }
   }

@@ -14,7 +14,7 @@ export interface DialogData {
 @Component({
   selector: 'app-add-book-data',
   templateUrl: './add-book-data.component.html',
-  styleUrls: ['./add-book-data.component.css']
+  styleUrls: ['./add-book-data.component.scss']
 })
 export class AddBookDataComponent implements OnInit {
   angForm: FormGroup;
@@ -47,10 +47,9 @@ export class AddBookDataComponent implements OnInit {
   onSubmit(): void  {
     this.angForm.value.img = this.img;
     this.requestServ.httpBooksPost(this.angForm.value)
-      .subscribe(data => {
-        console.log(data);
+      .subscribe((response: object) => {
         this.successRegistration();
-        this.adminService.upload(data);
+        this.adminService.upload(response);
       });
   }
 }

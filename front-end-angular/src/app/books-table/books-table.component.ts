@@ -22,7 +22,7 @@ const ELEMENT_DATA: Book[] = [];
 @Component({
   selector: 'app-books-table',
   templateUrl: './books-table.component.html',
-  styleUrls: ['./books-table.component.css']
+  styleUrls: ['./books-table.component.scss']
 })
 export class BooksTableComponent implements OnInit {
   id: number;
@@ -32,9 +32,9 @@ export class BooksTableComponent implements OnInit {
   selection = new SelectionModel<Book>(true, []);
 
   constructor(public dialog: MatDialog,
-    private adminService: AdminToolsService,
-    private infoService: HeaderObserveService,
-    private requestServ: RequestsService) { }
+              private adminService: AdminToolsService,
+              private infoService: HeaderObserveService,
+              private requestServ: RequestsService) { }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -42,10 +42,11 @@ export class BooksTableComponent implements OnInit {
     if (this.dataSource.filteredData.length === 0) {
       this.requestServ.httpBooksGet()
         .subscribe(data => {
-          for(let key in data){
+          // tslint:disable-next-line:forin
+          for(let key in data) {
             ELEMENT_DATA.push(data[key]);
-            this.dataSource = new MatTableDataSource<Book>(ELEMENT_DATA)
-            this.dataSource.paginator = this.paginator
+            this.dataSource = new MatTableDataSource<Book>(ELEMENT_DATA);
+            this.dataSource.paginator = this.paginator;
           }
         });
     }
@@ -63,14 +64,14 @@ export class BooksTableComponent implements OnInit {
     });
   }
 
-  openDialogDelete(book) {
-    let index = ELEMENT_DATA.indexOf(book)
+  openDialogDelete(book: Book) {
+    let index = ELEMENT_DATA.indexOf(book);
     const dialogRef = this.dialog.open(DeleteBookDataComponent, { data: { id: book.id, title: book.title }});
 
     dialogRef.afterClosed().subscribe( result => {
       if (result) {
         this.deleteBook(book)
-        .subscribe(response =>{
+        .subscribe(response => {
           if (response) {
             let data = this.dataSource.data;
             data.splice(index, 1);
@@ -81,7 +82,7 @@ export class BooksTableComponent implements OnInit {
     });
   }
 
-  openDialogEdit(book) {
+  openDialogEdit(book: Book) {
     const dialogRef = this.dialog.open(EditBookDataComponent,
       {
         data:
@@ -96,10 +97,8 @@ export class BooksTableComponent implements OnInit {
       }
     );
 
-    // ПЕРЕДЕЛАТЬ !
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe( () => {
       let data = [];
-      let dataImg;
       this.requestServ.httpBooksGet()
         .subscribe(response => {
           for (let key in response) {
@@ -108,21 +107,21 @@ export class BooksTableComponent implements OnInit {
             this.dataSource.paginator = this.paginator;
           }
         });
-        })
-    }
+    });
+}
 
   deleteRows() {
     this.selection.selected.forEach((book, i) => {
       setTimeout(() => {
         let index = this.dataSource.data.indexOf(book);
 
-        this.deleteBook(book).subscribe(response =>{
+        this.deleteBook(book).subscribe(response => {
           this.dataSource.data.splice(index, 1);
           this.dataSource = new MatTableDataSource<Book>(this.dataSource.data);
           this.selection = new SelectionModel<Book>(true, []);
         });
       }, 100 * (i + 1));
-    })
+    });
   }
   deleteBook(book) {
     return this.requestServ.httpBooksDelete(book.id);

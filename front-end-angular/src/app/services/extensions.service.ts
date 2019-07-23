@@ -12,10 +12,11 @@ export class ExtensionsService {
   constructor() { }
 
   preview(files) {
-    
     let UserImg;
-    if (files.length === 0)
+    if (files.length === 0){
       return;
+    }
+
 
     var mimeType = files[0].type;
     if (mimeType.match(/image\/*/) == null) {
@@ -26,11 +27,11 @@ export class ExtensionsService {
     this.imagePath = files;
     reader.readAsDataURL(files[0]);
 
-    return new Promise(function(resolve, reject){
+    return new Promise((resolve, reject) => {
       reader.onload = (_event) => {
         UserImg = reader.result;
         resolve(UserImg);
       }
-    })
+    });
   }
 }

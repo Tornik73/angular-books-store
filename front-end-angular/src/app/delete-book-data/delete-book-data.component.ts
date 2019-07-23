@@ -8,7 +8,7 @@ export interface DialogData {
 @Component({
   selector: 'app-delete-book-data',
   templateUrl: './delete-book-data.component.html',
-  styleUrls: ['./delete-book-data.component.css']
+  styleUrls: ['./delete-book-data.component.scss']
 })
 export class DeleteBookDataComponent implements OnInit {
 

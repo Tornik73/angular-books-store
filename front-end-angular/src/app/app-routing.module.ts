@@ -6,7 +6,7 @@ import { RegisterComponent } from './register/register.component';
 import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 import { AuthGuard } from './auth/auth.guard';
 import { ProfileComponent } from './profile/profile.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component'
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { DetailsComponent } from './details/details.component';
 import { CartComponent } from './cart/cart.component';
 import { AdminAuthGuard } from './auth/admin-auth.guard';
@@ -14,9 +14,9 @@ import { NotAuthGuard } from './auth/not-auth.guard';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent },
-  { 
+  {
     path: 'login',
-    component: LoginComponent, 
+    component: LoginComponent,
     canActivate: [AuthGuard]
     },
   { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
@@ -30,7 +30,6 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  
 })
 export class AppRoutingModule { }
 

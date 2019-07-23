@@ -11,7 +11,7 @@ import { HeaderObserveService } from '../services/header-observe.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   title = 'Books||Lib';
@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   password: string;
   incorectPassword = false;
   localURL: string;
+  loadingDataSpinner = false;
 
   constructor(private router: Router,
               private service: AuthService,
@@ -29,14 +30,18 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.loadingDataSpinner = true;
     this.requestServ.httpUsersAuth(this.authForm.value)
       .subscribe(response => {
-        const userData = jwt(response.token); // можно перенести в сервис
-        this.service.authUser(userData, response); // меняем AuthStatus теперь пользователь авторизирован
-        this.navHi.hiUser();
-        localStorage.setItem('order', JSON.stringify([]));
-        this.headerServ.anounceHeaderAdmin(userData.isAdmin);
-        this.router.navigate(['/']);
+        setTimeout( () => {
+          this.loadingDataSpinner = false;
+          const userData = jwt(response.token); // можно перенести в сервис
+          this.service.authUser(userData, response); // меняем AuthStatus теперь пользователь авторизирован
+          this.navHi.hiUser();
+          localStorage.setItem('order', JSON.stringify([]));
+          this.headerServ.anounceHeaderAdmin(userData.isAdmin);
+          this.router.navigate(['/']);
+        }, 5000);
       });
   }
   ngOnInit() {

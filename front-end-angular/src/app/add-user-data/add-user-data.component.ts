@@ -14,9 +14,9 @@ export interface DialogData {
 @Component({
   selector: 'app-add-user-data',
   templateUrl: './add-user-data.component.html',
-  styleUrls: ['./add-user-data.component.css']
+  styleUrls: ['./add-user-data.component.scss']
 })
-export class DialogDataAdd implements OnInit {
+export class DialogUserAddComponent implements OnInit {
   angForm: FormGroup;
   email: string;
   password: string;
@@ -24,7 +24,7 @@ export class DialogDataAdd implements OnInit {
   telephone: string;
   img: string = this.extensionServ.defaultUserImg;
 
-  constructor(dialogRef: MatDialogRef<DialogDataAdd>,
+  constructor(dialogRef: MatDialogRef<DialogUserAddComponent>,
               @Inject(MAT_DIALOG_DATA) data: DialogData,
               private toastrService: ToastrService,
               private adminService: AdminToolsService,

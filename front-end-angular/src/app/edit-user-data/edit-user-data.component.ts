@@ -8,7 +8,7 @@ import { User } from '../models/user';
 @Component({
   selector: 'app-edit-user-data',
   templateUrl: './edit-user-data.component.html',
-  styleUrls: ['./edit-user-data.component.css']
+  styleUrls: ['./edit-user-data.component.scss']
 })
 export class EditUserDataComponent implements OnInit {
   angForm: FormGroup;
@@ -29,7 +29,7 @@ export class EditUserDataComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: User,
     private previewPhotoService: ExtensionsService,
     private requestServ: RequestsService ) {}
-  
+
   preview(files) {
     this.previewPhotoService.preview(files)
       .then(result =>
@@ -37,16 +37,20 @@ export class EditUserDataComponent implements OnInit {
       );
   }
 
-  onSubmit(){
+  onSubmit() {
     // Insirting new data from form
-    for(let i in this.data)
-      if(this.angForm.value[i] != null)
+    for (let i in this.data) {
+      if (this.angForm.value[i] != null) {
         this.data[i] = this.angForm.value[i];
-    
-    this.data.img = this.img; 
-    
+      }
+    }
+
+
+
+    this.data.img = this.img;
+
     this.requestServ.httpUserPut(this.data)
-    .subscribe(response=>{
+    .subscribe(response => {
       this.update.emit(this.data);
       this.dialogRef.close();
     });

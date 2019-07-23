@@ -28,20 +28,20 @@ export class HeaderObserveService {
 
   constructor() { }
 
-  sendCurrentBook(book: book){
-    this.sendBook.next(book);
+  sendCurrentBook(bookDetails: book){
+    this.sendBook.next(bookDetails);
   }
-  
-  anounceHeaderImg(user:string){
+
+  anounceHeaderImg(user: string){
     this.anounceHeader.next(user);
   }
 
-  addCurentBookToCart(book: book){
-    this.addBook.next(book);
+  addCurentBookToCart(bookToCart: book) {
+    this.addBook.next(bookToCart);
   }
 
-  anounceCartSum(sum: number){
-    this.sendSum.next(sum);
+  anounceCartSum(sumOfOrder: number){
+    this.sendSum.next(sumOfOrder);
   }
 
   anounceHeaderAdmin(isAdmin: boolean){

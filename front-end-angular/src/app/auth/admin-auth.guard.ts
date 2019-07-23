@@ -7,15 +7,15 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root'
 })
 export class AdminAuthGuard implements CanActivate  {
-  constructor(private service: AuthService, private _router: Router) {
+  constructor(private service: AuthService, private router: Router) {
 
   }
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-      
-    if (this.service.authUserRights === false){
-      this._router.navigate(['/']);
+
+    if (this.service.authUserRights === false) {
+      this.router.navigate(['/']);
       return false;
     }
     return true;

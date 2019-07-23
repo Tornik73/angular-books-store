@@ -8,7 +8,7 @@ import { CartService } from './services/cart.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   sumOfOrder: number = localStorage.currentCartSum;
@@ -18,8 +18,7 @@ export class AppComponent implements OnInit {
 
   constructor(private service: AuthService,
               public dialog: MatDialog,
-              private headServ: HeaderObserveService,
-              private cartServ: CartService) {}
+              private headServ: HeaderObserveService) {}
 
   hiUser() {
     if (localStorage.currentUser != null) {

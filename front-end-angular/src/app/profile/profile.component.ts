@@ -9,7 +9,7 @@ import {User} from '../models/user';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
   currentUserId: number;
@@ -21,13 +21,13 @@ export class ProfileComponent implements OnInit {
   currentUserImg: any; // ?
   isAdmin: boolean;
   // message: string;
-  editMode: boolean = false;
+  editMode = false;
   angForm: FormGroup;
 
-  constructor(private service: AuthService, 
-    private infoService: HeaderObserveService,
-    private previewPhotoService: ExtensionsService,
-    private requestServ: RequestsService) {
+  constructor(private service: AuthService,
+              private infoService: HeaderObserveService,
+              private previewPhotoService: ExtensionsService,
+              private requestServ: RequestsService) {
     this.currentUserId = localStorage.currentUserId;
     this.currentUser = localStorage.currentUser;
     this.currentUserPassword = localStorage.currentUserPassword;
@@ -39,31 +39,31 @@ export class ProfileComponent implements OnInit {
 
   preview(files) {
     this.previewPhotoService.preview(files)
-      .then(result => 
+      .then(result =>
         this.currentUserImg = result
       );
   }
 
   // Managing of edit mode
-  editModeOn(){ 
+  editModeOn(){
     this.currentUserImg = localStorage.currentUserImg; // reset picture change
     return this.editMode = !this.editMode;
   }
-  onUpload(){ 
+  onUpload(){
 
 
     localStorage.currentUserImg = this.currentUserImg;
     // console.log(this.service.authUserRights);
-    
+
     this.currentUserTel = localStorage.currentUserTelephone = this.angForm.value.telephone;
     this.currentUserAge = localStorage.currentUserAge = this.angForm.value.age;
 
     let userJSON: User = {
-      id: this.currentUserId, 
-      email: this.currentUser, 
+      id: this.currentUserId,
+      email: this.currentUser,
       password: this.currentUserPassword,
-      telephone: this.currentUserTel, 
-      age: this.currentUserAge, 
+      telephone: this.currentUserTel,
+      age: this.currentUserAge,
       img: this.currentUserImg,
       isAdmin: this.service.authUserRights
     };

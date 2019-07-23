@@ -16,7 +16,7 @@ import { CartService } from '../services/cart.service';
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
-  styleUrls: ['./main-page.component.css']
+  styleUrls: ['./main-page.component.scss']
 })
 export class MainPageComponent implements OnInit {
   @ViewChild('bookSearchInput', { static: true }) bookSearchInput: ElementRef;
@@ -35,12 +35,12 @@ export class MainPageComponent implements OnInit {
   // Выводит товары все товары
   clearSearch() {
     this.requestServ.httpBooksGet()
-      .subscribe((data: Book) => {
-          this.goodsData = [];
-          for (let i in data) {
-            this.goodsData.push(data[i]);
+      .subscribe((response: Book) => {
+        this.goodsData = [];
+        for (let i in response) {
+            this.goodsData.push(response[i]);
             this.isSearching = false;
-          }
+        }
       });
   }
 
@@ -59,7 +59,7 @@ export class MainPageComponent implements OnInit {
       , distinctUntilChanged()
     ).subscribe((text: string) => {
       this.goodsData = [];
-      console.log(this.requestServ.httpBooksGet().subscribe((data: Book) => {
+      this.requestServ.httpBooksGet().subscribe((data: Book) => {
         this.isSearching = true;
         if (text.length === 0) {
           this.clearSearch();
@@ -86,7 +86,7 @@ export class MainPageComponent implements OnInit {
             }
             this.flagSearched = false;
         }
-      }));
+      });
     });
   }
 

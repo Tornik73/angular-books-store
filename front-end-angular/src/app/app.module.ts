@@ -21,7 +21,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material';
 import { MatTabsModule } from '@angular/material';
 import { MatDialogModule } from '@angular/material/dialog';
-import { DialogDataAdd } from './add-user-data/add-user-data.component'
+import { DialogUserAddComponent } from './add-user-data/add-user-data.component';
 import { EditUserDataComponent } from './edit-user-data/edit-user-data.component';
 import { DeleteUserDataComponent } from './delete-user-data/delete-user-data.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -45,7 +45,7 @@ import { ParamInterceptor } from './interceptors/api.interceptor';
     RegisterComponent,
     AdminPanelComponent,
     ProfileComponent,
-    DialogDataAdd,
+    DialogUserAddComponent,
     EditUserDataComponent,
     DeleteUserDataComponent,
     PageNotFoundComponent,
@@ -81,7 +81,7 @@ import { ParamInterceptor } from './interceptors/api.interceptor';
   ],
   entryComponents: [
     DeleteUserDataComponent,
-    DialogDataAdd,
+    DialogUserAddComponent,
     EditUserDataComponent,
     AddBookDataComponent,
     EditBookDataComponent,
@@ -95,7 +95,7 @@ import { ParamInterceptor } from './interceptors/api.interceptor';
       useClass: ParamInterceptor,
       multi: true
     }
-  ], 
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
