@@ -1,0 +1,27 @@
+#register{
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row{
+    margin-bottom: 20px;
+    display: flex;
+
+}
+.error-email-req{
+    margin-left: 10px;
+    color: red;
+}
+.mat-form-field{
+    margin-bottom: 10px;
+}
+
+.spinner {
+  margin: 0 auto;
+  margin-top: 200px;
+}
+
+.spinner>div {
+  margin-left: 2px;
+}

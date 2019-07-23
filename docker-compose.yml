@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+
+  example:
+    container_name: angularBookShop
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - '4200:80'
