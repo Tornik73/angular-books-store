@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef  } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { RequestsService } from '../services/requests.service';
 import { Router } from '@angular/router';
 import { HeaderObserveService } from '../services/header-observe.service';
@@ -30,17 +30,18 @@ export class MainPageComponent implements OnInit {
     private observeDetails: HeaderObserveService,
     private service: AuthService,
     private cartService: CartService
-    ) { }
+  ) { }
 
   // Выводит товары все товары
   clearSearch() {
     this.requestServ.httpBooksGet()
-      .subscribe((response: Book) => {
+      .subscribe((response: any) => {
+        debugger
         this.goodsData = [];
-        for (let i in response) {
-            this.goodsData.push(response[i]);
-            this.isSearching = false;
-        }
+        response.data.forEach(item => {
+          this.goodsData.push(item);
+        });
+        this.isSearching = false;
       });
   }
 
@@ -59,32 +60,32 @@ export class MainPageComponent implements OnInit {
       , distinctUntilChanged()
     ).subscribe((text: string) => {
       this.goodsData = [];
-      this.requestServ.httpBooksGet().subscribe((data: Book) => {
+      this.requestServ.httpBooksGet().subscribe((data: any) => {
         this.isSearching = true;
         if (text.length === 0) {
           this.clearSearch();
         } else {
-            // tslint:disable-next-line:forin
-            for (let i in data) {
-              // Search any register
-              let correctDataTitle = data[i].title.toString().toLowerCase();
-              let correctDataAuthor = data[i].author.toString().toLowerCase();
-              let correctDataText = text.toLowerCase();
-              // Searching by book title
-              if (correctDataTitle.indexOf(correctDataText) >= 0) {
-                this.goodsData.push(data[i]);
-                this.isSearching = false;
-                this.flagSearched = true;
-                continue;
-              }
-              // Searching by book author
-              if (correctDataAuthor.indexOf(correctDataText) >= 0) {
-                this.goodsData.push(data[i]);
-                this.isSearching = false;
-                this.flagSearched = true;
-              }
+          // tslint:disable-next-line:forin
+          for (let i in data.data) {
+
+            // Search any register
+            let correctDataTitle = data.data[i].title.toString().toLowerCase();
+            let correctDataText = text.toLowerCase();
+            // Searching by book title
+            if (correctDataTitle.indexOf(correctDataText) >= 0) {
+              this.goodsData.push(data.data[i]);
+              this.isSearching = false;
+              this.flagSearched = true;
+              continue;
             }
-            this.flagSearched = false;
+            // Searching by book author
+            // if (correctDataAuthor.indexOf(correctDataText) >= 0) {
+            //   this.goodsData.push(data[i]);
+            //   this.isSearching = false;
+            //   this.flagSearched = true;
+            // }
+          }
+          this.flagSearched = false;
         }
       });
     });

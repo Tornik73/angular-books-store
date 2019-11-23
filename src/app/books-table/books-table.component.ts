@@ -32,22 +32,24 @@ export class BooksTableComponent implements OnInit {
   selection = new SelectionModel<Book>(true, []);
 
   constructor(public dialog: MatDialog,
-              private adminService: AdminToolsService,
-              private infoService: HeaderObserveService,
-              private requestServ: RequestsService) { }
+    private adminService: AdminToolsService,
+    private infoService: HeaderObserveService,
+    private requestServ: RequestsService) { }
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit() {
     if (this.dataSource.filteredData.length === 0) {
       this.requestServ.httpBooksGet()
-        .subscribe(data => {
+
+        .subscribe((data: any) => {
+          debugger
           // tslint:disable-next-line:forin
-          for(let key in data) {
-            ELEMENT_DATA.push(data[key]);
+          data.data.forEach(item => {
+            ELEMENT_DATA.push(item);
             this.dataSource = new MatTableDataSource<Book>(ELEMENT_DATA);
             this.dataSource.paginator = this.paginator;
-          }
+          });
         });
     }
   }
@@ -66,18 +68,18 @@ export class BooksTableComponent implements OnInit {
 
   openDialogDelete(book: Book) {
     let index = ELEMENT_DATA.indexOf(book);
-    const dialogRef = this.dialog.open(DeleteBookDataComponent, { data: { id: book.id, title: book.title }});
+    const dialogRef = this.dialog.open(DeleteBookDataComponent, { data: { id: book.id, title: book.title } });
 
-    dialogRef.afterClosed().subscribe( result => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.deleteBook(book)
-        .subscribe(response => {
-          if (response) {
-            let data = this.dataSource.data;
-            data.splice(index, 1);
-            this.dataSource = new MatTableDataSource<Book>(data);
-          }
-        });
+          .subscribe(response => {
+            if (response) {
+              let data = this.dataSource.data;
+              data.splice(index, 1);
+              this.dataSource = new MatTableDataSource<Book>(data);
+            }
+          });
       }
     });
   }
@@ -89,7 +91,7 @@ export class BooksTableComponent implements OnInit {
         {
           id: book.id,
           title: book.title,
-          author: book.author,
+          // author: book.author,
           price: book.price,
           description: book.description,
           img: book.img
@@ -97,18 +99,18 @@ export class BooksTableComponent implements OnInit {
       }
     );
 
-    dialogRef.afterClosed().subscribe( () => {
+    dialogRef.afterClosed().subscribe(() => {
       let data = [];
       this.requestServ.httpBooksGet()
-        .subscribe(response => {
-          for (let key in response) {
-            data.push(response[key]);
+        .subscribe((response: any) => {
+          response.data.forEach(item => {
+            data.push(item);
             this.dataSource = new MatTableDataSource<Book>(data);
             this.dataSource.paginator = this.paginator;
-          }
+          });
         });
     });
-}
+  }
 
   deleteRows() {
     this.selection.selected.forEach((book, i) => {

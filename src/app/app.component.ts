@@ -17,8 +17,8 @@ export class AppComponent implements OnInit {
   currentUserImg: string;
 
   constructor(private service: AuthService,
-              public dialog: MatDialog,
-              private headServ: HeaderObserveService) {}
+    public dialog: MatDialog,
+    private headServ: HeaderObserveService) { }
 
   hiUser() {
     if (localStorage.currentUser != null) {
@@ -27,14 +27,17 @@ export class AppComponent implements OnInit {
       this.service.AuthStatus = false;
     }
   }
-  checkAdmin(isAdmin) {
+  public checkAdmin(isAdmin: string): void {
+    debugger
     let isAdm: boolean;
-    if (typeof isAdmin === 'string') {
-      isAdm = !!+isAdmin;
+    if (isAdmin === 'true') {
+      this.userRights = true;
+      isAdm = true;
     } else {
-      isAdm = !+isAdmin;
+      this.userRights = false;
+      isAdm = false;
     }
-    this.userRights = isAdm;
+
     this.headServ.observeSendAdmin.subscribe(isAdminData => {
       this.userRights = isAdminData;
     });

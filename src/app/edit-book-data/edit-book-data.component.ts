@@ -34,8 +34,8 @@ export class EditBookDataComponent implements OnInit {
 
   onSubmit() {
     // Insirting new data from form
-    for (let i in this.data){
-      if (this.angForm.value[i] != null){
+    for (let i in this.data) {
+      if (this.angForm.value[i] != null) {
         this.data[i] = this.angForm.value[i];
       }
     }

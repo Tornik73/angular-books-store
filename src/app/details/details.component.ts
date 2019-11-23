@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HeaderObserveService } from '../services/header-observe.service';
 import { AuthService } from '../services/auth.service';
 import { CartService } from '../services/cart.service';
-import {Book} from '../models/book';
+import { Book } from '../models/book';
 
 @Component({
   selector: 'app-details',
@@ -13,20 +13,20 @@ import {Book} from '../models/book';
 })
 export class DetailsComponent implements OnInit {
   book: Book = {
-        author: '',
-        title: '',
-        price: 0,
-        description: '',
-        img: '',
-        id: 0
+    // author: '',
+    title: '',
+    price: 0,
+    description: '',
+    img: '',
+    id: 0
   };
   id: number;
   constructor(private requestServ: RequestsService,
-              private observeDetails: HeaderObserveService,
-              private activate: ActivatedRoute,
-              private service: AuthService,
-              private cartService: CartService
-    ) { }
+    private observeDetails: HeaderObserveService,
+    private activate: ActivatedRoute,
+    private service: AuthService,
+    private cartService: CartService
+  ) { }
 
   ngOnInit() {
     this.activate.params.subscribe(data => {
