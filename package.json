@@ -23,7 +23,7 @@
     "@angular/router": "~8.0.1",
     "@types/bcrypt": "^3.0.0",
     "aws-sdk": "^2.488.0",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "child_process": "^1.0.2",
     "crypto": "^1.0.1",
     "image-to-base64": "^2.0.1",
